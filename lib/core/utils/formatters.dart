@@ -4,8 +4,18 @@ class Formatters {
   Formatters._();
 
   static const List<String> _months = [
-    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
   ];
 
   /// `12 Mar 2026`
@@ -21,7 +31,8 @@ class Formatters {
   }
 
   /// `12 Mar 2026, 09:41`
-  static String dateTime(DateTime date) => '${Formatters.date(date)}, ${time(date)}';
+  static String dateTime(DateTime date) =>
+      '${Formatters.date(date)}, ${time(date)}';
 
   /// `1.2 KB`, `3.4 MB`, ...
   static String fileSize(int bytes) {

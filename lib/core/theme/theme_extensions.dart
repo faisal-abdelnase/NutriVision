@@ -247,8 +247,11 @@ class AppStatusColors extends ThemeExtension<AppStatusColors> {
       onWarningContainer: _l(onWarningContainer, other.onWarningContainer, t),
       critical: _l(critical, other.critical, t),
       criticalContainer: _l(criticalContainer, other.criticalContainer, t),
-      onCriticalContainer:
-          _l(onCriticalContainer, other.onCriticalContainer, t),
+      onCriticalContainer: _l(
+        onCriticalContainer,
+        other.onCriticalContainer,
+        t,
+      ),
       info: _l(info, other.info, t),
       infoContainer: _l(infoContainer, other.infoContainer, t),
       onInfoContainer: _l(onInfoContainer, other.onInfoContainer, t),

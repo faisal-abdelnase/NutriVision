@@ -9,6 +9,7 @@ import 'core/routing/route_names.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/theme_cubit.dart';
 
+
 class NutriVision extends StatelessWidget {
   const NutriVision({super.key, required this.preferences});
 
@@ -32,7 +33,7 @@ class NutriVision extends StatelessWidget {
           localizationsDelegates: LocalizationConfig.delegates,
           localeResolutionCallback: LocalizationConfig.resolveLocale,
           initialRoute: RouteNames.root,
-          onGenerateRoute: AppRouter.generateRoute,
+          onGenerateRoute: (settings) => AppRouter.generateRoute(settings),
         ),
       ),
     ),

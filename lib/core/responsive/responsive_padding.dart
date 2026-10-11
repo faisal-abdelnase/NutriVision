@@ -6,11 +6,7 @@ import 'responsive_value.dart';
 /// Horizontal screen padding that grows with the available width, so
 /// content doesn't hug the edges on tablets/desktop.
 class ResponsivePadding extends StatelessWidget {
-  const ResponsivePadding({
-    super.key,
-    required this.child,
-    this.vertical = 0,
-  });
+  const ResponsivePadding({super.key, required this.child, this.vertical = 0});
 
   final Widget child;
   final double vertical;

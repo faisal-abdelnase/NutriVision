@@ -87,8 +87,9 @@ class ThemeBuilder {
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: surfaces.level1,
-        constraints:
-            const BoxConstraints(minHeight: ThemeDimensions.inputHeight),
+        constraints: const BoxConstraints(
+          minHeight: ThemeDimensions.inputHeight,
+        ),
         contentPadding: const EdgeInsets.symmetric(
           horizontal: ThemeDimensions.inputHorizontalPadding,
           vertical: ThemeDimensions.spaceSm,
@@ -99,7 +100,9 @@ class ThemeBuilder {
         focusedBorder: inputBorder(colorScheme.primary, 2),
         errorBorder: inputBorder(colorScheme.error),
         focusedErrorBorder: inputBorder(colorScheme.error, 2),
-        labelStyle: textTheme.labelLarge?.copyWith(color: surfaces.textSecondary),
+        labelStyle: textTheme.labelLarge?.copyWith(
+          color: surfaces.textSecondary,
+        ),
         hintStyle: textTheme.bodyMedium?.copyWith(color: surfaces.placeholder),
         helperStyle: textTheme.bodySmall,
         errorStyle: textTheme.bodySmall?.copyWith(
@@ -114,11 +117,15 @@ class ThemeBuilder {
         backgroundColor: surfaces.level2,
         selectedColor: colorScheme.secondaryContainer,
         surfaceTintColor: Colors.transparent,
-        labelStyle:
-            textTheme.labelMedium?.copyWith(color: surfaces.textSecondary),
-        secondaryLabelStyle: textTheme.labelMedium
-            ?.copyWith(color: colorScheme.onSecondaryContainer),
-        padding: const EdgeInsets.symmetric(horizontal: ThemeDimensions.spaceSm),
+        labelStyle: textTheme.labelMedium?.copyWith(
+          color: surfaces.textSecondary,
+        ),
+        secondaryLabelStyle: textTheme.labelMedium?.copyWith(
+          color: colorScheme.onSecondaryContainer,
+        ),
+        padding: const EdgeInsets.symmetric(
+          horizontal: ThemeDimensions.spaceSm,
+        ),
         side: BorderSide(color: surfaces.border),
         shape: const StadiumBorder(),
         elevation: 0,
@@ -183,8 +190,9 @@ class ThemeBuilder {
       ),
       snackBarTheme: SnackBarThemeData(
         backgroundColor: colorScheme.inverseSurface,
-        contentTextStyle: textTheme.bodyMedium
-            ?.copyWith(color: colorScheme.onInverseSurface),
+        contentTextStyle: textTheme.bodyMedium?.copyWith(
+          color: colorScheme.onInverseSurface,
+        ),
         actionTextColor: colorScheme.inversePrimary,
         behavior: SnackBarBehavior.floating,
         shape: const RoundedRectangleBorder(

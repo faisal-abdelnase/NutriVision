@@ -166,9 +166,7 @@ class ThemeTextStyles {
   /// Applies tabular (fixed-width) figures — vitals, dosages, any number in
   /// a table/chart so digits stay vertically aligned.
   static TextStyle tabularFigures(TextStyle style) {
-    return style.copyWith(
-      fontFeatures: const [FontFeature.tabularFigures()],
-    );
+    return style.copyWith(fontFeatures: const [FontFeature.tabularFigures()]);
   }
 
   /// Uppercase for small metadata labels — skipped for Arabic, where

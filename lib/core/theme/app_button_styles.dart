@@ -64,7 +64,9 @@ class AppButtonStyles {
         EdgeInsets.symmetric(horizontal: ThemeDimensions.space20),
       ),
       shape: const WidgetStatePropertyAll(
-        RoundedRectangleBorder(borderRadius: ThemeDimensions.borderRadiusButton),
+        RoundedRectangleBorder(
+          borderRadius: ThemeDimensions.borderRadiusButton,
+        ),
       ),
       textStyle: const WidgetStatePropertyAll(ThemeTextStyles.labelLarge),
     );
@@ -76,8 +78,9 @@ class AppButtonStyles {
     return _base(
       cs: cs,
       background: cs.primary,
-      backgroundActive:
-          isLight ? ThemeColors.primaryDarker : ThemeColors.primaryLight,
+      backgroundActive: isLight
+          ? ThemeColors.primaryDarker
+          : ThemeColors.primaryLight,
       foreground: cs.onPrimary,
       elevation: isLight ? 1 : 0,
       shadowColor: ThemeColors.slate900.withValues(alpha: 0.12),
@@ -90,8 +93,9 @@ class AppButtonStyles {
     return _base(
       cs: cs,
       background: cs.primaryContainer,
-      backgroundActive:
-          isLight ? ThemeColors.primarySurface : ThemeColors.secondaryContainerDark,
+      backgroundActive: isLight
+          ? ThemeColors.primarySurface
+          : ThemeColors.secondaryContainerDark,
       foreground: cs.onPrimaryContainer,
     );
   }
@@ -138,8 +142,11 @@ class AppButtonStyles {
     return _base(
       cs: cs,
       background: st.critical,
-      backgroundActive:
-          Color.lerp(st.critical, isLight ? Colors.black : Colors.white, 0.15)!,
+      backgroundActive: Color.lerp(
+        st.critical,
+        isLight ? Colors.black : Colors.white,
+        0.15,
+      )!,
       foreground: cs.onError,
     );
   }

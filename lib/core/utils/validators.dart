@@ -3,13 +3,17 @@
 class Validators {
   Validators._();
 
-  static final RegExp _emailPattern =
-      RegExp(r'^[\w.+-]+@([\w-]+\.)+[\w-]{2,}$');
+  static final RegExp _emailPattern = RegExp(
+    r'^[\w.+-]+@([\w-]+\.)+[\w-]{2,}$',
+  );
 
   // A loose international phone pattern: optional +, 7-15 digits.
   static final RegExp _phonePattern = RegExp(r'^\+?[0-9]{7,15}$');
 
-  static String? required(String? value, {String message = 'This field is required'}) {
+  static String? required(
+    String? value, {
+    String message = 'This field is required',
+  }) {
     if (value == null || value.trim().isEmpty) return message;
     return null;
   }

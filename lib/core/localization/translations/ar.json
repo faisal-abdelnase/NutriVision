@@ -15,5 +15,15 @@
   "close": "إغلاق",
   "back": "رجوع",
   "next": "التالي",
-  "done": "تم"
+  "done": "تم",
+  "skip": "تخطي",
+  "getStarted": "ابدأ الآن",
+  "onboardingTitle1": "تناول طعامك بثقة",
+  "onboardingBody1": "اجمع وجباتك ومعلوماتك الغذائية في مكان واحد.",
+  "onboardingTitle2": "افهم تغذيتك",
+  "onboardingBody2": "تابع العناصر الغذائية المرتبطة بأهدافك اليومية.",
+  "onboardingTitle3": "كوّن عادات صحية",
+  "onboardingBody3": "ابدأ رحلتك مع مساعدك الغذائي الشخصي.",
+  "startupLoadError": "تعذر تحميل حالة بدء التطبيق.",
+  "authenticationNotImplemented": "اكتمل التعريف بالتطبيق. لم يتم تنفيذ شاشات تسجيل الدخول بعد."
 }

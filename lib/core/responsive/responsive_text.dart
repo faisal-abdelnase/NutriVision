@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+
 import 'breakpoints.dart';
 
 class AppText extends StatelessWidget {
@@ -18,7 +18,7 @@ class AppText extends StatelessWidget {
     this.textAlign,
     this.maxLines,
     this.overflow,
-    this.style, 
+    this.style,
     required this.breakpoint,
   });
 

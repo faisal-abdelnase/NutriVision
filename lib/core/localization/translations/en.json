@@ -15,5 +15,15 @@
   "close": "Close",
   "back": "Back",
   "next": "Next",
-  "done": "Done"
+  "done": "Done",
+  "skip": "Skip",
+  "getStarted": "Get started",
+  "onboardingTitle1": "Eat with confidence",
+  "onboardingBody1": "Keep your meals and nutrition information in one place.",
+  "onboardingTitle2": "Understand your nutrition",
+  "onboardingBody2": "Track the nutrients that matter to your daily goals.",
+  "onboardingTitle3": "Build healthier habits",
+  "onboardingBody3": "Get started with a personal nutrition companion.",
+  "startupLoadError": "Could not load startup state.",
+  "authenticationNotImplemented": "Onboarding is complete. Authentication screens are not implemented yet."
 }

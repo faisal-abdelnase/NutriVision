@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import 'app.dart';
 
 Future<void> main() async {
@@ -7,5 +8,3 @@ Future<void> main() async {
   final preferences = await SharedPreferences.getInstance();
   runApp(NutriVision(preferences: preferences));
 }
-
-

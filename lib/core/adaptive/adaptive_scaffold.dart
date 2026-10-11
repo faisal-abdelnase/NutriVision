@@ -49,11 +49,13 @@ class _BottomBarShell extends StatelessWidget {
         selectedIndex: scaffold.selectedIndex,
         onDestinationSelected: scaffold.onDestinationSelected,
         destinations: scaffold.destinations
-            .map((d) => NavigationDestination(
-                  icon: Icon(d.icon),
-                  selectedIcon: Icon(d.selectedIcon),
-                  label: d.label,
-                ))
+            .map(
+              (d) => NavigationDestination(
+                icon: Icon(d.icon),
+                selectedIcon: Icon(d.selectedIcon),
+                label: d.label,
+              ),
+            )
             .toList(),
       ),
     );
@@ -76,11 +78,13 @@ class _RailShell extends StatelessWidget {
             onDestinationSelected: scaffold.onDestinationSelected,
             labelType: NavigationRailLabelType.all,
             destinations: scaffold.destinations
-                .map((d) => NavigationRailDestination(
-                      icon: Icon(d.icon),
-                      selectedIcon: Icon(d.selectedIcon),
-                      label: Text(d.label),
-                    ))
+                .map(
+                  (d) => NavigationRailDestination(
+                    icon: Icon(d.icon),
+                    selectedIcon: Icon(d.selectedIcon),
+                    label: Text(d.label),
+                  ),
+                )
                 .toList(),
           ),
           const VerticalDivider(width: 1),
@@ -108,11 +112,13 @@ class _DrawerShell extends StatelessWidget {
               selectedIndex: scaffold.selectedIndex,
               onDestinationSelected: scaffold.onDestinationSelected,
               children: scaffold.destinations
-                  .map((d) => NavigationDrawerDestination(
-                        icon: Icon(d.icon),
-                        selectedIcon: Icon(d.selectedIcon),
-                        label: Text(d.label),
-                      ))
+                  .map(
+                    (d) => NavigationDrawerDestination(
+                      icon: Icon(d.icon),
+                      selectedIcon: Icon(d.selectedIcon),
+                      label: Text(d.label),
+                    ),
+                  )
                   .toList(),
             ),
           ),

@@ -5,11 +5,7 @@ import 'responsive_value.dart';
 /// A spacing gap whose size scales with the current breakpoint.
 /// Use [ResponsiveSizedBox.vertical] / [.horizontal] for the common cases.
 class ResponsiveSizedBox extends StatelessWidget {
-  const ResponsiveSizedBox({
-    super.key,
-    this.width,
-    this.height,
-  });
+  const ResponsiveSizedBox({super.key, this.width, this.height});
 
   factory ResponsiveSizedBox.vertical(double base) =>
       ResponsiveSizedBox(height: base);

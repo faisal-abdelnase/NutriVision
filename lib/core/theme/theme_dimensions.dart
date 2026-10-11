@@ -50,20 +50,26 @@ class ThemeDimensions {
   static const double radiusXl = radiusCard; // was 24
   static const double radiusFull = radiusPill;
 
-  static const BorderRadius borderRadiusCard =
-      BorderRadius.all(Radius.circular(radiusCard));
-  static const BorderRadius borderRadiusMedium =
-      BorderRadius.all(Radius.circular(radiusMedium));
-  static const BorderRadius borderRadiusButton =
-      BorderRadius.all(Radius.circular(radiusButton));
-  static const BorderRadius borderRadiusInput =
-      BorderRadius.all(Radius.circular(radiusInput));
-  static const BorderRadius borderRadiusPill =
-      BorderRadius.all(Radius.circular(radiusPill));
+  static const BorderRadius borderRadiusCard = BorderRadius.all(
+    Radius.circular(radiusCard),
+  );
+  static const BorderRadius borderRadiusMedium = BorderRadius.all(
+    Radius.circular(radiusMedium),
+  );
+  static const BorderRadius borderRadiusButton = BorderRadius.all(
+    Radius.circular(radiusButton),
+  );
+  static const BorderRadius borderRadiusInput = BorderRadius.all(
+    Radius.circular(radiusInput),
+  );
+  static const BorderRadius borderRadiusPill = BorderRadius.all(
+    Radius.circular(radiusPill),
+  );
 
   // Legacy aliases.
-  static const BorderRadius borderRadiusSm =
-      BorderRadius.all(Radius.circular(radiusSm));
+  static const BorderRadius borderRadiusSm = BorderRadius.all(
+    Radius.circular(radiusSm),
+  );
   static const BorderRadius borderRadiusBase = borderRadiusMedium;
   static const BorderRadius borderRadiusMd = borderRadiusMedium;
   static const BorderRadius borderRadiusLg = borderRadiusCard;
@@ -81,11 +87,7 @@ class ThemeDimensions {
 
   // ── Elevation (soft slate-tinted shadows, never pure black) ──
   static const List<BoxShadow> shadowTier1 = [
-    BoxShadow(
-      color: Color(0x0A0F172A),
-      offset: Offset(0, 1),
-      blurRadius: 3,
-    ),
+    BoxShadow(color: Color(0x0A0F172A), offset: Offset(0, 1), blurRadius: 3),
     BoxShadow(
       color: Color(0x080F172A),
       offset: Offset(0, 1),
@@ -110,11 +112,7 @@ class ThemeDimensions {
   ];
 
   static const List<BoxShadow> shadowTier3 = [
-    BoxShadow(
-      color: Color(0x290F172A),
-      offset: Offset(0, 16),
-      blurRadius: 40,
-    ),
+    BoxShadow(color: Color(0x290F172A), offset: Offset(0, 16), blurRadius: 40),
   ];
 
   /// Dark-mode elevated nodes: diffuse emerald-tinted glow.

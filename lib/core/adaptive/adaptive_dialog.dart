@@ -26,9 +26,7 @@ Future<T?> showAdaptiveDialog<T>({
   return showDialog<T>(
     context: context,
     builder: (context) => Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 480),
         child: builder(context),
