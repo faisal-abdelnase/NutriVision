@@ -2,7 +2,7 @@
 class AppConstants {
   AppConstants._();
 
-  static const String appName = 'MediLink';
+  static const String appName = 'NutriVision';
 
   static const int defaultPageSize = 20;
 
