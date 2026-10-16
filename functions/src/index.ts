@@ -16,3 +16,18 @@ export {
   deleteProgressEntry,
   getProgressHistory,
 } from "./features/progress";
+
+export {
+  analyzeMeal,
+  sendCoachMessage,
+  generateRecipe,
+  saveGroceryItem,
+  deleteGroceryItem,
+} from "./features/ai";
+
+export { deleteUserAccount } from "./features/account_lifecycle";
+export {
+  registerDeviceToken,
+  scheduleMealReminder,
+  sendScheduledReminders,
+} from "./features/notifications";
