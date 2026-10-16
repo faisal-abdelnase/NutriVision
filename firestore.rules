@@ -1,0 +1,56 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function owns(uid) {
+      return signedIn() && request.auth.uid == uid;
+    }
+
+    // User profile fields are server-managed. Client writes go through
+    // validated Cloud Functions to prevent privilege and quota tampering.
+    match /users/{uid} {
+      allow read: if owns(uid);
+      allow write: if false;
+
+      match /{subcollection}/{documentId} {
+        // Sensitive feature records are server-managed through Admin SDK.
+        // Client SDK reads are permitted only for the signed-in owner.
+        allow read: if owns(uid);
+        allow write: if false;
+
+        match /{nestedCollection}/{nestedDocumentId} {
+          allow read: if owns(uid);
+          allow write: if false;
+        }
+      }
+    }
+
+    match /recipes/{recipeId} {
+      allow read: if resource.data.visibility == 'public'
+                  || (signedIn() && resource.data.createdBy == request.auth.uid);
+      allow write: if false;
+    }
+
+    match /public_nutrition_foods/{foodId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    match /ai_requests/{requestId} {
+      allow read, write: if false;
+    }
+
+    match /ai_usage/{uid} {
+      allow read, write: if false;
+    }
+
+    match /app_config/{configId} {
+      allow read: if true;
+      allow write: if false;
+    }
+  }
+}
