@@ -1,5 +1,4 @@
 import { onCall, HttpsError } from "firebase-functions/v2/https";
-import { getFirestore } from "firebase-admin/firestore";
 import { adminAuth, bucket, db, FieldValue } from "../shared/admin";
 import { requireUid } from "../shared/validation";
 import { success } from "../shared/response";
@@ -17,7 +16,14 @@ export const deleteUserAccount = onCall({ timeoutSeconds: 540, memory: "512MiB" 
   }, { merge: true });
 
   // recursiveDelete removes the user document and every nested subcollection.
-  await getFirestore().recursiveDelete(userRef);
+  await db.recursiveDelete(userRef);
+
+  const privateRecipes = await db.collection("recipes").where("createdBy", "==", uid).get();
+  const recipeBatch = db.batch();
+  for (const recipe of privateRecipes.docs) recipeBatch.delete(recipe.ref);
+  if (!privateRecipes.empty) await recipeBatch.commit();
+
+  await db.collection("ai_usage").doc(uid).delete();
 
   // Remove user-owned files. If cleanup fails, the function errors so it can be retried.
   await bucket.deleteFiles({ prefix: "users/" + uid + "/" });
