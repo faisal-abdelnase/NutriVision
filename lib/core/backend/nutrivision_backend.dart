@@ -85,4 +85,27 @@ class NutriVisionBackend {
 
   Future<Map<String, dynamic>> scheduleMealReminder({required int hour, required int minute, required String timezone, bool enabled = true}) =>
       _call('scheduleMealReminder', {'hour': hour, 'minute': minute, 'timezone': timezone, 'enabled': enabled});
+
+  Future<Map<String, dynamic>> getMealAnalysisHistory({int pageSize = 20}) =>
+      _call('getMealAnalysisHistory', {'pageSize': pageSize});
+
+  Future<Map<String, dynamic>> getSavedRecipes({int pageSize = 20}) =>
+      _call('getSavedRecipes', {'pageSize': pageSize});
+
+  Future<Map<String, dynamic>> setRecipeSaved({required String recipeId, required bool saved}) =>
+      _call('setRecipeSaved', {'recipeId': recipeId, 'saved': saved});
+
+  Future<Map<String, dynamic>> getCoachConversationHistory({
+    required String conversationId,
+    int pageSize = 30,
+  }) => _call('getCoachConversationHistory', {
+    'conversationId': conversationId,
+    'pageSize': pageSize,
+  });
+
+  Future<Map<String, dynamic>> getProgressSummary() =>
+      _call('getProgressSummary', const {});
+
+  Future<Map<String, dynamic>> updateProfilePhotoPath(String path) =>
+      _call('updateProfilePhotoPath', {'profilePhotoPath': path});
 }
