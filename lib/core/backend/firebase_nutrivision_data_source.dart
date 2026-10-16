@@ -46,7 +46,7 @@ class FirebaseNutriVisionDataSource {
   Stream<List<Map<String, dynamic>>> watchMeals({int limit = 30}) =>
       _userRef.collection('meals')
           .orderBy('consumedAt', descending: true)
-          .limit(limit.clamp(1, 100))
+          .limit(limit.clamp(1, 100).toInt())
           .snapshots()
           .map((snapshot) => snapshot.docs
               .map((doc) => {'id': doc.id, ...doc.data()})
@@ -55,7 +55,7 @@ class FirebaseNutriVisionDataSource {
   Future<List<Map<String, dynamic>>> getRecentMeals({int limit = 30}) async {
     final snapshot = await _userRef.collection('meals')
         .orderBy('consumedAt', descending: true)
-        .limit(limit.clamp(1, 100))
+        .limit(limit.clamp(1, 100).toInt())
         .get();
     return snapshot.docs.map((doc) => {'id': doc.id, ...doc.data()}).toList(growable: false);
   }
@@ -64,7 +64,7 @@ class FirebaseNutriVisionDataSource {
     final snapshot = await _firestore.collection('recipes')
         .where('visibility', isEqualTo: 'public')
         .orderBy('createdAt', descending: true)
-        .limit(limit.clamp(1, 50))
+        .limit(limit.clamp(1, 50).toInt())
         .get();
     return snapshot.docs.map((doc) => {'id': doc.id, ...doc.data()}).toList(growable: false);
   }
