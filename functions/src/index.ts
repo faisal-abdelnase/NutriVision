@@ -31,3 +31,11 @@ export {
   scheduleMealReminder,
   sendScheduledReminders,
 } from "./features/notifications";
+export {
+  setRecipeSaved,
+  getSavedRecipes,
+  getMealAnalysisHistory,
+  getCoachConversationHistory,
+  getProgressSummary,
+  updateProfilePhotoPath,
+} from "./features/queries";
