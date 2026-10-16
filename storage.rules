@@ -1,0 +1,42 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function owns(uid) {
+      return signedIn() && request.auth.uid == uid;
+    }
+
+    function validImage() {
+      return request.resource != null
+        && request.resource.size < 10 * 1024 * 1024
+        && request.resource.contentType.matches('image/(jpeg|png|webp|heic)');
+    }
+
+    match /users/{uid}/profile/{fileName} {
+      allow read: if owns(uid);
+      allow create, update: if owns(uid) && validImage();
+      allow delete: if owns(uid);
+    }
+
+    match /users/{uid}/meal_images/{mealId}/{fileName} {
+      allow read: if owns(uid);
+      allow create, update: if owns(uid) && validImage();
+      allow delete: if owns(uid);
+    }
+
+    match /users/{uid}/recipe_images/{recipeId}/{fileName} {
+      allow read: if owns(uid);
+      allow create, update: if owns(uid) && validImage();
+      allow delete: if owns(uid);
+    }
+
+    // Deny access to every unlisted path.
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}
