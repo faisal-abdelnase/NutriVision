@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+
 import '../../domain/entities/auth_user.dart';
 
 class AuthUserModel extends AuthUser {
@@ -7,10 +9,15 @@ class AuthUserModel extends AuthUser {
     required super.emailVerified,
     super.createdAt,
   });
-
-  // factory AuthUserModel.fromJson(Map<String, dynamic> json){}
-
-  // Map<String, dynamic> toJson(){}
+  
+  factory AuthUserModel.fromFirebaseUser(User user) {
+    return AuthUserModel(
+      id: user.uid,
+      email: user.email ?? '',
+      emailVerified: user.emailVerified,
+      createdAt: user.metadata.creationTime,
+    );
+  }
 
 
 }

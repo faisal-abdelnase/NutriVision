@@ -2,24 +2,41 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'core/di/auth_dependencies.dart';
 import 'core/localization/locale_cubit.dart';
 import 'core/localization/localization_config.dart';
 import 'core/routing/app_router.dart';
 import 'core/routing/route_names.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/theme_cubit.dart';
+import 'features/authentication/presentation/cubit/auth_cubit.dart';
 
 
 class NutriVision extends StatelessWidget {
   const NutriVision({super.key, required this.preferences});
 
   final SharedPreferences preferences;
+  
 
   @override
-  Widget build(BuildContext context) => MultiBlocProvider(
+  Widget build(BuildContext context) { 
+    
+    return MultiBlocProvider(
     providers: [
       BlocProvider(create: (_) => ThemeCubit(preferences)),
       BlocProvider(create: (_) => LocaleCubit(preferences)),
+      BlocProvider(
+        create: (_) {
+          final authDependencies = AuthDependencies();
+          return AuthCubit(
+          signInUseCase: authDependencies.signIn,
+          signUpUseCase: authDependencies.signUp,
+          signOutUseCase: authDependencies.signOut,
+          sendPasswordResetEmailUseCase:
+              authDependencies.sendPasswordResetEmail,
+        );
+        }
+      ),
     ],
     child: BlocBuilder<LocaleCubit, Locale>(
       builder: (context, locale) => BlocBuilder<ThemeCubit, ThemeMode>(
@@ -38,4 +55,5 @@ class NutriVision extends StatelessWidget {
       ),
     ),
   );
+}
 }

@@ -11,11 +11,10 @@ class AppRouter {
       case RouteNames.splash:
         // return MaterialPageRoute<void>(
         //   settings: settings,
-          // builder: (_) => SplashPage(
-          //   hasCompletedOnboarding: HasCompletedOnboarding(
-          //     onboardingRepository,
-          //   ),
-          // ),
+        //   builder: (_) => LoginButton(
+        //     email: 'test@example.com',
+        //     password: 'YourTestPassword123!',
+        //   )
         // );
       case RouteNames.onboarding:
         // return MaterialPageRoute<void>(
