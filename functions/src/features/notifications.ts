@@ -35,7 +35,7 @@ export const scheduleMealReminder = onCall(async (request) => {
   return success({ saved: true }, uid);
 });
 
-export const sendScheduledReminders = onSchedule("every 15 minutes", async () => {
+export const sendScheduledReminders = onSchedule("every 5 minutes", async () => {
   const now = new Date();
   const reminders = await db.collectionGroup("reminders").where("enabled", "==", true).limit(500).get();
   for (const reminder of reminders.docs) {
@@ -51,7 +51,7 @@ export const sendScheduledReminders = onSchedule("every 15 minutes", async () =>
       continue;
     }
     const [hour, minute] = local.split(":").map(Number);
-    if (hour !== Number(data.hour) || minute < Number(data.minute) || minute >= Number(data.minute) + 15) continue;
+    if (hour !== Number(data.hour) || minute < Number(data.minute) || minute >= Number(data.minute) + 5) continue;
     const dateKey = new Intl.DateTimeFormat("en-CA", { timeZone: String(data.timezone), year: "numeric", month: "2-digit", day: "2-digit" }).format(now);
     const sendRef = db.collection("users").doc(uid).collection("reminder_sends").doc("meal_" + dateKey + "_" + data.hour + "_" + data.minute);
     const alreadySent = await sendRef.get();
