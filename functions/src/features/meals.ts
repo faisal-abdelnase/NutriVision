@@ -1,5 +1,5 @@
 import { onCall, HttpsError } from "firebase-functions/v2/https";
-import { db, FieldValue, Timestamp } from "../shared/admin";
+import { db, FieldValue, Timestamp, bucket } from "../shared/admin";
 import { requireUid, requireString, requireFiniteNumber, assertSafeId } from "../shared/validation";
 import { success } from "../shared/response";
 
@@ -48,6 +48,10 @@ export const saveMeal = onCall(async (request) => {
     fatGrams: normalizedFoods.reduce((sum, food) => sum + food.fatGrams, 0),
   };
   const consumedAt = dateFrom(input.consumedAt ?? Date.now(), "consumedAt");
+  if (typeof input.imagePath === "string" &&
+      (!input.imagePath.startsWith("users/" + uid + "/meal_images/") || input.imagePath.includes(".."))) {
+    throw new HttpsError("permission-denied", "Meal image must belong to the current user.");
+  }
   const ref = db.collection("users").doc(uid).collection("meals").doc(id);
   const existing = await ref.get();
   const data: Record<string, unknown> = {
@@ -69,7 +73,13 @@ export const saveMeal = onCall(async (request) => {
 export const deleteMeal = onCall(async (request) => {
   const uid = requireUid(request.auth?.uid, request.data?.uid);
   const mealId = assertSafeId(requireString(request.data?.mealId, "mealId", 128), "mealId");
-  await db.collection("users").doc(uid).collection("meals").doc(mealId).delete();
+  const ref = db.collection("users").doc(uid).collection("meals").doc(mealId);
+  const snapshot = await ref.get();
+  const imagePath = snapshot.data()?.imagePath;
+  await ref.delete();
+  if (typeof imagePath === "string" && imagePath.startsWith("users/" + uid + "/meal_images/")) {
+    await bucket.file(imagePath).delete({ ignoreNotFound: true }).catch(() => undefined);
+  }
   return success({ deleted: true }, mealId);
 });
 
