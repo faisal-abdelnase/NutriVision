@@ -1,14 +1,13 @@
 
-
 import '../entities/grocery_list.dart';
 import '../repositories/recipes_repository.dart';
 
-abstract class GetGroceryList {
-  final RecipesRepository repository;
-
+class GetGroceryList {
   GetGroceryList(this.repository);
 
-  Future<GroceryList> call({
-    required String userId,
-  });
+  final RecipesRepository repository;
+
+  Future<GroceryList> call({required String userId}) {
+    return repository.getGroceryList(userId: userId);
+  }
 }

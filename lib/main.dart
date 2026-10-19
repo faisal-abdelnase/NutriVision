@@ -8,6 +8,7 @@ import 'core/di/dashboard_injection.dart';
 import 'core/di/onboarding_injection.dart';
 import 'core/di/profile_injection.dart';
 import 'core/di/progress_di.dart';
+import 'core/di/recipes_di.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,6 +16,7 @@ Future<void> main() async {
   registerDashboardDependencies();
   registerProfileDependencies();
   registerProgressDependencies();
+  registerRecipesDependencies();
   await registerOnboardingDependencies();
   final preferences = await SharedPreferences.getInstance();
   runApp(NutriVision(preferences: preferences));

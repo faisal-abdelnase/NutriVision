@@ -1,6 +1,7 @@
+
 import '../models/recipe_model.dart';
 
-abstract class RecipesRemoteDataSource {
+abstract interface class RecipesRemoteDataSource {
   Future<List<RecipeModel>> fetchRecipes({
     required int page,
     required int pageSize,

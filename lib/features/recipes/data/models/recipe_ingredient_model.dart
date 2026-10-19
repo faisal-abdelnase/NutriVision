@@ -1,3 +1,4 @@
+
 import '../../domain/entities/recipe_ingredient.dart';
 
 class RecipeIngredientModel extends RecipeIngredient {
@@ -9,16 +10,28 @@ class RecipeIngredientModel extends RecipeIngredient {
     super.isOptional,
     super.foodDatabaseId,
   });
-}
 
-abstract class RecipeIngredientModelMapper {
-  RecipeIngredientModel fromJson(
+  factory RecipeIngredientModel.fromJson(
     Map<String, dynamic> json,
-  );
+  ) {
+    return RecipeIngredientModel(
+      id: json['id'] as String,
+      name: json['name'] as String,
+      quantity: (json['quantity'] as num).toDouble(),
+      unit: json['unit'] as String,
+      isOptional: json['isOptional'] as bool? ?? false,
+      foodDatabaseId: json['foodDatabaseId'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson(
-    RecipeIngredientModel model,
-  );
-
-  
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'quantity': quantity,
+      'unit': unit,
+      'isOptional': isOptional,
+      'foodDatabaseId': foodDatabaseId,
+    };
+  }
 }

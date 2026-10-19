@@ -1,7 +1,8 @@
-import '../models/grocery_list_model.dart';
-import '../models/grocery_item_model.dart';
 
-abstract class GroceryListLocalDataSource {
+import '../models/grocery_item_model.dart';
+import '../models/grocery_list_model.dart';
+
+abstract interface class GroceryListLocalDataSource {
   Future<GroceryListModel?> readGroceryList({
     required String userId,
   });

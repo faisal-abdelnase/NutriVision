@@ -1,12 +1,11 @@
 
-
 import '../entities/recipe.dart';
 import '../repositories/recipes_repository.dart';
 
-abstract class GetRecipes {
-  final RecipesRepository repository;
-
+class GetRecipes {
   GetRecipes(this.repository);
+
+  final RecipesRepository repository;
 
   Future<List<Recipe>> call({
     required int page,
@@ -14,5 +13,13 @@ abstract class GetRecipes {
     String? searchQuery,
     List<String>? tags,
     String? dietaryCategory,
-  });
+  }) {
+    return repository.getRecipes(
+      page: page,
+      pageSize: pageSize,
+      searchQuery: searchQuery,
+      tags: tags,
+      dietaryCategory: dietaryCategory,
+    );
+  }
 }

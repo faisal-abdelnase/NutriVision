@@ -1,12 +1,12 @@
 
 import '../repositories/recipes_repository.dart';
 
-abstract class ClearGroceryList {
-  final RecipesRepository repository;
-
+class ClearGroceryList {
   ClearGroceryList(this.repository);
 
-  Future<void> call({
-    required String userId,
-  });
+  final RecipesRepository repository;
+
+  Future<void> call({required String userId}) {
+    return repository.clearGroceryList(userId: userId);
+  }
 }

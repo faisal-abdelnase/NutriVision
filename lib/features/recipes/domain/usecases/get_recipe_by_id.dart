@@ -1,14 +1,13 @@
 
-
 import '../entities/recipe.dart';
 import '../repositories/recipes_repository.dart';
 
-abstract class GetRecipeById {
-  final RecipesRepository repository;
-
+class GetRecipeById {
   GetRecipeById(this.repository);
 
-  Future<Recipe?> call({
-    required String recipeId,
-  });
+  final RecipesRepository repository;
+
+  Future<Recipe?> call({required String recipeId}) {
+    return repository.getRecipeById(recipeId: recipeId);
+  }
 }

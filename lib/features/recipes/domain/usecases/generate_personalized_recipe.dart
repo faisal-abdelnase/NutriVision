@@ -2,10 +2,10 @@
 import '../entities/recipe.dart';
 import '../repositories/recipes_repository.dart';
 
-abstract class GeneratePersonalizedRecipe {
-  final RecipesRepository repository;
-
+class GeneratePersonalizedRecipe {
   GeneratePersonalizedRecipe(this.repository);
+
+  final RecipesRepository repository;
 
   Future<Recipe> call({
     required String userId,
@@ -14,5 +14,14 @@ abstract class GeneratePersonalizedRecipe {
     required List<String> allergies,
     required String? goal,
     required int servings,
-  });
+  }) {
+    return repository.generatePersonalizedRecipe(
+      userId: userId,
+      availableIngredients: availableIngredients,
+      dietaryPreferences: dietaryPreferences,
+      allergies: allergies,
+      goal: goal,
+      servings: servings,
+    );
+  }
 }
