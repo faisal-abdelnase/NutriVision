@@ -14,7 +14,7 @@ import 'core/theme/app_theme.dart';
 import 'core/theme/theme_cubit.dart';
 import 'features/authentication/presentation/cubit/auth_cubit.dart';
 import 'features/profile/presentation/cubit/profile_cubit.dart';
-import 'features/progress/presentation/cubit/progress_cubit.dart';
+
 
 
 class NutriVision extends StatelessWidget {
