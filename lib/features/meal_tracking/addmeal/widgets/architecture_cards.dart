@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_colors.dart';
 
 class ArchitectureCards extends StatelessWidget {
   const ArchitectureCards({Key? key}) : super(key: key);

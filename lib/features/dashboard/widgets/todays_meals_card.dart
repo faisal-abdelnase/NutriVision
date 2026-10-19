@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
-import '../../addmeal/screens/add_meal_screen.dart';
-import '../../meal_details/screens/meal_details_screen.dart';
+import '../../meal_tracking/addmeal/screens/add_meal_screen.dart';
+import '../../meal_tracking/meal_details/screens/meal_details_screen.dart';
+
 
 class TodaysMealsCard extends StatelessWidget {
   const TodaysMealsCard({Key? key}) : super(key: key);

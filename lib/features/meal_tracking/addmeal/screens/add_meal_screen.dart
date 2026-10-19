@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_colors.dart';
 import '../widgets/sidebar_widget.dart';
 import '../widgets/top_header_bar.dart';
 import '../widgets/describe_meal_card.dart';
