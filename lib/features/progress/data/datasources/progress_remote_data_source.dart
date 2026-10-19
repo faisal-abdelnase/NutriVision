@@ -1,6 +1,6 @@
+import '../models/nutrition_trend_point_model.dart';
 import '../models/progress_entry_model.dart';
 import '../models/progress_summary_model.dart';
-import '../models/nutrition_trend_point_model.dart';
 
 abstract class ProgressRemoteDataSource {
   Future<ProgressEntryModel> createProgressEntry({

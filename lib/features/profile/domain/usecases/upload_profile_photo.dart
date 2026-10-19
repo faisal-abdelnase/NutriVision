@@ -1,8 +1,6 @@
-
-
 import '../repositories/profile_repository.dart';
 
-abstract class UploadProfilePhoto {
+class UploadProfilePhoto {
   final ProfileRepository repository;
 
   UploadProfilePhoto(this.repository);
@@ -10,5 +8,10 @@ abstract class UploadProfilePhoto {
   Future<String> call({
     required String userId,
     required String imagePath,
-  });
+  }) {
+    return repository.uploadProfilePhoto(
+      userId: userId,
+      imagePath: imagePath,
+    );
+  }
 }

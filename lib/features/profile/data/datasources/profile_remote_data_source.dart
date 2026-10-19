@@ -9,15 +9,6 @@ abstract class ProfileRemoteDataSource {
     required UserProfileModel profile,
   });
 
-  Future<String> uploadProfilePhoto({
-    required String userId,
-    required String imagePath,
-  });
-
-  Future<void> deleteProfilePhoto({
-    required String userId,
-  });
-
   Future<void> deleteUserAccount({
     required String userId,
     required String reauthenticationToken,

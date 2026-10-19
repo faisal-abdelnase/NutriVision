@@ -1,9 +1,7 @@
-
-
 import '../entities/recent_meal_summary.dart';
 import '../repositories/dashboard_repository.dart';
 
-abstract class GetRecentMealsSummary {
+class GetRecentMealsSummary {
   final DashboardRepository repository;
 
   GetRecentMealsSummary(this.repository);
@@ -11,5 +9,10 @@ abstract class GetRecentMealsSummary {
   Future<List<RecentMealSummary>> call({
     required String userId,
     required int limit,
-  });
+  }) {
+    return repository.getRecentMealsSummary(
+      userId: userId,
+      limit: limit,
+    );
+  }
 }

@@ -1,8 +1,6 @@
-
-
+import '../entities/nutrition_trend_point.dart';
 import '../entities/progress_entry.dart';
 import '../entities/progress_summary.dart';
-import '../entities/nutrition_trend_point.dart';
 
 abstract class ProgressRepository {
   Future<ProgressEntry> recordProgressEntry({

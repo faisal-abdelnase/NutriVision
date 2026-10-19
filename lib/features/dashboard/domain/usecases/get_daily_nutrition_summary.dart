@@ -1,9 +1,7 @@
-
-
 import '../entities/daily_nutrition_summary.dart';
 import '../repositories/dashboard_repository.dart';
 
-abstract class GetDailyNutritionSummary {
+class GetDailyNutritionSummary {
   final DashboardRepository repository;
 
   GetDailyNutritionSummary(this.repository);
@@ -11,5 +9,10 @@ abstract class GetDailyNutritionSummary {
   Future<DailyNutritionSummary> call({
     required String userId,
     required DateTime date,
-  });
+  }) {
+    return repository.getDailyNutritionSummary(
+      userId: userId,
+      date: date,
+    );
+  }
 }

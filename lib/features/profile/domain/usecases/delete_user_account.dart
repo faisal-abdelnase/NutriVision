@@ -1,8 +1,6 @@
-
-
 import '../repositories/profile_repository.dart';
 
-abstract class DeleteUserAccount {
+class DeleteUserAccount {
   final ProfileRepository repository;
 
   DeleteUserAccount(this.repository);
@@ -10,5 +8,10 @@ abstract class DeleteUserAccount {
   Future<void> call({
     required String userId,
     required String reauthenticationToken,
-  });
+  }) {
+    return repository.deleteUserAccount(
+      userId: userId,
+      reauthenticationToken: reauthenticationToken,
+    );
+  }
 }

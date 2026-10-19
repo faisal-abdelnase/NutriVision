@@ -8,15 +8,3 @@ class RecentMealSummaryModel extends RecentMealSummary {
     required super.eatenAt,
   });
 }
-
-abstract class RecentMealSummaryModelMapper {
-  RecentMealSummaryModel fromJson(
-    Map<String, dynamic> json,
-  );
-
-  Map<String, dynamic> toJson(
-    RecentMealSummaryModel model,
-  );
-
-  
-}

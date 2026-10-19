@@ -11,14 +11,3 @@ class DailyNutritionSummaryModel extends DailyNutritionSummary {
     required super.mealCount,
   });
 }
-
-abstract class DailyNutritionSummaryModelMapper {
-  DailyNutritionSummaryModel fromJson(
-    Map<String, dynamic> json,
-  );
-
-  Map<String, dynamic> toJson(
-    DailyNutritionSummaryModel model,
-  );
-
-}

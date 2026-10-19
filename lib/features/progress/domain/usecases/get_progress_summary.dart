@@ -3,7 +3,7 @@
 import '../entities/progress_summary.dart';
 import '../repositories/progress_repository.dart';
 
-abstract class GetProgressSummary {
+class GetProgressSummary {
   final ProgressRepository repository;
 
   GetProgressSummary(this.repository);
@@ -12,5 +12,11 @@ abstract class GetProgressSummary {
     required String userId,
     required DateTime startDate,
     required DateTime endDate,
-  });
+  }) {
+    return repository.getProgressSummary(
+      userId: userId,
+      startDate: startDate,
+      endDate: endDate,
+    );
+  }
 }

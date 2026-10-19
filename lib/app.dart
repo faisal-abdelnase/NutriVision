@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nutri_vision/features/onboarding/presentation/cubit/onboarding_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/di/auth_dependencies.dart';
+import 'core/di/dashboard_injection.dart';
 import 'core/localization/locale_cubit.dart';
 import 'core/localization/localization_config.dart';
 import 'core/routing/app_router.dart';
@@ -10,6 +13,8 @@ import 'core/routing/route_names.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/theme_cubit.dart';
 import 'features/authentication/presentation/cubit/auth_cubit.dart';
+import 'features/profile/presentation/cubit/profile_cubit.dart';
+import 'features/progress/presentation/cubit/progress_cubit.dart';
 
 
 class NutriVision extends StatelessWidget {
@@ -37,6 +42,27 @@ class NutriVision extends StatelessWidget {
         );
         }
       ),
+
+      BlocProvider(
+      create: (_) => sl<OnboardingCubit>()
+        ..checkOnboardingStatus(),
+    ), 
+
+    BlocProvider(
+      create: (_) => sl<ProfileCubit>()
+        ..loadProfile(FirebaseAuth.instance.currentUser!.uid),
+      
+    ),
+
+    // BlocProvider(
+    //   create: (_) => sl<ProgressCubit>()
+    //     ..loadProgress(
+    //       userId: user.uid,
+    //       startDate: startDate,
+    //       endDate: endDate,
+    //     ),
+      
+    // )
     ],
     child: BlocBuilder<LocaleCubit, Locale>(
       builder: (context, locale) => BlocBuilder<ThemeCubit, ThemeMode>(

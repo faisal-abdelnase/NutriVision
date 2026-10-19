@@ -1,8 +1,9 @@
 
+
 import '../entities/nutrition_trend_point.dart';
 import '../repositories/progress_repository.dart';
 
-abstract class GetNutritionTrends {
+class GetNutritionTrends {
   final ProgressRepository repository;
 
   GetNutritionTrends(this.repository);
@@ -11,5 +12,11 @@ abstract class GetNutritionTrends {
     required String userId,
     required DateTime startDate,
     required DateTime endDate,
-  });
+  }) {
+    return repository.getNutritionTrends(
+      userId: userId,
+      startDate: startDate,
+      endDate: endDate,
+    );
+  }
 }

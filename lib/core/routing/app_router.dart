@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../features/meal_tracking/addmeal/screens/add_meal_screen.dart';
 import 'route_names.dart';
 
-// قم بالتأكد من صحة مسار استيراد ملف AddMealScreen الخاص بك
 
 class AppRouter {
   AppRouter._();
@@ -11,17 +9,18 @@ class AppRouter {
     switch (settings.name) {
       case RouteNames.root:
       case RouteNames.splash:
-        return MaterialPageRoute<void>(
-          settings: settings,
-          builder: (_) => const AddMealScreen(), // 👈 سيتم فتح الشاشة التي أنشأتها مباشرة
-        );
-
+        // return MaterialPageRoute<void>(
+        //   settings: settings,
+        //   builder: (_) => LoginButton(
+        //     email: 'test@example.com',
+        //     password: 'YourTestPassword123!',
+        //   )
+        // );
       case RouteNames.onboarding:
-        return MaterialPageRoute<void>(
-          settings: settings,
-          builder: (_) => const Placeholder(),
-        );
-
+        // return MaterialPageRoute<void>(
+        //   settings: settings,
+        //   builder: (_) => OnboardingPage(repository: onboardingRepository),
+        // );
       case RouteNames.authentication:
         return MaterialPageRoute<void>(
           settings: settings,

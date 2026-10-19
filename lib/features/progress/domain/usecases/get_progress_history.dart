@@ -1,9 +1,8 @@
 
-
 import '../entities/progress_entry.dart';
 import '../repositories/progress_repository.dart';
 
-abstract class GetProgressHistory {
+class GetProgressHistory {
   final ProgressRepository repository;
 
   GetProgressHistory(this.repository);
@@ -14,5 +13,13 @@ abstract class GetProgressHistory {
     required DateTime endDate,
     required int page,
     required int pageSize,
-  });
+  }) {
+    return repository.getProgressHistory(
+      userId: userId,
+      startDate: startDate,
+      endDate: endDate,
+      page: page,
+      pageSize: pageSize,
+    );
+  }
 }
