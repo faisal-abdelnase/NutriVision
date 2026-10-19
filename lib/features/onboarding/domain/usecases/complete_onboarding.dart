@@ -1,10 +1,11 @@
-
 import '../repositories/onboarding_repository.dart';
 
-abstract class CompleteOnboarding {
+class CompleteOnboarding {
   final OnboardingRepository repository;
 
-  CompleteOnboarding(this.repository);
+  const CompleteOnboarding(this.repository);
 
-  Future<void> call();
+  Future<void> call() {
+    return repository.completeOnboarding();
+  }
 }
