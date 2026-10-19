@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app.dart';
 import 'core/di/dashboard_injection.dart';
+import 'core/di/nutrition_profile_injection.dart';
 import 'core/di/onboarding_injection.dart';
 import 'core/di/profile_injection.dart';
 import 'core/di/progress_di.dart';
@@ -17,6 +18,7 @@ Future<void> main() async {
   registerProfileDependencies();
   registerProgressDependencies();
   registerRecipesDependencies();
+  await setupServiceLocator();
   await registerOnboardingDependencies();
   final preferences = await SharedPreferences.getInstance();
   runApp(NutriVision(preferences: preferences));

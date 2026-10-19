@@ -1,9 +1,8 @@
 
-
 import '../entities/nutrition_profile.dart';
 import '../repositories/nutrition_profile_repository.dart';
 
-abstract class UpdateNutritionGoals {
+class UpdateNutritionGoals {
   final NutritionProfileRepository repository;
 
   UpdateNutritionGoals(this.repository);
@@ -14,5 +13,13 @@ abstract class UpdateNutritionGoals {
     required double proteinTargetGrams,
     required double carbohydrateTargetGrams,
     required double fatTargetGrams,
-  });
+  }) {
+    return repository.updateNutritionGoals(
+      userId: userId,
+      dailyCalorieTarget: dailyCalorieTarget,
+      proteinTargetGrams: proteinTargetGrams,
+      carbohydrateTargetGrams: carbohydrateTargetGrams,
+      fatTargetGrams: fatTargetGrams,
+    );
+  }
 }

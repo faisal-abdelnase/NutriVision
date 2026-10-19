@@ -1,9 +1,8 @@
 
-
 import '../entities/nutrition_profile.dart';
 import '../repositories/nutrition_profile_repository.dart';
 
-abstract class UpdateDietaryPreferences {
+class UpdateDietaryPreferences {
   final NutritionProfileRepository repository;
 
   UpdateDietaryPreferences(this.repository);
@@ -12,5 +11,11 @@ abstract class UpdateDietaryPreferences {
     required String userId,
     required List<String> dietaryPreferences,
     required List<String> allergies,
-  });
+  }) {
+    return repository.updateDietaryPreferences(
+      userId: userId,
+      dietaryPreferences: dietaryPreferences,
+      allergies: allergies,
+    );
+  }
 }

@@ -2,12 +2,16 @@
 import '../entities/nutrition_profile.dart';
 import '../repositories/nutrition_profile_repository.dart';
 
-abstract class UpdateNutritionProfile {
+class UpdateNutritionProfile {
   final NutritionProfileRepository repository;
 
   UpdateNutritionProfile(this.repository);
 
-  Future< NutritionProfile> call({
+  Future<NutritionProfile> call({
     required NutritionProfile profile,
-  });
+  }) {
+    return repository.updateNutritionProfile(
+      profile: profile,
+    );
+  }
 }
