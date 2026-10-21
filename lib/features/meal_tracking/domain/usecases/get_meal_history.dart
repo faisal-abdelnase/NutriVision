@@ -2,8 +2,7 @@
 
 import '../entities/meal.dart';
 import '../repositories/meal_repository.dart';
-
-abstract class GetMealHistory {
+class GetMealHistory {
   final MealRepository repository;
 
   GetMealHistory(this.repository);
@@ -12,5 +11,7 @@ abstract class GetMealHistory {
     required String userId,
     required int page,
     required int pageSize,
-  });
+  }){
+    return repository.getMealHistory(userId: userId, page: page, pageSize: pageSize);
+  }
 }

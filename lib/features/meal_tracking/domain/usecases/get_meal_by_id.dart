@@ -3,7 +3,7 @@
 import '../entities/meal.dart';
 import '../repositories/meal_repository.dart';
 
-abstract class GetMealById {
+class GetMealById {
   final MealRepository repository;
 
   GetMealById(this.repository);
@@ -11,5 +11,7 @@ abstract class GetMealById {
   Future<Meal?> call({
     required String mealId,
     required String userId,
-  });
+  }){
+    return repository.getMealById(mealId: mealId, userId: userId);
+  }
 }

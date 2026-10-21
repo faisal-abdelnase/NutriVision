@@ -3,7 +3,7 @@
 import '../entities/meal.dart';
 import '../repositories/meal_repository.dart';
 
-abstract class GetMealsByDate {
+class GetMealsByDate {
   final MealRepository repository;
 
   GetMealsByDate(this.repository);
@@ -11,5 +11,7 @@ abstract class GetMealsByDate {
   Future<List<Meal>> call({
     required String userId,
     required DateTime date,
-  });
+  }){
+    return repository.getMealsByDate(userId: userId, date: date);
+  }
 }

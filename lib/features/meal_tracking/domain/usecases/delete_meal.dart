@@ -1,7 +1,7 @@
 
 import '../repositories/meal_repository.dart';
 
-abstract class DeleteMeal {
+class DeleteMeal {
   final MealRepository repository;
 
   DeleteMeal(this.repository);
@@ -9,5 +9,7 @@ abstract class DeleteMeal {
   Future<void> call({
     required String mealId,
     required String userId,
-  });
+  }){
+    return repository.deleteMeal(mealId: mealId, userId: userId);
+  }
 }
