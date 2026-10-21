@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app.dart';
 import 'core/di/dashboard_injection.dart';
+import 'core/di/meal_analysis_injection.dart';
 import 'core/di/meal_tracking_injection.dart';
 import 'core/di/nutrition_profile_injection.dart';
 import 'core/di/onboarding_injection.dart';
@@ -20,6 +21,7 @@ Future<void> main() async {
   registerProgressDependencies();
   registerRecipesDependencies();
   initMealTrackingDependencies();
+  initMealAnalysisInjection();
   await setupServiceLocator();
   await registerOnboardingDependencies();
   final preferences = await SharedPreferences.getInstance();

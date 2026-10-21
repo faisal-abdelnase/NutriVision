@@ -1,8 +1,7 @@
-
 import '../entities/meal_analysis_result.dart';
 import '../repositories/meal_analysis_repository.dart';
 
-abstract class GetMealAnalysisHistory {
+class GetMealAnalysisHistory {
   final MealAnalysisRepository repository;
 
   GetMealAnalysisHistory(this.repository);
@@ -11,5 +10,11 @@ abstract class GetMealAnalysisHistory {
     required String userId,
     required int page,
     required int pageSize,
-  });
+  }) {
+    return repository.getMealAnalysisHistory(
+      userId: userId,
+      page: page,
+      pageSize: pageSize,
+    );
+  }
 }

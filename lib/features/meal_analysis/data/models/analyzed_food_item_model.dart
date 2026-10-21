@@ -12,15 +12,38 @@ class AnalyzedFoodItemModel extends AnalyzedFoodItem {
     super.confidenceScore,
     super.foodDatabaseId,
   });
-}
 
-abstract class AnalyzedFoodItemModelMapper {
-  AnalyzedFoodItemModel fromJson(
+  factory AnalyzedFoodItemModel.fromJson(
     Map<String, dynamic> json,
-  );
+  ) {
+    return AnalyzedFoodItemModel(
+      name: json['name'] as String? ?? '',
+      estimatedQuantity:
+          (json['estimatedQuantity'] as num?)?.toDouble() ?? 0,
+      quantityUnit: json['quantityUnit'] as String? ?? 'g',
+      calories: (json['calories'] as num?)?.toDouble() ?? 0,
+      proteinGrams:
+          (json['proteinGrams'] as num?)?.toDouble() ?? 0,
+      carbohydrateGrams:
+          (json['carbohydrateGrams'] as num?)?.toDouble() ?? 0,
+      fatGrams: (json['fatGrams'] as num?)?.toDouble() ?? 0,
+      confidenceScore:
+          (json['confidenceScore'] as num?)?.toDouble(),
+      foodDatabaseId: json['foodDatabaseId'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson(
-    AnalyzedFoodItemModel model,
-  );
-
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'estimatedQuantity': estimatedQuantity,
+      'quantityUnit': quantityUnit,
+      'calories': calories,
+      'proteinGrams': proteinGrams,
+      'carbohydrateGrams': carbohydrateGrams,
+      'fatGrams': fatGrams,
+      'confidenceScore': confidenceScore,
+      'foodDatabaseId': foodDatabaseId,
+    };
+  }
 }
