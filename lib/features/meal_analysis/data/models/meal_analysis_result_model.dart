@@ -1,6 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-import '../../domain/entities/analyzed_food_item.dart';
 import '../../domain/entities/meal_analysis_result.dart';
 import 'analyzed_food_item_model.dart';
 

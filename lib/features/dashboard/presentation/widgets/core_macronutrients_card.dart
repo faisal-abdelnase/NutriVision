@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_colors.dart';
 
 class CoreMacronutrientsCard extends StatelessWidget {
   const CoreMacronutrientsCard({Key? key}) : super(key: key);

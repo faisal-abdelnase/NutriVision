@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../core/theme/app_colors.dart';
-import '../../meal_tracking/addmeal/screens/add_meal_screen.dart';
-import '../../meal_tracking/meal_details/screens/meal_details_screen.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../meal_tracking/presentation/addmeal/screens/add_meal_screen.dart';
+import '../../../meal_tracking/presentation/meal_details/screens/meal_details_screen.dart';
 
 
 class TodaysMealsCard extends StatelessWidget {

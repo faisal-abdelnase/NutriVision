@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_colors.dart';
 
-import '../../meal_tracking/addmeal/widgets/architecture_cards.dart';
-import '../../meal_tracking/addmeal/widgets/sidebar_widget.dart';
-import '../../meal_tracking/addmeal/widgets/top_header_bar.dart';
+import '../../../meal_tracking/presentation/addmeal/widgets/architecture_cards.dart';
+import '../../../meal_tracking/presentation/addmeal/widgets/sidebar_widget.dart';
+import '../../../meal_tracking/presentation/addmeal/widgets/top_header_bar.dart';
 import '../widgets/energy_balance_card.dart';
 import '../widgets/core_macronutrients_card.dart';
 import '../widgets/todays_meals_card.dart';
@@ -11,7 +11,7 @@ import '../widgets/ai_insight_and_chart_card.dart';
 import '../widgets/hydration_and_glucose_card.dart';
 
 class DashboardScreen extends StatelessWidget {
-  const DashboardScreen({Key? key}) : super(key: key);
+  const DashboardScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

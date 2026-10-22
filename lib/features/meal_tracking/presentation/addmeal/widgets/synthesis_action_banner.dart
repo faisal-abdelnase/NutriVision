@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../core/theme/app_colors.dart';
+import '../../../../../core/theme/app_colors.dart';
 
 class SynthesisActionBanner extends StatelessWidget {
   const SynthesisActionBanner({Key? key}) : super(key: key);

@@ -76,7 +76,7 @@ class MealAnalysisRepositoryImpl implements MealAnalysisRepository {
         return result;
       }
 
-      return localDataSource.getCachedMealAnalysis(
+      return await localDataSource.getCachedMealAnalysis(
         analysisId: analysisId,
       );
     } catch (_) {

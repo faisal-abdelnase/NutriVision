@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../core/theme/app_colors.dart';
-import '../../meal_tracking/addmeal/widgets/architecture_cards.dart';
-import '../../meal_tracking/addmeal/widgets/sidebar_widget.dart';
-import '../../meal_tracking/addmeal/widgets/top_header_bar.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../meal_tracking/presentation/addmeal/widgets/architecture_cards.dart';
+import '../../../meal_tracking/presentation/addmeal/widgets/sidebar_widget.dart';
+import '../../../meal_tracking/presentation/addmeal/widgets/top_header_bar.dart';
 import '../widgets/caloric_equilibrium_card.dart';
 import '../widgets/macronutrient_trajectories_card.dart';
 import '../widgets/micro_and_paddings_card.dart';

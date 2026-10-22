@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../core/theme/app_colors.dart';
+import '../../../../../core/theme/app_colors.dart';
 import '../widgets/sidebar_widget.dart';
 import '../widgets/top_header_bar.dart';
 import '../widgets/describe_meal_card.dart';
@@ -9,7 +9,7 @@ import '../widgets/synthesis_action_banner.dart';
 import '../widgets/architecture_cards.dart';
 
 class AddMealScreen extends StatelessWidget {
-  const AddMealScreen({Key? key}) : super(key: key);
+  const AddMealScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

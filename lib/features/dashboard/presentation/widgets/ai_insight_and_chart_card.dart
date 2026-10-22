@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_colors.dart';
 
 class AiInsightAndChartCard extends StatelessWidget {
   const AiInsightAndChartCard({Key? key}) : super(key: key);

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../dashboard/screens/dashboard_screen.dart';
-import '../../../progress/screens/progress_screen.dart';
+import '../../../../../core/theme/app_colors.dart';
+import '../../../../dashboard/presentation/screens/dashboard_screen.dart';
+import '../../../../progress/presentation/screens/progress_screen.dart';
 import '../screens/add_meal_screen.dart';
 
 

@@ -1,8 +1,7 @@
 
-
 import '../repositories/ai_coach_repository.dart';
 
-abstract class DeleteCoachConversation {
+class DeleteCoachConversation {
   final AiCoachRepository repository;
 
   DeleteCoachConversation(this.repository);
@@ -10,5 +9,10 @@ abstract class DeleteCoachConversation {
   Future<void> call({
     required String userId,
     required String conversationId,
-  });
+  }) {
+    return repository.deleteConversation(
+      userId: userId,
+      conversationId: conversationId,
+    );
+  }
 }

@@ -2,7 +2,7 @@
 import '../entities/coach_conversation.dart';
 import '../repositories/ai_coach_repository.dart';
 
-abstract class GetUserConversations {
+class GetUserConversations {
   final AiCoachRepository repository;
 
   GetUserConversations(this.repository);
@@ -12,5 +12,12 @@ abstract class GetUserConversations {
     required int page,
     required int pageSize,
     required bool includeArchived,
-  });
+  }) {
+    return repository.getUserConversations(
+      userId: userId,
+      page: page,
+      pageSize: pageSize,
+      includeArchived: includeArchived,
+    );
+  }
 }

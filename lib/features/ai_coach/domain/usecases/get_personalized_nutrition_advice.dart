@@ -1,9 +1,8 @@
 
-
 import '../entities/nutrition_advice.dart';
 import '../repositories/ai_coach_repository.dart';
 
-abstract class GetPersonalizedNutritionAdvice {
+class GetPersonalizedNutritionAdvice {
   final AiCoachRepository repository;
 
   GetPersonalizedNutritionAdvice(this.repository);
@@ -14,5 +13,13 @@ abstract class GetPersonalizedNutritionAdvice {
     required List<String> allergies,
     required List<String> referencedMealIds,
     required String? goal,
-  });
+  }) {
+    return repository.getPersonalizedNutritionAdvice(
+      userId: userId,
+      dietaryPreferences: dietaryPreferences,
+      allergies: allergies,
+      referencedMealIds: referencedMealIds,
+      goal: goal,
+    );
+  }
 }

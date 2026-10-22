@@ -32,6 +32,8 @@ dependencies:
   cupertino_icons: ^1.0.8
   dio: ^5.11.1
   equatable: ^3.0.0
+  firebase_ai: null
+  firebase_app_check: 
   firebase_auth: null
   firebase_core: ^4.15.0
   firebase_storage: null
@@ -41,6 +43,8 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   get_it: null
+  hive_ce: ^2.22.0
+  hive_ce_flutter: ^2.5.0
   shared_preferences: ^2.5.3
   uuid: ^4.6.0
 
