@@ -25,5 +25,10 @@
   "onboardingTitle3": "Build healthier habits",
   "onboardingBody3": "Get started with a personal nutrition companion.",
   "startupLoadError": "Could not load startup state.",
-  "authenticationNotImplemented": "Onboarding is complete. Authentication screens are not implemented yet."
+  "authenticationNotImplemented": "Onboarding is complete. Authentication screens are not implemented yet.",
+  "splashLanguage": "English",
+  "splashTagline": "Track · Analyze · Improve",
+  "splashDescription": "Understand what you eat with AI-powered nutrition insights.",
+  "splashLoading": "Preparing your data…",
+  "splashSecure": "Your health data is private and secure"
 }

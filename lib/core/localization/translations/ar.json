@@ -25,5 +25,10 @@
   "onboardingTitle3": "كوّن عادات صحية",
   "onboardingBody3": "ابدأ رحلتك مع مساعدك الغذائي الشخصي.",
   "startupLoadError": "تعذر تحميل حالة بدء التطبيق.",
-  "authenticationNotImplemented": "اكتمل التعريف بالتطبيق. لم يتم تنفيذ شاشات تسجيل الدخول بعد."
+  "authenticationNotImplemented": "اكتمل التعريف بالتطبيق. لم يتم تنفيذ شاشات تسجيل الدخول بعد.",
+  "splashLanguage": "العربية",
+  "splashTagline": "تتبّع · حلّل · تحسّن",
+  "splashDescription": "افهم اللي بتاكله بتحليلات تغذية مدعومة بالذكاء الاصطناعي.",
+  "splashLoading": "جاري تجهيز بياناتك…",
+  "splashSecure": "بياناتك الصحية خاصة وآمنة"
 }
