@@ -44,5 +44,19 @@
   "authNoAccount": "Don't have an account?",
   "authCreateAccount": "Create account",
   "authShowPassword": "Show password",
-  "authHidePassword": "Hide password"
+  "authHidePassword": "Hide password",
+  "authCreateAccountTitle": "Create your account",
+  "authSignUpSubtitle": "Join NutriVision and start understanding what you eat.",
+  "authFullName": "Full name",
+  "authFullNameHint": "Your name",
+  "authConfirmPassword": "Confirm password",
+  "authPasswordStrength": "Password strength",
+  "authRuleLength": "8+ characters",
+  "authRuleUppercase": "Uppercase letter",
+  "authRuleNumber": "Number",
+  "authRuleSymbol": "Symbol",
+  "authAcceptTerms": "I agree to the Terms of Service and Privacy Policy",
+  "authSignUp": "Create account",
+  "authHaveAccount": "Already have an account?",
+  "authSignInLink": "Sign in"
 }

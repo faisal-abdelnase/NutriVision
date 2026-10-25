@@ -44,5 +44,19 @@
   "authNoAccount": "ليس لديك حساب؟",
   "authCreateAccount": "إنشاء حساب جديد",
   "authShowPassword": "إظهار كلمة المرور",
-  "authHidePassword": "إخفاء كلمة المرور"
+  "authHidePassword": "إخفاء كلمة المرور",
+    "authCreateAccountTitle": "إنشاء حساب جديد",
+  "authSignUpSubtitle": "انضم إلى NutriVision وابدأ في فهم ما تتناوله.",
+  "authFullName": "الاسم الكامل",
+  "authFullNameHint": "اسمك",
+  "authConfirmPassword": "تأكيد كلمة المرور",
+  "authPasswordStrength": "قوة كلمة المرور",
+  "authRuleLength": "8 أحرف فأكثر",
+  "authRuleUppercase": "حرف كبير",
+  "authRuleNumber": "رقم",
+  "authRuleSymbol": "رمز",
+  "authAcceptTerms": "أوافق على شروط الخدمة وسياسة الخصوصية",
+  "authSignUp": "إنشاء الحساب",
+  "authHaveAccount": "لديك حساب بالفعل؟",
+  "authSignInLink": "تسجيل الدخول"
 }
