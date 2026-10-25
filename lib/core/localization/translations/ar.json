@@ -30,5 +30,19 @@
   "splashTagline": "تتبّع · حلّل · تحسّن",
   "splashDescription": "افهم اللي بتاكله بتحليلات تغذية مدعومة بالذكاء الاصطناعي.",
   "splashLoading": "جاري تجهيز بياناتك…",
-  "splashSecure": "بياناتك الصحية خاصة وآمنة"
+  "splashSecure": "بياناتك الصحية خاصة وآمنة",
+    "authWelcomeBack": "مرحباً بعودتك",
+  "authLoginSubtitle": "سجّل الدخول لمتابعة تتبّع تغذيتك.",
+  "authEmail": "البريد الإلكتروني",
+  "authEmailHint": "name@example.com",
+  "authPassword": "كلمة المرور",
+  "authRememberMe": "تذكرني",
+  "authForgotPassword": "نسيت كلمة المرور؟",
+  "authLogin": "تسجيل الدخول",
+  "authOrContinueWith": "أو المتابعة عبر",
+  "authContinueWithGoogle": "المتابعة باستخدام Google",
+  "authNoAccount": "ليس لديك حساب؟",
+  "authCreateAccount": "إنشاء حساب جديد",
+  "authShowPassword": "إظهار كلمة المرور",
+  "authHidePassword": "إخفاء كلمة المرور"
 }
