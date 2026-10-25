@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:nutrivision/core/extensions/context_extensions.dart';
-import 'package:nutrivision/core/responsive/breakpoints.dart';
-import 'package:nutrivision/core/responsive/responsive_text.dart';
-import 'package:nutrivision/core/theme/theme_dimensions.dart';
-import 'package:nutrivision/core/theme/theme_extensions.dart';
+import 'package:nutri_vision/core/extensions/context_extensions.dart';
+import 'package:nutri_vision/core/responsive/breakpoints.dart';
+import 'package:nutri_vision/core/responsive/responsive_text.dart';
+import 'package:nutri_vision/core/theme/theme_dimensions.dart';
+import 'package:nutri_vision/core/theme/theme_extensions.dart';
 
 /// Forgot Password UI only. Sending logic is wired later by the team.
 class ForgotPasswordScreen extends StatefulWidget {
