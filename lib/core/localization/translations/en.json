@@ -58,5 +58,11 @@
   "authAcceptTerms": "I agree to the Terms of Service and Privacy Policy",
   "authSignUp": "Create account",
   "authHaveAccount": "Already have an account?",
-  "authSignInLink": "Sign in"
+  "authSignInLink": "Sign in",
+    "authForgotTitle": "Forgot your password?",
+  "authForgotSubtitle": "Enter your email and we'll send you a link to reset your password.",
+  "authSendResetLink": "Send reset link",
+  "authBackToLogin": "Back to sign in",
+  "authResetSentTitle": "Check your email",
+  "authResetSentBody": "We sent a password reset link to your email. It may take a minute to arrive."
 }

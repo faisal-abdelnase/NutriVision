@@ -58,5 +58,11 @@
   "authAcceptTerms": "أوافق على شروط الخدمة وسياسة الخصوصية",
   "authSignUp": "إنشاء الحساب",
   "authHaveAccount": "لديك حساب بالفعل؟",
-  "authSignInLink": "تسجيل الدخول"
+  "authSignInLink": "تسجيل الدخول",
+    "authForgotTitle": "هل نسيت كلمة المرور؟",
+  "authForgotSubtitle": "أدخل بريدك الإلكتروني وسنرسل لك رابطاً لإعادة تعيين كلمة المرور.",
+  "authSendResetLink": "إرسال رابط الاستعادة",
+  "authBackToLogin": "العودة إلى تسجيل الدخول",
+  "authResetSentTitle": "تحقق من بريدك الإلكتروني",
+  "authResetSentBody": "أرسلنا رابط إعادة تعيين كلمة المرور إلى بريدك. قد يستغرق وصوله دقيقة."
 }
