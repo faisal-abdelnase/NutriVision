@@ -189,4 +189,42 @@ class ThemeColors {
   static const Color neutralDark = slate400;
   static const Color neutralContainerDark = slate800;
   static const Color onNeutralContainerDark = slate300;
+
+  // ── Stitch Clinical Intelligence Tokens (DESIGN.md) ────
+  static const Color stitchPrimary = Color(0xFF006C49);
+  static const Color stitchPrimaryContainer = Color(0xFF10B981);
+  static const Color stitchOnPrimaryContainer = Color(0xFF00422B);
+  static const Color stitchSecondary = Color(0xFF006398);
+  static const Color stitchSecondaryContainer = Color(0xFF5BB8FE);
+  static const Color stitchTertiary = Color(0xFF9D4300);
+  static const Color stitchTertiaryContainer = Color(0xFFFF7E2D);
+  static const Color stitchPrimaryFixed = Color(0xFF6FFBBE);
+  static const Color stitchOnPrimaryFixed = Color(0xFF002113);
+  static const Color stitchSecondaryFixed = Color(0xFFCCE5FF);
+  static const Color stitchOnSecondaryFixed = Color(0xFF001D31);
+  static const Color stitchOnSecondaryFixedVariant = Color(0xFF004B73);
+  static const Color stitchTertiaryFixed = Color(0xFFFFDBCA);
+  static const Color stitchTertiaryFixedDim = Color(0xFFFFB690);
+  static const Color stitchSurfaceContainerLowest = Color(0xFFFFFFFF);
+  static const Color stitchSurfaceContainerLow = Color(0xFFF2F3FF);
+  static const Color stitchSurfaceContainer = Color(0xFFEAEDFF);
+  static const Color stitchSurfaceContainerHigh = Color(0xFFE2E7FF);
+  static const Color stitchSurfaceContainerHighest = Color(0xFFDAE2FD);
+  static const Color stitchInverseSurface = Color(0xFF283044);
+  static const Color stitchInverseOnSurface = Color(0xFFEEF0FF);
+
+  // Stitch Dark Mode & Overlay Tones
+  static const Color stitchPrimaryDark = Color(0xFF34D399);
+  static const Color stitchSecondaryDark = Color(0xFF38BDF8);
+  static const Color stitchTertiaryDark = Color(0xFFFB923C);
+  static const Color stitchSwapCardBgDark = Color(0xFF0F1E36);
+  static const Color stitchDarkCardSurface = Color(0xFF1E293B);
+  static const Color stitchTrackDark = Color(0xFF334155);
+  static const Color stitchTextOnDarkMuted = Color(0xFF94A3B8);
+  static const Color stitchTextOnDarkSecondary = Color(0xFFBAE6FD);
+  static const Color stitchScrim = Color(0xB3131B2E);
+  static const Color stitchShadow = Color(0x33000000);
+  static const Color stitchShadowPrimary = Color(0x28006C49);
+  static const Color stitchAmberAlert = Color(0xFFFFDBCA);
 }
+

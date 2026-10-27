@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../../core/theme/app_colors.dart';
 
 class SmartSwapsCard extends StatelessWidget {
-  const SmartSwapsCard({Key? key}) : super(key: key);
+  const SmartSwapsCard({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -6,9 +6,7 @@ import '../models/onboarding_state_model.dart';
 class OnboardingRepositoryImpl implements OnboardingRepository {
   final OnboardingLocalDataSource localDataSource;
 
-  OnboardingRepositoryImpl({
-    required this.localDataSource,
-  });
+  OnboardingRepositoryImpl({required this.localDataSource});
 
   @override
   Future<OnboardingState> getOnboardingState() async {

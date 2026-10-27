@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  static const Color background = Color(0xF2F4F8);
+  static const Color background = Color(0xFFF2F4F8);
   static const Color sidebarBackground = Colors.white;
   static const Color primaryTeal = Color(0xFF00A86B);
   static const Color darkText = Color(0xFF1E293B);

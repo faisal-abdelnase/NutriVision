@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../../core/theme/app_colors.dart';
 
 class SearchDatabaseCard extends StatelessWidget {
-  const SearchDatabaseCard({Key? key}) : super(key: key);
+  const SearchDatabaseCard({super.key});
 
   @override
   Widget build(BuildContext context) {

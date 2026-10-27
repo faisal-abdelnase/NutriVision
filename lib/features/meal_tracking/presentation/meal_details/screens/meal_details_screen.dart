@@ -11,7 +11,7 @@ import '../widgets/smart_swaps_card.dart';
 
 
 class MealDetailsScreen extends StatelessWidget {
-  const MealDetailsScreen({Key? key}) : super(key: key);
+  const MealDetailsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -5,7 +5,7 @@ import '../../../meal_tracking/presentation/meal_details/screens/meal_details_sc
 
 
 class TodaysMealsCard extends StatelessWidget {
-  const TodaysMealsCard({Key? key}) : super(key: key);
+  const TodaysMealsCard({super.key});
 
   void _navigateToAddMeal(BuildContext context) {
     Navigator.of(context).pushReplacement(

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../../core/theme/app_colors.dart';
 
 class AiClinicalIntelligenceCard extends StatelessWidget {
-  const AiClinicalIntelligenceCard({Key? key}) : super(key: key);
+  const AiClinicalIntelligenceCard({super.key});
 
   @override
   Widget build(BuildContext context) {

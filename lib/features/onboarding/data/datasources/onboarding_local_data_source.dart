@@ -5,49 +5,34 @@ import '../models/onboarding_state_model.dart';
 abstract class OnboardingLocalDataSource {
   Future<OnboardingStateModel> readOnboardingState();
 
-  Future<void> saveOnboardingState(
-    OnboardingStateModel state,
-  );
+  Future<void> saveOnboardingState(OnboardingStateModel state);
 }
 
-class OnboardingLocalDataSourceImpl
-    implements OnboardingLocalDataSource {
+class OnboardingLocalDataSourceImpl implements OnboardingLocalDataSource {
   final SharedPreferences sharedPreferences;
 
-  OnboardingLocalDataSourceImpl({
-    required this.sharedPreferences,
-  });
+  OnboardingLocalDataSourceImpl({required this.sharedPreferences});
 
   static const String _onboardingStateKey = 'onboarding_state';
 
   @override
   Future<OnboardingStateModel> readOnboardingState() async {
-    final jsonString = sharedPreferences.getString(
-      _onboardingStateKey,
-    );
+    final jsonString = sharedPreferences.getString(_onboardingStateKey);
 
     if (jsonString == null) {
-      return const OnboardingStateModel(
-        isCompleted: false,
-      );
+      return const OnboardingStateModel(isCompleted: false);
     }
 
     try {
-      // Parsing is handled below using dart:convert.
       final json = jsonDecode(jsonString) as Map<String, dynamic>;
       return OnboardingStateModel.fromJson(json);
     } catch (_) {
-      // Recover safely if stored data is invalid.
-      return const OnboardingStateModel(
-        isCompleted: false,
-      );
+      return const OnboardingStateModel(isCompleted: false);
     }
   }
 
   @override
-  Future<void> saveOnboardingState(
-    OnboardingStateModel state,
-  ) async {
+  Future<void> saveOnboardingState(OnboardingStateModel state) async {
     final jsonString = jsonEncode(state.toJson());
 
     final saved = await sharedPreferences.setString(

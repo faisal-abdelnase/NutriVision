@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../../core/theme/app_colors.dart';
 
 class VisionAiCard extends StatelessWidget {
-  const VisionAiCard({Key? key}) : super(key: key);
+  const VisionAiCard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +67,7 @@ class VisionAiCard extends StatelessWidget {
                   left: 8,
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                    color: Colors.black.withOpacity(0.6),
+                    color: Colors.black.withValues(alpha: 0.6),
                     child: const Text('FOV: 68° • ISO 200', style: TextStyle(color: Colors.white, fontSize: 8)),
                   ),
                 ),
@@ -87,7 +87,7 @@ class VisionAiCard extends StatelessWidget {
                   left: 20,
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-                    decoration: BoxDecoration(color: Colors.black.withOpacity(0.7), borderRadius: BorderRadius.circular(4)),
+                    decoration: BoxDecoration(color: Colors.black.withValues(alpha: 0.7), borderRadius: BorderRadius.circular(4)),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: const [
@@ -104,7 +104,7 @@ class VisionAiCard extends StatelessWidget {
                   left: 12,
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                    color: Colors.black.withOpacity(0.7),
+                    color: Colors.black.withValues(alpha: 0.7),
                     child: const Text('Steamed Asparagus (~90g)    Depth: 14.2cm', style: TextStyle(color: Colors.white, fontSize: 8)),
                   ),
                 ),

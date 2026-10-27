@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../../core/theme/app_colors.dart';
 
 class MacronutrientArchitectureCard extends StatelessWidget {
-  const MacronutrientArchitectureCard({Key? key}) : super(key: key);
+  const MacronutrientArchitectureCard({super.key});
 
   @override
   Widget build(BuildContext context) {

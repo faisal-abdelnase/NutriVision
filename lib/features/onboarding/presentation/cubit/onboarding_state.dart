@@ -1,14 +1,8 @@
+import 'package:equatable/equatable.dart';
 
+enum OnboardingStatus { initial, loading, completed, notCompleted, error }
 
-enum OnboardingStatus {
-  initial,
-  loading,
-  completed,
-  notCompleted,
-  error,
-}
-
-class OnboardingCubitState {
+class OnboardingCubitState extends Equatable {
   final OnboardingStatus status;
   final String? errorMessage;
 
@@ -22,4 +16,7 @@ class OnboardingCubitState {
   bool get isCompleted => status == OnboardingStatus.completed;
 
   bool get hasError => status == OnboardingStatus.error;
+
+  @override
+  List<Object?> get props => [status, errorMessage];
 }

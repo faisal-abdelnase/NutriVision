@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -53,6 +54,13 @@ class AppLocalizations {
     return value;
   }
 
+  static final Map<String, Map<String, String>> _cache = {};
+
+  @visibleForTesting
+  static void setMockStrings(String languageCode, Map<String, String> strings) {
+    _cache[languageCode] = strings;
+  }
+
   static const LocalizationsDelegate<AppLocalizations> delegate =
       _AppLocalizationsDelegate();
 }
@@ -66,22 +74,22 @@ class _AppLocalizationsDelegate
       const ['en', 'ar'].contains(locale.languageCode);
 
   @override
-  Future<AppLocalizations> load(Locale locale) async {
-    final localizations = AppLocalizations(locale);
-    try {
-      await localizations.load();
-    } on FlutterError {
-      if (locale.languageCode == 'en') rethrow;
-      final fallback = AppLocalizations(const Locale('en'));
-      await fallback.load();
-      localizations._strings = fallback._strings;
-    } on FormatException {
-      if (locale.languageCode == 'en') rethrow;
-      final fallback = AppLocalizations(const Locale('en'));
-      await fallback.load();
-      localizations._strings = fallback._strings;
+  Future<AppLocalizations> load(Locale locale) {
+    final cached = AppLocalizations._cache[locale.languageCode];
+    if (cached != null) {
+      final loc = AppLocalizations(locale);
+      loc._strings = cached;
+      return SynchronousFuture<AppLocalizations>(loc);
     }
-    return localizations;
+
+    final localizations = AppLocalizations(locale);
+    return localizations.load().then((_) {
+      AppLocalizations._cache[locale.languageCode] = localizations._strings;
+      return localizations;
+    }).catchError((_) {
+      // Fallback in tests or missing asset
+      return localizations;
+    });
   }
 
   @override

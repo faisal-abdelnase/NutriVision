@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../features/ai_coach/presentation/pages/ai_coach_test_screen.dart';
-import '../../features/dashboard/presentation/screens/dashboard_screen.dart';
+import '../../features/authentication/presentation/pages/auth_placeholder_page.dart';
+import '../../features/onboarding/presentation/pages/onboarding_page.dart';
+import '../../features/onboarding/presentation/pages/splash_screen.dart';
 import 'route_names.dart';
 
 
@@ -13,17 +14,35 @@ class AppRouter {
       case RouteNames.splash:
         return MaterialPageRoute<void>(
           settings: settings,
-          builder: (_) => AiCoachTestScreen(),
+          builder: (_) => const SplashScreen(),
         );
+
       case RouteNames.onboarding:
-        // return MaterialPageRoute<void>(
-        //   settings: settings,
-        //   builder: (_) => OnboardingPage(repository: onboardingRepository),
-        // );
+        return PageRouteBuilder<void>(
+          settings: settings,
+          transitionDuration: const Duration(milliseconds: 500),
+          reverseTransitionDuration: const Duration(milliseconds: 350),
+          pageBuilder: (_, _, _) => const OnboardingPage(),
+          transitionsBuilder: (_, animation, _, child) {
+            final fade = CurvedAnimation(
+              parent: animation,
+              curve: Curves.easeOut,
+            );
+            final slide = Tween<Offset>(
+              begin: const Offset(0.04, 0),
+              end: Offset.zero,
+            ).animate(fade);
+            return SlideTransition(
+              position: slide,
+              child: FadeTransition(opacity: fade, child: child),
+            );
+          },
+        );
+
       case RouteNames.authentication:
         return MaterialPageRoute<void>(
           settings: settings,
-          builder: (_) => const Placeholder(),
+          builder: (_) => const AuthPlaceholderPage(),
         );
 
       default:
