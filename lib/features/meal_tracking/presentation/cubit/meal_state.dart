@@ -43,8 +43,9 @@ class MealsByDateLoaded extends MealState {
 
 class MealOperationSuccess extends MealState {
   final String message;
+  final Meal? meal;
 
-  const MealOperationSuccess(this.message);
+  const MealOperationSuccess(this.message, {this.meal});
 }
 
 class MealError extends MealState {

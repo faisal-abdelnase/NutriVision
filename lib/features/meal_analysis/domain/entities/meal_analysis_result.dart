@@ -40,4 +40,24 @@ class MealAnalysisResult {
     required this.analyzedAt,
     this.linkedMealId,
   });
+
+  MealAnalysisResult copyWith({String? linkedMealId}) {
+    return MealAnalysisResult(
+      id: id,
+      userId: userId,
+      sourceDescription: sourceDescription,
+      sourceImageUrl: sourceImageUrl,
+      foodItems: foodItems,
+      totalCalories: totalCalories,
+      totalProteinGrams: totalProteinGrams,
+      totalCarbohydrateGrams: totalCarbohydrateGrams,
+      totalFatGrams: totalFatGrams,
+      analysisSummary: analysisSummary,
+      nutritionInsights: nutritionInsights,
+      warnings: warnings,
+      confidenceScore: confidenceScore,
+      analyzedAt: analyzedAt,
+      linkedMealId: linkedMealId ?? this.linkedMealId,
+    );
+  }
 }

@@ -33,8 +33,13 @@ class MealCubit extends Cubit<MealState> {
     emit(const MealLoading());
 
     try {
-      await addMealUseCase(meal: meal);
-      emit(const MealOperationSuccess('Meal added successfully.'));
+      final savedMeal = await addMealUseCase(meal: meal);
+      emit(
+        MealOperationSuccess(
+          'Meal added successfully.',
+          meal: savedMeal,
+        ),
+      );
     } catch (error) {
       emit(MealError(_errorMessage(error)));
     }

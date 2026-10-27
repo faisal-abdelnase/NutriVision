@@ -101,13 +101,18 @@ class MealAnalysisCubit extends Cubit<MealAnalysisState> {
   Future<void> saveResult({
     required MealAnalysisResult result,
   }) async {
-    emit(const MealAnalysisSaveLoading());
+    emit(MealAnalysisSaveLoading(result));
 
     try {
       final saved = await saveMealAnalysis(result: result);
       emit(MealAnalysisSaveSuccess(saved));
     } catch (error) {
-      emit(MealAnalysisSaveFailure(_errorMessage(error)));
+      emit(
+        MealAnalysisSaveFailure(
+          _errorMessage(error),
+          result: result,
+        ),
+      );
     }
   }
 }

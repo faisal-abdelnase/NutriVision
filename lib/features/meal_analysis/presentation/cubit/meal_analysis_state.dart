@@ -57,7 +57,9 @@ class MealAnalysisHistoryFailure extends MealAnalysisState {
 }
 
 class MealAnalysisSaveLoading extends MealAnalysisState {
-  const MealAnalysisSaveLoading();
+  final MealAnalysisResult result;
+
+  const MealAnalysisSaveLoading(this.result);
 }
 
 class MealAnalysisSaveSuccess extends MealAnalysisState {
@@ -68,6 +70,7 @@ class MealAnalysisSaveSuccess extends MealAnalysisState {
 
 class MealAnalysisSaveFailure extends MealAnalysisState {
   final String message;
+  final MealAnalysisResult result;
 
-  const MealAnalysisSaveFailure(this.message);
+  const MealAnalysisSaveFailure(this.message, {required this.result});
 }
