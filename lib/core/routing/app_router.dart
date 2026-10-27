@@ -1,9 +1,15 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import '../../features/meal_analysis/domain/entities/analyzed_food_item.dart';
 import '../../features/meal_analysis/domain/entities/meal_analysis_result.dart';
 import '../../features/authentication/presentation/screens/login_screen.dart';
 import '../../features/meal_analysis/presentation/pages/meal_analysis_page.dart';
+=======
+import '../../features/authentication/presentation/pages/auth_placeholder_page.dart';
+import '../../features/onboarding/presentation/pages/onboarding_page.dart';
+import '../../features/onboarding/presentation/pages/splash_screen.dart';
+>>>>>>> 221dac99ad6eb8630614390a1cac750a9add04cb
 import 'route_names.dart';
 
 class AppRouter {
@@ -15,17 +21,46 @@ class AppRouter {
       case RouteNames.splash:
         return MaterialPageRoute<void>(
           settings: settings,
+<<<<<<< HEAD
           builder: (_) => LoginScreen(),
+=======
+          builder: (_) => const SplashScreen(),
+>>>>>>> 221dac99ad6eb8630614390a1cac750a9add04cb
         );
+
       case RouteNames.onboarding:
+<<<<<<< HEAD
       // return MaterialPageRoute<void>(
       //   settings: settings,
       //   builder: (_) => OnboardingPage(repository: onboardingRepository),
       // );
+=======
+        return PageRouteBuilder<void>(
+          settings: settings,
+          transitionDuration: const Duration(milliseconds: 500),
+          reverseTransitionDuration: const Duration(milliseconds: 350),
+          pageBuilder: (_, _, _) => const OnboardingPage(),
+          transitionsBuilder: (_, animation, _, child) {
+            final fade = CurvedAnimation(
+              parent: animation,
+              curve: Curves.easeOut,
+            );
+            final slide = Tween<Offset>(
+              begin: const Offset(0.04, 0),
+              end: Offset.zero,
+            ).animate(fade);
+            return SlideTransition(
+              position: slide,
+              child: FadeTransition(opacity: fade, child: child),
+            );
+          },
+        );
+
+>>>>>>> 221dac99ad6eb8630614390a1cac750a9add04cb
       case RouteNames.authentication:
         return MaterialPageRoute<void>(
           settings: settings,
-          builder: (_) => const Placeholder(),
+          builder: (_) => const AuthPlaceholderPage(),
         );
       case RouteNames.root:
         final arguments = settings.arguments;

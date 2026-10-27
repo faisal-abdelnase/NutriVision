@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 
 class CaloricEquilibriumCard extends StatelessWidget {
-  const CaloricEquilibriumCard({Key? key}) : super(key: key);
+  const CaloricEquilibriumCard({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 
 class ProgressSummaryCards extends StatelessWidget {
-  const ProgressSummaryCards({Key? key}) : super(key: key);
+  const ProgressSummaryCards({super.key});
 
   @override
   Widget build(BuildContext context) {

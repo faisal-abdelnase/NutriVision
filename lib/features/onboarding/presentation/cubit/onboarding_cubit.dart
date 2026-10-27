@@ -1,11 +1,9 @@
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../domain/usecases/complete_onboarding.dart';
 import '../../domain/usecases/has_completed_onboarding.dart';
 
 import 'onboarding_state.dart';
-
 
 class OnboardingCubit extends Cubit<OnboardingCubitState> {
   final HasCompletedOnboarding hasCompletedOnboarding;
@@ -16,13 +14,8 @@ class OnboardingCubit extends Cubit<OnboardingCubitState> {
     required this.completeOnboarding,
   }) : super(const OnboardingCubitState());
 
-  /// Reads the locally saved onboarding status.
   Future<void> checkOnboardingStatus() async {
-    emit(
-      const OnboardingCubitState(
-        status: OnboardingStatus.loading,
-      ),
-    );
+    emit(const OnboardingCubitState(status: OnboardingStatus.loading));
 
     try {
       final onboardingState = await hasCompletedOnboarding();
@@ -44,22 +37,13 @@ class OnboardingCubit extends Cubit<OnboardingCubitState> {
     }
   }
 
-  /// Saves onboarding completion locally.
   Future<void> complete() async {
-    emit(
-      const OnboardingCubitState(
-        status: OnboardingStatus.loading,
-      ),
-    );
+    emit(const OnboardingCubitState(status: OnboardingStatus.loading));
 
     try {
       await completeOnboarding();
 
-      emit(
-        const OnboardingCubitState(
-          status: OnboardingStatus.completed,
-        ),
-      );
+      emit(const OnboardingCubitState(status: OnboardingStatus.completed));
     } catch (error) {
       emit(
         OnboardingCubitState(

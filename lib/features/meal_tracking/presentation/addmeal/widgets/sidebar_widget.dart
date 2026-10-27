@@ -6,7 +6,7 @@ import '../screens/add_meal_screen.dart';
 
 
 class SidebarWidget extends StatelessWidget {
-  const SidebarWidget({Key? key}) : super(key: key);
+  const SidebarWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class SidebarWidget extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: AppColors.primaryTeal.withOpacity(0.1),
+                      color: AppColors.primaryTeal.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: const Icon(Icons.blur_on, color: AppColors.primaryTeal, size: 24),

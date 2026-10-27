@@ -31,8 +31,7 @@ class _AiCoachViewState extends State<_AiCoachView> {
   final _messageController = TextEditingController();
   final _scrollController = ScrollController();
 
-  // String? get _userId => FirebaseAuth.instance.currentUser?.uid;
-  final _userId = "nPnM6XrOTMfNSruWuB3kqZeBdfz1";
+  String? get _userId => FirebaseAuth.instance.currentUser?.uid;
 
   @override
   void initState() {
@@ -193,7 +192,6 @@ class _AiCoachViewState extends State<_AiCoachView> {
   Widget build(BuildContext context) {
     final userId = _userId;
     final theme = Theme.of(context);
-    final colors = theme.colorScheme;
 
     if (userId == null) {
       return Scaffold(

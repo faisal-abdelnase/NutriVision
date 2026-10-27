@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 
 class CoreMacronutrientsCard extends StatelessWidget {
-  const CoreMacronutrientsCard({Key? key}) : super(key: key);
+  const CoreMacronutrientsCard({super.key});
 
   @override
   Widget build(BuildContext context) {

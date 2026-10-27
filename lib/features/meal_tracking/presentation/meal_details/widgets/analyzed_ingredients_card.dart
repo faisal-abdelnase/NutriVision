@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../../core/theme/app_colors.dart';
 
 class AnalyzedIngredientsCard extends StatelessWidget {
-  const AnalyzedIngredientsCard({Key? key}) : super(key: key);
+  const AnalyzedIngredientsCard({super.key});
 
   @override
   Widget build(BuildContext context) {

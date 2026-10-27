@@ -21,4 +21,8 @@ class AssetPaths {
   static const String illustrations = 'assets/illustrations';
   static const String fonts = 'assets/fonts';
   static const String lang = 'assets/lang';
+
+  // ── Onboarding images ─────────────────────────────────
+  static const String onboardingSalmonBowl = '$images/onboarding/salmon_bowl.jpg';
+  static const String onboardingSourdoughToast = '$images/onboarding/sourdough_toast.jpg';
 }

@@ -48,12 +48,12 @@ Future<void> main() async {
     }
   } else {
     await FirebaseAppCheck.instance.activate(
-      androidProvider: kDebugMode
-          ? AndroidProvider.debug
-          : AndroidProvider.playIntegrity,
-      appleProvider: kDebugMode
-          ? AppleProvider.debug
-          : AppleProvider.deviceCheck,
+      providerAndroid: kDebugMode
+          ? AndroidDebugProvider()
+          : AndroidPlayIntegrityProvider(),
+      providerApple: kDebugMode
+          ? AppleDebugProvider()
+          : AppleDeviceCheckProvider(),
     );
   }
 

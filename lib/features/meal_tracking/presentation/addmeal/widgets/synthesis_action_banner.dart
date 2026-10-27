@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../../core/theme/app_colors.dart';
 
 class SynthesisActionBanner extends StatelessWidget {
-  const SynthesisActionBanner({Key? key}) : super(key: key);
+  const SynthesisActionBanner({super.key});
 
   @override
   Widget build(BuildContext context) {

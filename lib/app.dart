@@ -49,10 +49,18 @@ class NutriVision extends StatelessWidget {
         ..checkOnboardingStatus(),
     ), 
 
+    // ProfileCubit is only created when a user is already authenticated.
+    // During onboarding there is no signed-in user, so we guard the UID
+    // lookup behind a null check and defer initialisation to the auth flow.
     BlocProvider(
-      create: (_) => sl<ProfileCubit>()
-        ..loadProfile(FirebaseAuth.instance.currentUser!.uid),
-      
+      create: (_) {
+        final uid = FirebaseAuth.instance.currentUser?.uid;
+        final cubit = sl<ProfileCubit>();
+        if (uid != null) {
+          cubit.loadProfile(uid);
+        }
+        return cubit;
+      },
     ),
 
     BlocProvider<MealAnalysisCubit>(

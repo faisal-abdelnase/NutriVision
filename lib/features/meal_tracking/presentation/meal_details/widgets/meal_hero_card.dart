@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../../core/theme/app_colors.dart';
 
 class MealHeroCard extends StatelessWidget {
-  const MealHeroCard({Key? key}) : super(key: key);
+  const MealHeroCard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +54,7 @@ class MealHeroCard extends StatelessWidget {
                     gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      colors: [Colors.transparent, Colors.black.withOpacity(0.8)],
+                      colors: [Colors.transparent, Colors.black.withValues(alpha: 0.8)],
                     ),
                   ),
                 ),

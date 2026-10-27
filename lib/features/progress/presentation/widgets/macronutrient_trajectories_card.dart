@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 
 class MacronutrientTrajectoriesCard extends StatelessWidget {
-  const MacronutrientTrajectoriesCard({Key? key}) : super(key: key);
+  const MacronutrientTrajectoriesCard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +53,7 @@ class MacronutrientTrajectoriesCard extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           // Wave Line Placeholder
-          Container(height: 20, color: clr.withOpacity(0.1)),
+          Container(height: 20, color: clr.withValues(alpha: 0.1)),
           const SizedBox(height: 8),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

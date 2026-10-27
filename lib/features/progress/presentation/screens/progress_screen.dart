@@ -9,7 +9,7 @@ import '../widgets/micro_and_paddings_card.dart';
 import '../widgets/progress_summary_cards.dart';
 
 class ProgressScreen extends StatelessWidget {
-  const ProgressScreen({Key? key}) : super(key: key);
+  const ProgressScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
