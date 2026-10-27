@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../localization/app_localizations.dart';
+import '../responsive/breakpoints.dart';
 
 extension ContextExtensions on BuildContext {
   // ── MediaQuery shortcuts ─────────────────────────────
@@ -22,4 +23,9 @@ extension ContextExtensions on BuildContext {
   String tr(String key, [Map<String, String>? params]) {
     return AppLocalizations.of(this).translate(key, params: params);
   }
+}
+
+extension BreakpointContext on BuildContext {
+  AppBreakpoint get breakpoint =>
+      Breakpoints.of(MediaQuery.sizeOf(this).width);
 }
