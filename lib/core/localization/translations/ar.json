@@ -145,7 +145,6 @@
   "authBackToLogin": "العودة إلى تسجيل الدخول",
   "authResetSentTitle": "تحقق من بريدك الإلكتروني",
   "authResetSentBody": "أرسلنا رابط إعادة تعيين كلمة المرور إلى بريدك. قد يستغرق وصوله دقيقة.",
-<<<<<<< HEAD
   "mealAnalysisTitle": "تحليل الوجبة",
   "mealAnalysisSubtitle": "راجع الأطعمة والقيم الغذائية التي أرجعها تحليل وجبتك.",
   "mealAnalysisLogBadge": "تحليل {id}",
@@ -198,8 +197,3 @@
   "unitG": "جم",
   "unitKcal": "سعرة"
 }
-=======
-  "appName": "NutriVision",
-  "clinicalIntelligence": "الذكاء السريري"
-}
->>>>>>> 221dac99ad6eb8630614390a1cac750a9add04cb

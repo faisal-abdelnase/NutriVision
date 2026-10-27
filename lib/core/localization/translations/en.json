@@ -145,7 +145,7 @@
   "authBackToLogin": "Back to sign in",
   "authResetSentTitle": "Check your email",
   "authResetSentBody": "We sent a password reset link to your email. It may take a minute to arrive.",
-<<<<<<< HEAD
+
   "mealAnalysisTitle": "Meal analysis",
   "mealAnalysisSubtitle": "Review the foods and nutrition returned by your meal analysis.",
   "mealAnalysisLogBadge": "Analysis {id}",
@@ -198,8 +198,7 @@
   "unitG": "g",
   "unitKcal": "kcal"
 }
-=======
-  "appName": "NutriVision",
-  "clinicalIntelligence": "Clinical Intelligence"
-}
->>>>>>> 221dac99ad6eb8630614390a1cac750a9add04cb
+
+
+
+
