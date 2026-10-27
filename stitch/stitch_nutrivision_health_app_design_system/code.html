@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+
+<html dir="ltr" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"primary-container":"#10b981","on-secondary-fixed":"#001d31","surface-container":"#eaedff","secondary-fixed-dim":"#93ccff","background":"#faf8ff","primary-fixed-dim":"#4edea3","on-primary":"#ffffff","on-secondary-fixed-variant":"#004b73","on-surface":"#131b2e","secondary-fixed":"#cce5ff","on-primary-fixed":"#002113","primary":"#006c49","on-background":"#131b2e","inverse-primary":"#4edea3","on-error":"#ffffff","surface-bright":"#faf8ff","secondary":"#006398","inverse-surface":"#283044","surface-container-high":"#e2e7ff","on-primary-container":"#00422b","tertiary":"#9d4300","outline":"#6c7a71","primary-fixed":"#6ffbbe","surface-container-highest":"#dae2fd","surface-container-lowest":"#ffffff","inverse-on-surface":"#eef0ff","on-error-container":"#93000a","outline-variant":"#bbcabf","tertiary-container":"#ff7e2d","tertiary-fixed":"#ffdbca","error":"#ba1a1a","on-tertiary-fixed":"#341100","on-primary-fixed-variant":"#005236","surface-tint":"#006c49","tertiary-fixed-dim":"#ffb690","on-tertiary":"#ffffff","surface":"#faf8ff","surface-variant":"#dae2fd","on-tertiary-fixed-variant":"#783200","on-secondary":"#ffffff","secondary-container":"#5bb8fe","error-container":"#ffdad6","on-tertiary-container":"#622700","surface-dim":"#d2d9f4","on-secondary-container":"#00476e","on-surface-variant":"#3c4a42","surface-container-low":"#f2f3ff"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"gutter-tablet":"1.5rem","space-sm":"0.5rem","space-xl":"2rem","space-lg":"1.5rem","space-md":"1rem","margin":"1rem","margin-desktop":"3rem","gutter":"1rem","gutter-desktop":"2rem","space-xs":"0.25rem","margin-tablet":"2rem"},"fontFamily":{"body-sm":["Inter"],"body-md":["Inter"],"body-lg":["Inter"],"headline-md":["Plus Jakarta Sans"],"label-md":["Inter"],"label-lg":["Inter"],"label-sm":["Inter"],"metric-num":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"],"display-mobile":["Plus Jakarta Sans"],"headline-lg-mobile":["Plus Jakarta Sans"],"display":["Plus Jakarta Sans"],"headline-sm":["Plus Jakarta Sans"]},"fontSize":{"body-sm":["12px",{"lineHeight":"16px","letterSpacing":"0.01em","fontWeight":"400"}],"body-md":["14px",{"lineHeight":"20px","letterSpacing":"0","fontWeight":"400"}],"body-lg":["16px",{"lineHeight":"24px","letterSpacing":"0","fontWeight":"400"}],"headline-md":["22px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"600"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.02em","fontWeight":"600"}],"label-lg":["14px",{"lineHeight":"20px","letterSpacing":"0.01em","fontWeight":"600"}],"label-sm":["11px",{"lineHeight":"14px","letterSpacing":"0.04em","fontWeight":"600"}],"metric-num":["26px",{"lineHeight":"30px","letterSpacing":"-0.02em","fontWeight":"700"}],"headline-lg":["30px",{"lineHeight":"38px","letterSpacing":"-0.015em","fontWeight":"700"}],"display-mobile":["32px",{"lineHeight":"40px","letterSpacing":"-0.015em","fontWeight":"700"}],"headline-lg-mobile":["24px",{"lineHeight":"32px","letterSpacing":"-0.01em","fontWeight":"700"}],"display":["40px",{"lineHeight":"48px","letterSpacing":"-0.02em","fontWeight":"700"}],"headline-sm":["18px",{"lineHeight":"24px","letterSpacing":"0","fontWeight":"600"}]}}}}</script></head><body class="bg-surface font-body-md text-on-surface antialiased min-h-screen flex flex-col justify-between"><header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between"><div class="flex items-center gap-3"><div class="w-9 h-9 rounded-xl bg-primary flex items-center justify-center shadow-sm"><span class="material-symbols-outlined text-on-primary text-[20px]">vital_signs</span></div><span class="font-headline-sm text-headline-sm text-on-surface font-bold tracking-tight">NutriVision</span></div><nav class="hidden md:flex items-center gap-6" data-active-classes="text-primary font-bold"><a aria-current="page" class="transition-colors text-primary font-bold" data-path="welcome" href="#">Overview</a><a class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors" data-path="dietary-profile" href="#">Dietary Plan</a><a class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors" data-path="health-metrics" href="#">Telemetry Goals</a><a class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors" data-path="preferences" href="#">Preferences</a></nav><div class="flex items-center gap-3"><div class="flex items-center bg-surface-container-low rounded-full p-1 border border-outline-variant/30"><button class="px-2.5 py-1 rounded-full font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all flex items-center gap-1" onclick="document.documentElement.setAttribute('dir', document.documentElement.getAttribute('dir') === 'rtl' ? 'ltr' : 'rtl')" type="button"><span class="material-symbols-outlined text-[14px]">translate</span><span class="font-bold">EN / AR</span></button><button aria-label="Toggle Theme" class="w-7 h-7 rounded-full flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" onclick="document.documentElement.classList.toggle('dark')" type="button"><span class="material-symbols-outlined text-[16px]">dark_mode</span></button></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shadow-sm"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-16 bg-surface flex-1 flex flex-col justify-center"><div class="flex flex-col w-full">
+<div class="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-6 lg:py-10">
+<!-- Top Onboarding Navigation Toolbar -->
+<div class="flex items-center justify-between w-full mb-6 lg:mb-10">
+<!-- Clinical Badge & Mode Indicator -->
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm">
+<span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+<span data-i18n="badge_clinical">Clinical Telemetry v2.4</span>
+</span>
+<span class="hidden sm:inline-flex items-center px-2.5 py-0.5 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm font-semibold">
+<span data-i18n="onboarding_flow">Onboarding Sequence</span>
+</span>
+</div>
+<!-- Action Group: Direct Step Selector + Skip -->
+<div class="flex items-center gap-3">
+<!-- Direct Quick Switcher (For UX evaluation & Flutter ref testing) -->
+<div class="flex items-center bg-surface-container-low p-1 rounded-full shadow-sm">
+<button class="px-3 py-1 rounded-full font-label-sm text-label-sm transition-all bg-primary text-on-primary font-bold shadow-sm" id="pill-nav-0" onclick="goToStep(0)" type="button">
+            1
+          </button>
+<button class="px-3 py-1 rounded-full font-label-sm text-label-sm transition-all text-on-surface-variant hover:text-on-surface" id="pill-nav-1" onclick="goToStep(1)" type="button">
+            2
+          </button>
+<button class="px-3 py-1 rounded-full font-label-sm text-label-sm transition-all text-on-surface-variant hover:text-on-surface" id="pill-nav-2" onclick="goToStep(2)" type="button">
+            3
+          </button>
+</div>
+<button class="px-3.5 py-1.5 rounded-full font-label-lg text-label-lg text-on-surface-variant hover:text-primary transition-colors flex items-center gap-1 focus:outline-none" onclick="skipTour()" type="button">
+<span data-i18n="btn_skip">Skip</span>
+<span class="material-symbols-outlined text-[16px] rtl:rotate-180">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Main Dynamic Multi-Step Shell -->
+<div class="relative w-full rounded-3xl bg-surface-container-lowest p-6 sm:p-8 lg:p-12 shadow-xl shadow-surface-container-high/40 overflow-hidden">
+<!-- Ambient Glow Accents -->
+<div class="absolute -top-24 -right-24 w-80 h-80 rounded-full bg-primary-container/10 blur-3xl pointer-events-none"></div>
+<div class="absolute -bottom-24 -left-24 w-80 h-80 rounded-full bg-secondary-container/15 blur-3xl pointer-events-none"></div>
+<!-- Step Carousel Containers (Split Grid on lg, stacked on mobile) -->
+<div class="relative z-10 w-full">
+<!-- ============================================== -->
+<!-- STEP 1: Understand What You Eat                 -->
+<!-- ============================================== -->
+<div class="onboarding-step flex flex-col lg:grid lg:grid-cols-12 gap-8 lg:gap-14 items-center" id="step-panel-0">
+<!-- Text Content Column -->
+<div class="w-full lg:col-span-6 flex flex-col justify-center order-2 lg:order-1">
+<div class="inline-flex items-center gap-2 mb-3">
+<span class="px-3 py-1 rounded-full bg-primary-container/15 text-primary font-label-sm text-label-sm font-bold uppercase tracking-wider">
+<span data-i18n="step_1_tag">Step 1 of 3 • Bio-Telemetry</span>
+</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">4K Food Sensor AI</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg lg:font-display lg:text-display text-on-surface tracking-tight leading-tight mb-4">
+<span data-i18n="step_1_title">Understand What You Eat</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-6 leading-relaxed max-w-xl">
+<span data-i18n="step_1_desc">Track your meals and understand their nutritional value. Real-time scanning visualizes caloric density, macro splits, and vital bio-availability in under 800 milliseconds.</span>
+</p>
+<!-- Value Prop Bullets -->
+<div class="space-y-3 mb-8">
+<div class="flex items-start gap-3">
+<div class="w-6 h-6 rounded-full bg-primary-container/20 flex items-center justify-center shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-primary text-[16px]">verified</span>
+</div>
+<div>
+<h2 class="font-label-lg text-label-lg text-on-surface font-semibold" data-i18n="step_1_prop1_title">Multi-Layer Volumetric Sizing</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant" data-i18n="step_1_prop1_desc">Computes portion mass and calories directly from photographic depth maps.</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<div class="w-6 h-6 rounded-full bg-secondary-fixed/50 flex items-center justify-center shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-secondary text-[16px]">donut_small</span>
+</div>
+<div>
+<h2 class="font-label-lg text-label-lg text-on-surface font-semibold" data-i18n="step_1_prop2_title">Micro &amp; Macro Breakdown</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant" data-i18n="step_1_prop2_desc">Instant visualization of protein, slow carbs, healthy omega fats, and fibers.</p>
+</div>
+</div>
+</div>
+<!-- Onboarding Step Controls -->
+<div class="flex flex-col sm:flex-row items-center gap-4 pt-2">
+<button class="w-full sm:w-auto px-8 py-3.5 rounded-full bg-primary hover:bg-primary-container text-on-primary font-label-lg text-label-lg font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2" onclick="goToStep(1)" type="button">
+<span data-i18n="btn_continue">Continue to AI Insights</span>
+<span class="material-symbols-outlined text-[18px] rtl:rotate-180">arrow_forward</span>
+</button>
+<button class="w-full sm:w-auto px-5 py-3 rounded-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-md text-label-md transition-colors text-center" onclick="goToStep(2)" type="button">
+<span data-i18n="btn_skip_step">Jump to Habits</span>
+</button>
+</div>
+</div>
+<!-- Rich Interactive Food Diagnostic Visual -->
+<div class="w-full lg:col-span-6 flex justify-center order-1 lg:order-2">
+<div class="relative w-full max-w-md bg-surface rounded-3xl p-5 shadow-2xl shadow-surface-container-high/50">
+<!-- Food Image Card with AR Bounding Box Overlay -->
+<div class="relative w-full h-56 sm:h-64 rounded-2xl overflow-hidden shadow-inner">
+<img class="w-full h-full object-cover" data-alt="Overhead gourmet clinical flat lay of an avocado salmon quinoa bowl with vibrant green edamame, microgreens, citrus wedge, and wild seeds in natural clean daylight with soft neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4roT72cLuyghETBxqP5o2sTlh3chRR1tZwyItkKlt6J-s7vWwf4y3Zo30A8QZvw67Uib40vGr3AE1ypbKDFelLCgIzwF2eP5JGV95FLeTVwCV8eIuVO-b9KnRpaETQTWco4BdGAJgZIIkksnALn7xlGpgU5yYloOKBXGr_gM1tp_7M5KOwU5mhchxGMVbSvCxh8dsQq6X0vq_9od_alq3heQ_M0nH512XUOCE45oj"/>
+<div class="absolute inset-0 bg-gradient-to-t from-inverse-surface/85 via-transparent to-black/30"></div>
+<!-- AR Bounding Target Tag -->
+<div class="absolute top-4 start-4 px-3 py-1 rounded-full bg-surface-container-lowest/90 backdrop-blur-md flex items-center gap-2 shadow-md">
+<span class="w-2 h-2 rounded-full bg-primary-container animate-ping"></span>
+<span class="font-label-sm text-label-sm text-on-surface font-bold">Wild Salmon &amp; Quinoa Bowl</span>
+</div>
+<!-- Confidence Badge -->
+<div class="absolute top-4 end-4 px-2.5 py-1 rounded-lg bg-inverse-surface/80 backdrop-blur-md text-inverse-on-surface font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-primary-fixed">verified_user</span>
+<span>99.2% Acc.</span>
+</div>
+<!-- Bottom Telemetry HUD Over Image -->
+<div class="absolute bottom-3 inset-x-3 px-3.5 py-2.5 rounded-xl bg-surface-container-lowest/90 backdrop-blur-md flex items-center justify-between">
+<div>
+<span class="font-label-sm text-label-sm text-on-surface-variant block uppercase tracking-wider" data-i18n="caloric_est">Est. Caloric Load</span>
+<span class="font-metric-num text-metric-num text-primary font-bold">542 <span class="text-xs font-normal text-on-surface-variant">kcal</span></span>
+</div>
+<div class="text-right rtl:text-left">
+<span class="font-label-sm text-label-sm text-on-surface-variant block" data-i18n="density_tag">Glycemic Impact</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-[12px]">trending_flat</span>
+<span data-i18n="gi_low">Low GI • 28</span>
+</span>
+</div>
+</div>
+</div>
+<!-- Macro Breakdown Tri-Grid -->
+<div class="grid grid-cols-3 gap-2.5 mt-4">
+<div class="p-3 rounded-2xl bg-surface-container-low text-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant block mb-1" data-i18n="macro_protein">Protein</span>
+<div class="font-headline-sm text-headline-sm text-on-surface font-bold">38g</div>
+<div class="w-full bg-surface-container-highest h-1.5 rounded-full mt-2 overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 78%"></div>
+</div>
+<span class="font-label-sm text-label-sm text-primary font-medium mt-1 inline-block">78% target</span>
+</div>
+<div class="p-3 rounded-2xl bg-surface-container-low text-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant block mb-1" data-i18n="macro_carbs">Complex Carbs</span>
+<div class="font-headline-sm text-headline-sm text-on-surface font-bold">44g</div>
+<div class="w-full bg-surface-container-highest h-1.5 rounded-full mt-2 overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 52%"></div>
+</div>
+<span class="font-label-sm text-label-sm text-secondary font-medium mt-1 inline-block">52% target</span>
+</div>
+<div class="p-3 rounded-2xl bg-surface-container-low text-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant block mb-1" data-i18n="macro_fats">Healthy Fats</span>
+<div class="font-headline-sm text-headline-sm text-on-surface font-bold">19g</div>
+<div class="w-full bg-surface-container-highest h-1.5 rounded-full mt-2 overflow-hidden">
+<div class="bg-tertiary-container h-full rounded-full" style="width: 40%"></div>
+</div>
+<span class="font-label-sm text-label-sm text-tertiary font-medium mt-1 inline-block">40% target</span>
+</div>
+</div>
+<!-- Micro-Nutrients Quick Pill Carousel -->
+<div class="flex items-center gap-1.5 mt-3 pt-3 overflow-x-auto">
+<span class="px-2.5 py-1 rounded-full bg-surface-container text-on-surface font-label-sm text-label-sm whitespace-nowrap flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px] text-primary">spa</span> 8.4g Fiber
+                </span>
+<span class="px-2.5 py-1 rounded-full bg-surface-container text-on-surface font-label-sm text-label-sm whitespace-nowrap flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px] text-secondary">water_drop</span> 1.2g Omega-3
+                </span>
+<span class="px-2.5 py-1 rounded-full bg-surface-container text-on-surface font-label-sm text-label-sm whitespace-nowrap flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px] text-tertiary">bolt</span> Zinc &amp; Fe+
+                </span>
+</div>
+</div>
+</div>
+</div>
+<!-- ============================================== -->
+<!-- STEP 2: AI-Powered Insights                     -->
+<!-- ============================================== -->
+<div class="onboarding-step hidden flex flex-col lg:grid lg:grid-cols-12 gap-8 lg:gap-14 items-center" id="step-panel-1">
+<!-- Text Content Column -->
+<div class="w-full lg:col-span-6 flex flex-col justify-center order-2 lg:order-1">
+<div class="inline-flex items-center gap-2 mb-3">
+<span class="px-3 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-bold uppercase tracking-wider">
+<span data-i18n="step_2_tag">Step 2 of 3 • Clinical Intelligence</span>
+</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Neural Engine L-9</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg lg:font-display lg:text-display text-on-surface tracking-tight leading-tight mb-4">
+<span data-i18n="step_2_title">AI-Powered Insights</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-6 leading-relaxed max-w-xl">
+<span data-i18n="step_2_desc">Get personalized nutritional insights and healthier alternatives. The engine detects metabolic inflammatory triggers and formulates clean bio-compatible food swaps.</span>
+</p>
+<!-- Value Prop Bullets -->
+<div class="space-y-3 mb-8">
+<div class="flex items-start gap-3">
+<div class="w-6 h-6 rounded-full bg-secondary-fixed/50 flex items-center justify-center shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-secondary text-[16px]">psychology</span>
+</div>
+<div>
+<h2 class="font-label-lg text-label-lg text-on-surface font-semibold" data-i18n="step_2_prop1_title">Metabolic Inflammation Shield</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant" data-i18n="step_2_prop1_desc">Identifies refined sugars, seed oils, and sodium spikes before consumption.</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<div class="w-6 h-6 rounded-full bg-primary-container/20 flex items-center justify-center shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-primary text-[16px]">sync_alt</span>
+</div>
+<div>
+<h2 class="font-label-lg text-label-lg text-on-surface font-semibold" data-i18n="step_2_prop2_title">Automated Healthy Swaps</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant" data-i18n="step_2_prop2_desc">Recommends nutrient-dense alternatives that maintain your culinary satisfaction.</p>
+</div>
+</div>
+</div>
+<!-- Onboarding Step Controls -->
+<div class="flex flex-col sm:flex-row items-center gap-4 pt-2">
+<button class="w-full sm:w-auto px-8 py-3.5 rounded-full bg-primary hover:bg-primary-container text-on-primary font-label-lg text-label-lg font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2" onclick="goToStep(2)" type="button">
+<span data-i18n="btn_continue_habits">Continue to Habit Builder</span>
+<span class="material-symbols-outlined text-[18px] rtl:rotate-180">arrow_forward</span>
+</button>
+<button class="w-full sm:w-auto px-5 py-3 rounded-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-md text-label-md transition-colors flex items-center justify-center gap-1" onclick="goToStep(0)" type="button">
+<span class="material-symbols-outlined text-[16px] rtl:rotate-180">arrow_back</span>
+<span data-i18n="btn_back">Back</span>
+</button>
+</div>
+</div>
+<!-- Rich AI Scanner + Healthy Swap Recommendation Mockup -->
+<div class="w-full lg:col-span-6 flex justify-center order-1 lg:order-2">
+<div class="relative w-full max-w-md bg-surface rounded-3xl p-5 shadow-2xl shadow-surface-container-high/50 space-y-4">
+<!-- Camera Viewfinder HUD Simulation -->
+<div class="relative w-full h-52 rounded-2xl overflow-hidden bg-inverse-surface shadow-inner flex flex-col justify-between p-4">
+<img class="absolute inset-0 w-full h-full object-cover opacity-80" data-alt="Close up aesthetic shot of artisan sourdough toast with poached egg and asparagus stalks under warm clinical studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBM0Ds4rLYmEJpRFvAW3vB8sWINkXuIr2wPSGndmyssXxFYBR2f2uAJzJLSrVQsnWL7XUbXHy1MnBoNlqlW6jY4oKoL9S8OUm4-rnhKf6vKVZZYVDievGP2zUReE3DcLK3wZ8KkDhoVCcvH3ICZzMEevNFJKccStHpydR4i5D5os42vuf5NFvp18KfrcgNyrw7KMV_lWuw51vk68HcFW9sO_YNlYHnx-1udbii0-5ba"/>
+<div class="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/80"></div>
+<!-- Viewfinder Corner Markers -->
+<div class="relative z-10 flex justify-between items-center text-primary-fixed">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] animate-spin">lens_blur</span>
+<span class="font-label-sm text-label-sm font-mono tracking-wider text-inverse-on-surface">BIO_SCAN_ACTIVE</span>
+</div>
+<span class="px-2 py-0.5 rounded bg-primary text-on-primary font-label-sm text-label-sm font-bold">98.4% Match</span>
+</div>
+<!-- Reticle SVG Overlay -->
+<div class="relative z-10 self-center w-28 h-28 border border-dashed border-primary-fixed/60 rounded-xl flex items-center justify-center">
+<div class="w-3 h-3 border-2 border-primary-container rounded-full animate-ping"></div>
+</div>
+<!-- Live Tag Over Viewfinder -->
+<div class="relative z-10 flex items-center justify-between text-inverse-on-surface">
+<div class="font-label-sm text-label-sm">
+<span class="text-primary-fixed font-bold block" data-i18n="detected_title">Identified: Whole Wheat Bagel + Cream</span>
+<span class="text-inverse-on-surface/80 text-[11px]" data-i18n="high_refined">Elevated glycemic surge detected</span>
+</div>
+<span class="material-symbols-outlined text-tertiary-fixed text-[22px]">warning</span>
+</div>
+</div>
+<!-- Recommendation Card: Smart Clinical Swap -->
+<div class="p-4 rounded-2xl bg-secondary-fixed/20 shadow-sm space-y-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-lg bg-secondary flex items-center justify-center text-on-secondary">
+<span class="material-symbols-outlined text-[16px]">auto_awesome</span>
+</div>
+<span class="font-label-lg text-label-lg font-bold text-on-secondary-fixed" data-i18n="swap_title">NutriVision Swap Advice</span>
+</div>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-primary text-on-primary font-bold" data-i18n="swap_score">-38% Glycemic Index</span>
+</div>
+<!-- Swap Visual Comparison -->
+<div class="grid grid-cols-2 gap-3 items-center pt-1">
+<!-- Original Sub-optimal Item -->
+<div class="p-2.5 rounded-xl bg-surface-container opacity-70">
+<div class="flex items-center gap-1 text-tertiary mb-1">
+<span class="material-symbols-outlined text-[14px]">remove_circle_outline</span>
+<span class="font-label-sm text-label-sm font-bold line-through" data-i18n="swap_from">Refined White Bread</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant block">GI: 75 • Fiber: 1.1g</span>
+</div>
+<!-- Optimized Healthy Replacement -->
+<div class="p-2.5 rounded-xl bg-surface shadow-sm">
+<div class="flex items-center gap-1 text-primary mb-1">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+<span class="font-label-sm text-label-sm font-bold" data-i18n="swap_to">Sprouted Sourdough</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface font-semibold block">GI: 47 • Fiber: 5.6g</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-secondary-fixed-variant leading-relaxed" data-i18n="swap_reasoning">
+                  Fermentation degrades phytates, stabilizing glucose absorption by 42 minutes and supporting a diverse gut microbiome.
+                </p>
+</div>
+</div>
+</div>
+</div>
+<!-- ============================================== -->
+<!-- STEP 3: Build Healthier Habits                  -->
+<!-- ============================================== -->
+<div class="onboarding-step hidden flex flex-col lg:grid lg:grid-cols-12 gap-8 lg:gap-14 items-center" id="step-panel-2">
+<!-- Text Content Column -->
+<div class="w-full lg:col-span-6 flex flex-col justify-center order-2 lg:order-1">
+<div class="inline-flex items-center gap-2 mb-3">
+<span class="px-3 py-1 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm font-bold uppercase tracking-wider">
+<span data-i18n="step_3_tag">Step 3 of 3 • Metabolic Mastery</span>
+</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Longitudinal Cohort</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg lg:font-display lg:text-display text-on-surface tracking-tight leading-tight mb-4">
+<span data-i18n="step_3_title">Build Healthier Habits</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-6 leading-relaxed max-w-xl">
+<span data-i18n="step_3_desc">Track your progress and make better decisions every day. Micro-streaks, continuous hydration metrics, and biomarker calibration solidify sustainable vitality without dietary deprivation.</span>
+</p>
+<!-- Value Prop Bullets -->
+<div class="space-y-3 mb-8">
+<div class="flex items-start gap-3">
+<div class="w-6 h-6 rounded-full bg-primary-container/20 flex items-center justify-center shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-primary text-[16px]">local_fire_department</span>
+</div>
+<div>
+<h2 class="font-label-lg text-label-lg text-on-surface font-semibold" data-i18n="step_3_prop1_title">14-Day Metabolic Consistency Streak</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant" data-i18n="step_3_prop1_desc">Positive neurological anchoring converts choices into permanent routines.</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<div class="w-6 h-6 rounded-full bg-secondary-fixed/50 flex items-center justify-center shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-secondary text-[16px]">insights</span>
+</div>
+<div>
+<h2 class="font-label-lg text-label-lg text-on-surface font-semibold" data-i18n="step_3_prop2_title">Integrative Clinical Reports</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant" data-i18n="step_3_prop2_desc">Exportable PDF logs directly formatted for your consulting clinical physician.</p>
+</div>
+</div>
+</div>
+<!-- Final Conversion CTA (Flutter Action Target) -->
+<div class="flex flex-col sm:flex-row items-center gap-4 pt-2">
+<button class="w-full sm:w-auto px-10 py-4 rounded-full bg-primary hover:bg-primary-container text-on-primary font-headline-sm text-headline-sm font-bold shadow-xl shadow-primary/30 hover:scale-[1.03] active:scale-[0.98] transition-all flex items-center justify-center gap-3" onclick="startApp()" type="button">
+<span data-i18n="btn_get_started">Get Started Now</span>
+<span class="material-symbols-outlined text-[20px] rtl:rotate-180">rocket_launch</span>
+</button>
+<button class="w-full sm:w-auto px-5 py-3 rounded-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-md text-label-md transition-colors flex items-center justify-center gap-1" onclick="goToStep(1)" type="button">
+<span class="material-symbols-outlined text-[16px] rtl:rotate-180">arrow_back</span>
+<span data-i18n="btn_back">Back</span>
+</button>
+</div>
+</div>
+<!-- Rich Analytics & Habit Dashboard Mockup -->
+<div class="w-full lg:col-span-6 flex justify-center order-1 lg:order-2">
+<div class="relative w-full max-w-md bg-surface rounded-3xl p-5 sm:p-6 shadow-2xl shadow-surface-container-high/50 space-y-4">
+<!-- Habit Streak Header Banner -->
+<div class="p-4 rounded-2xl bg-gradient-to-r from-primary to-primary-container text-on-primary flex items-center justify-between shadow-md">
+<div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider block opacity-90" data-i18n="streak_badge">Consistency Mastery</span>
+<div class="font-headline-md text-headline-md font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary-fixed-dim">local_fire_department</span>
+<span>14 Days Perfect</span>
+</div>
+</div>
+<div class="text-right rtl:text-left">
+<span class="font-label-sm text-label-sm px-2.5 py-1 rounded-full bg-surface/20 font-bold backdrop-blur-sm">+180 Pts</span>
+</div>
+</div>
+<!-- Interactive Telemetry Dashboard Gauges -->
+<div class="grid grid-cols-2 gap-3">
+<!-- Gauge 1: Weekly Nutrition Consistency Ring SVG -->
+<div class="p-4 rounded-2xl bg-surface-container-low flex flex-col items-center justify-center text-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant mb-2" data-i18n="goal_nutrition">Nutrient Target</span>
+<div class="relative w-24 h-24 flex items-center justify-center my-1">
+<svg class="w-full h-full -rotate-90" viewbox="0 0 36 36">
+<!-- Base Track -->
+<path class="text-surface-container-highest" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3.5"></path>
+<!-- Progress Ring -->
+<path class="text-primary" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="92, 100" stroke-linecap="round" stroke-width="3.5"></path>
+</svg>
+<div class="absolute flex flex-col items-center">
+<span class="font-metric-num text-metric-num text-on-surface font-bold">92%</span>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-primary font-semibold mt-1" data-i18n="status_optimal">Optimal Range</span>
+</div>
+<!-- Gauge 2: Cellular Hydration Metric Card -->
+<div class="p-4 rounded-2xl bg-surface-container-low flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant" data-i18n="goal_hydration">Hydration</span>
+<span class="material-symbols-outlined text-secondary text-[18px]">water_drop</span>
+</div>
+<div class="font-metric-num text-metric-num text-secondary font-bold">2.4 / 2.8 <span class="text-xs font-normal text-on-surface-variant">L</span></div>
+</div>
+<div class="space-y-1.5 mt-3">
+<div class="w-full bg-surface-container-highest h-2 rounded-full overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 85%"></div>
+</div>
+<div class="flex justify-between font-label-sm text-label-sm text-on-surface-variant">
+<span>85% completed</span>
+<span>400ml left</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Weekly Calendar Mini-Streak Heatmap -->
+<div class="p-3.5 rounded-2xl bg-surface-container-low">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-sm text-label-sm font-semibold text-on-surface" data-i18n="week_overview">Weekly Metabolic Cadence</span>
+<span class="font-label-sm text-label-sm text-primary font-bold">7/7 Days</span>
+</div>
+<div class="grid grid-cols-7 gap-1.5 text-center">
+<div class="p-1.5 rounded-xl bg-primary-container text-on-primary font-label-sm text-label-sm font-bold">M<br/><span class="text-[10px]">100%</span></div>
+<div class="p-1.5 rounded-xl bg-primary-container text-on-primary font-label-sm text-label-sm font-bold">T<br/><span class="text-[10px]">98%</span></div>
+<div class="p-1.5 rounded-xl bg-primary-container text-on-primary font-label-sm text-label-sm font-bold">W<br/><span class="text-[10px]">95%</span></div>
+<div class="p-1.5 rounded-xl bg-primary-container text-on-primary font-label-sm text-label-sm font-bold">T<br/><span class="text-[10px]">92%</span></div>
+<div class="p-1.5 rounded-xl bg-primary-container text-on-primary font-label-sm text-label-sm font-bold">F<br/><span class="text-[10px]">96%</span></div>
+<div class="p-1.5 rounded-xl bg-primary-container text-on-primary font-label-sm text-label-sm font-bold">S<br/><span class="text-[10px]">94%</span></div>
+<div class="p-1.5 rounded-xl bg-primary text-on-primary font-label-sm text-label-sm font-bold shadow-md shadow-primary/30">S<br/><span class="text-[10px]">99%</span></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Persistent Flow Pagination Dots & Quick Step Indicators -->
+<div class="mt-8 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+<!-- Dot Navigation Indicators -->
+<div class="flex items-center gap-2" id="pagination-dots">
+<button aria-label="Go to Step 1" class="h-2.5 rounded-full transition-all duration-300 w-8 bg-primary" id="dot-0" onclick="goToStep(0)" type="button"></button>
+<button aria-label="Go to Step 2" class="h-2.5 rounded-full transition-all duration-300 w-2.5 bg-outline-variant hover:bg-on-surface-variant" id="dot-1" onclick="goToStep(1)" type="button"></button>
+<button aria-label="Go to Step 3" class="h-2.5 rounded-full transition-all duration-300 w-2.5 bg-outline-variant hover:bg-on-surface-variant" id="dot-2" onclick="goToStep(2)" type="button"></button>
+</div>
+<!-- Clinical Guidance Disclaimer -->
+<p class="font-body-sm text-body-sm text-on-surface-variant text-center sm:text-end max-w-md">
+<span class="material-symbols-outlined text-[14px] align-middle me-1 text-primary">info</span>
+<span data-i18n="clinical_disclaimer">NutriVision provides estimated dietary insights. Not intended for clinical or medical diagnosis.</span>
+</p>
+</div>
+</div>
+<!-- Flutter Integration Guide & Live Spec Inspector Bar -->
+<div class="mt-8 p-4 rounded-2xl bg-surface-container flex flex-wrap items-center justify-between gap-4 text-on-surface-variant">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px] text-primary">developer_mode</span>
+<span class="font-label-md text-label-md font-bold text-on-surface">Flutter Implementation Notes:</span>
+<span class="font-body-sm text-body-sm hidden md:inline">PageView.builder paired with SmoothPageIndicator, Riverpod stepNotifier, &amp; AnimatedSwitcher for screen transitions.</span>
+</div>
+<div class="flex items-center gap-2 text-xs font-mono">
+<span class="px-2 py-1 rounded bg-surface text-primary font-bold">8px Grid</span>
+<span class="px-2 py-1 rounded bg-surface text-secondary font-bold">LTR/RTL Ready</span>
+<span class="px-2 py-1 rounded bg-surface text-on-surface font-bold">WCAG AAA</span>
+</div>
+</div>
+</div>
+</div>
+<script>
+  let currentStep = 0;
+  const totalSteps = 3;
+
+  const translations = {
+    en: {
+      badge_clinical: "Clinical Telemetry v2.4",
+      onboarding_flow: "Onboarding Sequence",
+      btn_skip: "Skip",
+      step_1_tag: "Step 1 of 3 • Bio-Telemetry",
+      step_1_title: "Understand What You Eat",
+      step_1_desc: "Track your meals and understand their nutritional value. Real-time scanning visualizes caloric density, macro splits, and vital bio-availability in under 800 milliseconds.",
+      step_1_prop1_title: "Multi-Layer Volumetric Sizing",
+      step_1_prop1_desc: "Computes portion mass and calories directly from photographic depth maps.",
+      step_1_prop2_title: "Micro & Macro Breakdown",
+      step_1_prop2_desc: "Instant visualization of protein, slow carbs, healthy omega fats, and fibers.",
+      btn_continue: "Continue to AI Insights",
+      btn_skip_step: "Jump to Habits",
+      caloric_est: "Est. Caloric Load",
+      density_tag: "Glycemic Impact",
+      gi_low: "Low GI • 28",
+      macro_protein: "Protein",
+      macro_carbs: "Complex Carbs",
+      macro_fats: "Healthy Fats",
+
+      step_2_tag: "Step 2 of 3 • Clinical Intelligence",
+      step_2_title: "AI-Powered Insights",
+      step_2_desc: "Get personalized nutritional insights and healthier alternatives. The engine detects metabolic inflammatory triggers and formulates clean bio-compatible food swaps.",
+      step_2_prop1_title: "Metabolic Inflammation Shield",
+      step_2_prop1_desc: "Identifies refined sugars, seed oils, and sodium spikes before consumption.",
+      step_2_prop2_title: "Automated Healthy Swaps",
+      step_2_prop2_desc: "Recommends nutrient-dense alternatives that maintain your culinary satisfaction.",
+      btn_continue_habits: "Continue to Habit Builder",
+      btn_back: "Back",
+      detected_title: "Identified: Whole Wheat Bagel + Cream",
+      high_refined: "Elevated glycemic surge detected",
+      swap_title: "NutriVision Swap Advice",
+      swap_score: "-38% Glycemic Index",
+      swap_from: "Refined White Bread",
+      swap_to: "Sprouted Sourdough",
+      swap_reasoning: "Fermentation degrades phytates, stabilizing glucose absorption by 42 minutes and supporting a diverse gut microbiome.",
+
+      step_3_tag: "Step 3 of 3 • Metabolic Mastery",
+      step_3_title: "Build Healthier Habits",
+      step_3_desc: "Track your progress and make better decisions every day. Micro-streaks, continuous hydration metrics, and biomarker calibration solidify sustainable vitality without dietary deprivation.",
+      step_3_prop1_title: "14-Day Metabolic Consistency Streak",
+      step_3_prop1_desc: "Positive neurological anchoring converts choices into permanent routines.",
+      step_3_prop2_title: "Integrative Clinical Reports",
+      step_3_prop2_desc: "Exportable PDF logs directly formatted for your consulting clinical physician.",
+      btn_get_started: "Get Started Now",
+      streak_badge: "Consistency Mastery",
+      goal_nutrition: "Nutrient Target",
+      status_optimal: "Optimal Range",
+      goal_hydration: "Hydration",
+      week_overview: "Weekly Metabolic Cadence",
+      clinical_disclaimer: "NutriVision provides estimated dietary insights. Not intended for clinical or medical diagnosis."
+    },
+    ar: {
+      badge_clinical: "القياس الغذائي السريري v2.4",
+      onboarding_flow: "مسار التهيئة والتعريف",
+      btn_skip: "تخطي",
+      step_1_tag: "الخطوة ١ من ٣ • القياس الحيوي",
+      step_1_title: "افهم ما تتناوله",
+      step_1_desc: "تتبع وجباتك بدقة وتعرف على قيمتها الغذائية الكاملة ومكوناتها بالتفصيل. تحليل فوري للكثافة الحرارية والعناصر الصغرى في أقل من ٨٠٠ مللي ثانية.",
+      step_1_prop1_title: "القياس الحجمي متعدد الأبعاد",
+      step_1_prop1_desc: "حساب كتلة الوجبة وسعراتها تلقائياً من خريطة العمق البصرية بدقة متناهية.",
+      step_1_prop2_title: "تحليل العناصر الكبرى والصغرى",
+      step_1_prop2_desc: "عرض فوري للبروتينات والدهون الصحية النافعة والألياف النباتية.",
+      btn_continue: "المتابعة لتحليلات الذكاء الاصطناعي",
+      btn_skip_step: "الانتقال للعادات",
+      caloric_est: "الحمل الحراري المقدر",
+      density_tag: "المؤشر الجلايسيمي",
+      gi_low: "منخفض • ٢٨",
+      macro_protein: "بروتين",
+      macro_carbs: "كاربوهيدرات معقدة",
+      macro_fats: "دهون صحية",
+
+      step_2_tag: "الخطوة ٢ من ٣ • الذكاء السريري",
+      step_2_title: "رؤى غذائية بالذكاء الاصطناعي",
+      step_2_desc: "احصل على تحليلات ذكية مخصصة واقتراحات لبدائل غذائية أكثر توازناً وصحة. يرصد المحرك مسببات الالتهاب الأيضي ويقدم بدائل طبيعية فورية.",
+      step_2_prop1_title: "درع مكافحة الالتهاب الأيضي",
+      step_2_prop1_desc: "كشف السكريات المكررة والزيوت المهدرجة وفرط الصوديوم قبل تناول الوجبة.",
+      step_2_prop2_title: "اقتراح البدائل الصحية تلقائياً",
+      step_2_prop2_desc: "اقتراح أطعمة غنية بالعناصر الحيوية تدعم نشاطك دون التنازل عن المذاق.",
+      btn_continue_habits: "المتابعة لبناء العادات",
+      btn_back: "رجوع",
+      detected_title: "تم التعرف: خبز أبيض مع جبن كريمي",
+      high_refined: "تنبيه: قفزة سريعة في سكر الدم",
+      swap_title: "اقتراح نوتري فيجن الذكي",
+      swap_score: "-٣٨٪ مؤشر سكري",
+      swap_from: "خبز أبيض مكرر",
+      swap_to: "خبز العجين المخمر المنبت",
+      swap_reasoning: "التخمير الطبيعي يقلل حمض الفايتك، مما يثبت معدل الجلوكوز لمدة ٤٢ دقيقة ويدعم صحة الجهاز الهضمي.",
+
+      step_3_tag: "الخطوة ٣ من ٣ • التميز الأيضي",
+      step_3_title: "ابنِ عادات غذائية أفضل",
+      step_3_desc: "تابع تقدمك اليومي واكتسب عادات غذائية مستدامة تدعم صحتك ونشاطك. رصد دقيق لمؤشرات الترطيب وسلاسل الالتزام الإيجابية لصحة دائمة.",
+      step_3_prop1_title: "سلسلة التزام متصلة لـ ١٤ يوماً",
+      step_3_prop1_desc: "ترسيخ السلوكيات الصحية الإيجابية وتحويلها إلى نمط حياة مستدام.",
+      step_3_prop2_title: "تقارير سريرية متكاملة",
+      step_3_prop2_desc: "تصدير فوري لتقارير الاستجابة الغذائية لمشاركتها مع طبيبك أو أخصائي التغذية.",
+      btn_get_started: "ابدأ رحلتك الآن",
+      streak_badge: "الالتزام الإيجابي المستمر",
+      goal_nutrition: "المستهدف الغذائي",
+      status_optimal: "نطاق مثالي",
+      goal_hydration: "مستوى الترطيب",
+      week_overview: "النشاط الأيضي الأسبوعي",
+      clinical_disclaimer: "يقدم نوتري فيجن تقديرات غذائية استرشادية، ولا يُعتبر بديلاً عن التشخيص الطبي المتخصص."
+    }
+  };
+
+  function updateTexts(lang) {
+    const dict = translations[lang] || translations.en;
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (dict[key]) {
+        el.innerText = dict[key];
+      }
+    });
+  }
+
+  function goToStep(stepIndex) {
+    if (stepIndex < 0 || stepIndex >= totalSteps) return;
+    currentStep = stepIndex;
+
+    // Toggle panels
+    for (let i = 0; i < totalSteps; i++) {
+      const panel = document.getElementById(`step-panel-${i}`);
+      const dot = document.getElementById(`dot-${i}`);
+      const pillNav = document.getElementById(`pill-nav-${i}`);
+
+      if (i === currentStep) {
+        panel.classList.remove('hidden');
+        // Active dot is wider
+        dot.className = "h-2.5 rounded-full transition-all duration-300 w-8 bg-primary";
+        // Active pill button
+        if (pillNav) {
+          pillNav.className = "px-3 py-1 rounded-full font-label-sm text-label-sm transition-all bg-primary text-on-primary font-bold shadow-sm";
+        }
+      } else {
+        panel.classList.add('hidden');
+        dot.className = "h-2.5 rounded-full transition-all duration-300 w-2.5 bg-outline-variant hover:bg-on-surface-variant";
+        if (pillNav) {
+          pillNav.className = "px-3 py-1 rounded-full font-label-sm text-label-sm transition-all text-on-surface-variant hover:text-on-surface";
+        }
+      }
+    }
+  }
+
+  function skipTour() {
+    goToStep(2);
+  }
+
+  function startApp() {
+    alert("NutriVision Onboarding Complete! Launching clinical telemetry dashboard.");
+  }
+
+  // Observe language mutations on <html> dir attribute to dynamically switch copy
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.type === 'attributes' && mutation.attributeName === 'dir') {
+        const isRtl = document.documentElement.getAttribute('dir') === 'rtl';
+        updateTexts(isRtl ? 'ar' : 'en');
+      }
+    });
+  });
+
+  observer.observe(document.documentElement, { attributes: true });
+
+  // Initial language check
+  if (document.documentElement.getAttribute('dir') === 'rtl') {
+    updateTexts('ar');
+  }
+</script></main><footer class="w-full bg-surface-container-low py-6 border-t border-outline-variant/10"><div class="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-4"><p class="font-body-sm text-body-sm text-on-surface-variant">© 2024 NutriVision Clinical Intelligence. All rights reserved.</p><div class="flex items-center gap-6"><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface transition-colors" href="#">Clinical Privacy</a><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface transition-colors" href="#">Terms of Care</a><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface transition-colors" href="#">Support</a></div></div></footer></body></html>
