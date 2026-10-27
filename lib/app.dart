@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nutri_vision/features/meal_analysis/presentation/cubit/meal_analysis_cubit.dart';
 import 'package:nutri_vision/features/onboarding/presentation/cubit/onboarding_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -54,15 +55,9 @@ class NutriVision extends StatelessWidget {
       
     ),
 
-    // BlocProvider(
-    //   create: (_) => sl<ProgressCubit>()
-    //     ..loadProgress(
-    //       userId: user.uid,
-    //       startDate: startDate,
-    //       endDate: endDate,
-    //     ),
-      
-    // )
+    BlocProvider<MealAnalysisCubit>(
+          create: (_) => sl<MealAnalysisCubit>(),
+        ),
     ],
     child: BlocBuilder<LocaleCubit, Locale>(
       builder: (context, locale) => BlocBuilder<ThemeCubit, ThemeMode>(

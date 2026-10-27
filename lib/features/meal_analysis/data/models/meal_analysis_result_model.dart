@@ -42,13 +42,7 @@ class MealAnalysisResultModel extends MealAnalysisResult {
       userId: json['userId'] as String? ?? '',
       sourceDescription: json['sourceDescription'] as String?,
       sourceImageUrl: json['sourceImageUrl'] as String?,
-      foodItems: (json['foodItems'] as List? ?? const [])
-          .map(
-            (item) => AnalyzedFoodItemModel.fromJson(
-              Map<String, dynamic>.from(item as Map),
-            ),
-          )
-          .toList(),
+      foodItems: _parseFoodItems(json['foodItems']),
       totalCalories:
           (json['totalCalories'] as num?)?.toDouble() ?? 0,
       totalProteinGrams:
@@ -66,6 +60,34 @@ class MealAnalysisResultModel extends MealAnalysisResult {
       analyzedAt: analyzedAt,
       linkedMealId: json['linkedMealId'] as String?,
     );
+  }
+
+  static List<AnalyzedFoodItemModel> _parseFoodItems(Object? value) {
+    if (value == null) return const [];
+
+    final List<Object?> items;
+    if (value is List) {
+      items = value;
+    } else if (value is Map) {
+      items = [value];
+    } else {
+      throw const FormatException(
+        'Expected foodItems to be a list or an object.',
+      );
+    }
+
+    return items
+        .map((item) {
+          if (item is! Map) {
+            throw const FormatException(
+              'Expected each food item to be an object.',
+            );
+          }
+          return AnalyzedFoodItemModel.fromJson(
+            Map<String, dynamic>.from(item),
+          );
+        })
+        .toList();
   }
 
   Map<String, dynamic> toJson() {

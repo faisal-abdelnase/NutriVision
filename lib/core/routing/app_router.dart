@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../features/ai_coach/presentation/pages/ai_coach_test_screen.dart';
-import '../../features/dashboard/presentation/screens/dashboard_screen.dart';
 import 'route_names.dart';
 
 
@@ -11,10 +9,10 @@ class AppRouter {
     switch (settings.name) {
       case RouteNames.root:
       case RouteNames.splash:
-        return MaterialPageRoute<void>(
-          settings: settings,
-          builder: (_) => AiCoachTestScreen(),
-        );
+        // return MaterialPageRoute<void>(
+        //   settings: settings,
+        //   builder: (_) => AiCoachPage(userId: "nPnM6XrOTMfNSruWuB3kqZeBdfz1")
+        // );
       case RouteNames.onboarding:
         // return MaterialPageRoute<void>(
         //   settings: settings,

@@ -1,4 +1,3 @@
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../domain/entities/coach_conversation.dart';
@@ -29,6 +28,33 @@ class AiCoachCubit extends Cubit<AiCoachState> {
   }) : super(const AiCoachState());
 
   static const int pageSize = 20;
+
+  /// Prefix of ids given to messages that exist only on the device until the
+  /// server copy is fetched.
+  static const String localMessagePrefix = 'local-';
+
+  static bool isLocalMessage(CoachMessage message) =>
+      message.id.startsWith(localMessagePrefix);
+
+  /// Opens the most recent conversation, or creates the first one when the
+  /// user has none yet.
+  Future<void> startSession({
+    required String userId,
+    required String newConversationTitle,
+  }) async {
+    await loadConversations(userId: userId);
+    if (state.status != AiCoachStatus.success) return;
+
+    if (state.conversations.isEmpty) {
+      await createConversation(userId: userId, title: newConversationTitle);
+      return;
+    }
+
+    await openConversation(
+      userId: userId,
+      conversation: state.conversations.first,
+    );
+  }
 
   Future<void> loadConversations({
     required String userId,
@@ -138,14 +164,9 @@ class AiCoachCubit extends Cubit<AiCoachState> {
           ? result
           : [...result, ...state.messages];
 
-      final unique = <String, CoachMessage>{
-        for (final item in combined) item.id: item,
-      }.values.toList()
-        ..sort((a, b) => a.createdAt.compareTo(b.createdAt));
-
       emit(state.copyWith(
         status: AiCoachStatus.success,
-        messages: unique,
+        messages: _sorted(combined),
         isLoadingMore: false,
         hasMoreMessages: result.length == pageSize,
       ));
@@ -156,6 +177,21 @@ class AiCoachCubit extends Cubit<AiCoachState> {
         errorMessage: error.toString(),
       ));
     }
+  }
+
+  /// Loads the page of messages that precedes the ones already on screen.
+  Future<void> loadEarlierMessages({required String userId}) async {
+    final conversation = state.currentConversation;
+    if (conversation == null) return;
+
+    final loaded = state.messages.where((item) => !isLocalMessage(item));
+    final nextPage = (loaded.length ~/ pageSize) + 1;
+
+    await loadHistory(
+      userId: userId,
+      conversationId: conversation.id,
+      page: nextPage,
+    );
   }
 
   Future<void> sendMessage({
@@ -169,8 +205,20 @@ class AiCoachCubit extends Cubit<AiCoachState> {
       return;
     }
 
+    // Show the user's own message immediately; the repository only returns
+    // the assistant reply.
+    final pending = CoachMessage(
+      id: '$localMessagePrefix${DateTime.now().microsecondsSinceEpoch}',
+      conversationId: conversation.id,
+      userId: userId,
+      role: CoachMessageRole.user,
+      content: text,
+      createdAt: DateTime.now(),
+    );
+
     emit(state.copyWith(
       isSending: true,
+      messages: [...state.messages, pending],
       clearError: true,
     ));
 
@@ -181,22 +229,62 @@ class AiCoachCubit extends Cubit<AiCoachState> {
         message: text,
       );
 
-      final updated = <String, CoachMessage>{
-        for (final item in state.messages) item.id: item,
-        response.id: response,
-      }.values.toList()
-        ..sort((a, b) => a.createdAt.compareTo(b.createdAt));
+      if (state.currentConversation?.id != conversation.id) {
+        emit(state.copyWith(isSending: false));
+        return;
+      }
 
       emit(state.copyWith(
         status: AiCoachStatus.success,
-        messages: updated,
+        messages: _sorted([...state.messages, response]),
         isSending: false,
       ));
+
+      await _reconcileLatest(
+        userId: userId,
+        conversationId: conversation.id,
+      );
     } catch (error) {
       emit(state.copyWith(
         isSending: false,
+        messages:
+            state.messages.where((item) => item.id != pending.id).toList(),
         errorMessage: error.toString(),
       ));
+    }
+  }
+
+  /// Replaces the optimistic local message with the stored one. Failures are
+  /// ignored: the reply was already delivered.
+  Future<void> _reconcileLatest({
+    required String userId,
+    required String conversationId,
+  }) async {
+    try {
+      final latest = await getConversationHistory(
+        userId: userId,
+        conversationId: conversationId,
+        page: 1,
+        pageSize: pageSize,
+      );
+
+      if (latest.isEmpty ||
+          state.currentConversation?.id != conversationId ||
+          state.isSending) {
+        return;
+      }
+
+      final oldest = latest
+          .map((item) => item.createdAt)
+          .reduce((a, b) => a.isBefore(b) ? a : b);
+
+      final older = state.messages.where(
+        (item) => !isLocalMessage(item) && item.createdAt.isBefore(oldest),
+      );
+
+      emit(state.copyWith(messages: _sorted([...older, ...latest])));
+    } catch (_) {
+      // Keep what is already on screen.
     }
   }
 
@@ -254,7 +342,6 @@ class AiCoachCubit extends Cubit<AiCoachState> {
       ));
     } catch (error) {
       emit(state.copyWith(
-        status: AiCoachStatus.failure,
         errorMessage: error.toString(),
       ));
     }
@@ -272,5 +359,13 @@ class AiCoachCubit extends Cubit<AiCoachState> {
       clearError: true,
       hasMoreMessages: true,
     ));
+  }
+
+  List<CoachMessage> _sorted(Iterable<CoachMessage> items) {
+    final byId = <String, CoachMessage>{
+      for (final item in items) item.id: item,
+    };
+    return byId.values.toList()
+      ..sort((a, b) => a.createdAt.compareTo(b.createdAt));
   }
 }
