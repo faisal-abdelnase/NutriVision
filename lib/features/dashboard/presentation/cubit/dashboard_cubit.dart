@@ -1,5 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../domain/entities/daily_nutrition_summary.dart';
+import '../../domain/entities/recent_meal_summary.dart';
 import '../../domain/usecases/get_daily_nutrition_summary.dart';
 import '../../domain/usecases/get_recent_meals_summary.dart';
 import 'dashboard_state.dart';
@@ -26,11 +28,7 @@ class DashboardCubit extends Cubit<DashboardState> {
     }
 
     if (recentMealsLimit < 0) {
-      emit(
-        const DashboardError(
-          'Recent meals limit cannot be negative.',
-        ),
-      );
+      emit(const DashboardError('Recent meals limit cannot be negative.'));
       return;
     }
 
@@ -39,6 +37,7 @@ class DashboardCubit extends Cubit<DashboardState> {
     try {
       final selectedDate = date ?? DateTime.now();
 
+      // ✅ Cast للنوع الصح بدل dynamic
       final results = await Future.wait<Object>([
         _getDailyNutritionSummary(
           userId: userId,
@@ -50,11 +49,8 @@ class DashboardCubit extends Cubit<DashboardState> {
         ),
       ]);
 
-      final dailySummary = results[0]
-          as dynamic;
-
-      final recentMeals = results[1]
-          as dynamic;
+      final dailySummary = results[0] as DailyNutritionSummary;
+      final recentMeals = results[1] as List<RecentMealSummary>;
 
       emit(
         DashboardLoaded(
@@ -63,11 +59,7 @@ class DashboardCubit extends Cubit<DashboardState> {
         ),
       );
     } catch (error) {
-      emit(
-        DashboardError(
-          _mapError(error),
-        ),
-      );
+      emit(DashboardError(_mapError(error)));
     }
   }
 
@@ -84,6 +76,7 @@ class DashboardCubit extends Cubit<DashboardState> {
   }
 
   String _mapError(Object error) {
+    // لو عندك استثناءات مخصصة، حطها هنا
     return 'Failed to load dashboard. Please try again.';
   }
 }
