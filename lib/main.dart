@@ -28,18 +28,14 @@ Future<void> main() async {
   //fcffd63d-56b7-491b-9b59-35aaa4f6f4ed
   if (kIsWeb) {
     if (kDebugMode) {
-      await FirebaseAppCheck.instance.activate(
-        providerWeb: WebDebugProvider(),
-      );
+      await FirebaseAppCheck.instance.activate(providerWeb: WebDebugProvider());
     } else {
       const siteKey = String.fromEnvironment(
         '6Le-2PstAAAAAFyKTvNr-kwSUKJ-lbeO6gCl1I4P',
       );
 
       if (siteKey.isEmpty) {
-        throw StateError(
-          'Missing FIREBASE_APP_CHECK_RECAPTCHA_SITE_KEY.',
-        );
+        throw StateError('Missing FIREBASE_APP_CHECK_RECAPTCHA_SITE_KEY.');
       }
 
       await FirebaseAppCheck.instance.activate(

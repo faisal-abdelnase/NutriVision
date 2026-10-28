@@ -7,4 +7,5 @@ class RouteNames {
   static const String onboarding = '/onboarding';
   static const String authentication = '/authentication';
   static const String mealAnalysis = '/meal-analysis';
+  static const String infoCompletion = '/info-completion';
 }

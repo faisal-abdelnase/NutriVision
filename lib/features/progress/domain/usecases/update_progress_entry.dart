@@ -1,4 +1,3 @@
-
 import '../entities/progress_entry.dart';
 import '../repositories/progress_repository.dart';
 
@@ -7,9 +6,7 @@ class UpdateProgressEntry {
 
   UpdateProgressEntry(this.repository);
 
-  Future<ProgressEntry> call({
-    required ProgressEntry entry,
-  }) {
+  Future<ProgressEntry> call({required ProgressEntry entry}) {
     return repository.updateProgressEntry(entry: entry);
   }
 }

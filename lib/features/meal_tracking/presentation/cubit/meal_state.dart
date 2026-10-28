@@ -1,4 +1,3 @@
-
 import '../../domain/entities/meal.dart';
 
 abstract class MealState {
@@ -35,10 +34,7 @@ class MealsByDateLoaded extends MealState {
   final List<Meal> meals;
   final DateTime date;
 
-  const MealsByDateLoaded({
-    required this.meals,
-    required this.date,
-  });
+  const MealsByDateLoaded({required this.meals, required this.date});
 }
 
 class MealOperationSuccess extends MealState {

@@ -1,4 +1,3 @@
-
 import '../../domain/entities/nutrition_profile.dart';
 
 enum NutritionProfileAction {
@@ -23,17 +22,14 @@ class NutritionProfileLoading extends NutritionProfileState {
 class NutritionProfileLoaded extends NutritionProfileState {
   final NutritionProfile profile;
 
-  const NutritionProfileLoaded({
-    required this.profile,
-  });
+  const NutritionProfileLoaded({required this.profile});
 }
 
 class NutritionProfileNotFound extends NutritionProfileState {
   const NutritionProfileNotFound();
 }
 
-class NutritionProfileActionSuccess
-    extends NutritionProfileState {
+class NutritionProfileActionSuccess extends NutritionProfileState {
   final NutritionProfile profile;
   final NutritionProfileAction action;
 
@@ -43,11 +39,8 @@ class NutritionProfileActionSuccess
   });
 }
 
-
 class NutritionProfileError extends NutritionProfileState {
   final String message;
 
-  const NutritionProfileError({
-    required this.message,
-  });
+  const NutritionProfileError({required this.message});
 }

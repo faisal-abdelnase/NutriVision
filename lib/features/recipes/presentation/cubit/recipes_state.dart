@@ -1,4 +1,3 @@
-
 import '../../domain/entities/recipe.dart';
 
 abstract class RecipesState {

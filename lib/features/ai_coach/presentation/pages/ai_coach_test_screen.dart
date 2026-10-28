@@ -1,4 +1,3 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,9 +39,7 @@ class _AiCoachViewState extends State<_AiCoachView> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final userId = _userId;
       if (userId != null && mounted) {
-        context.read<AiCoachCubit>().loadConversations(
-              userId: userId,
-            );
+        context.read<AiCoachCubit>().loadConversations(userId: userId);
       }
     });
   }
@@ -87,18 +84,16 @@ class _AiCoachViewState extends State<_AiCoachView> {
     _scrollToBottom();
   }
 
-  Future<void> _openConversation(
-    CoachConversation conversation,
-  ) async {
+  Future<void> _openConversation(CoachConversation conversation) async {
     final userId = _userId;
     if (userId == null) return;
 
     Navigator.of(context).pop();
 
     await context.read<AiCoachCubit>().openConversation(
-          userId: userId,
-          conversation: conversation,
-        );
+      userId: userId,
+      conversation: conversation,
+    );
 
     _scrollToBottom();
   }
@@ -124,10 +119,7 @@ class _AiCoachViewState extends State<_AiCoachView> {
     _messageController.clear();
     FocusScope.of(context).unfocus();
 
-    await cubit.sendMessage(
-      userId: userId,
-      message: text,
-    );
+    await cubit.sendMessage(userId: userId, message: text);
 
     _scrollToBottom();
   }
@@ -140,24 +132,20 @@ class _AiCoachViewState extends State<_AiCoachView> {
     }
 
     await context.read<AiCoachCubit>().loadNutritionAdvice(
-          userId: userId,
-          dietaryPreferences: const [],
-          allergies: const [],
-          referencedMealIds: const [],
-          goal: 'Healthy eating',
-        );
+      userId: userId,
+      dietaryPreferences: const [],
+      allergies: const [],
+      referencedMealIds: const [],
+      goal: 'Healthy eating',
+    );
   }
 
-  Future<void> _deleteConversation(
-    CoachConversation conversation,
-  ) async {
+  Future<void> _deleteConversation(CoachConversation conversation) async {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (dialogContext) => AlertDialog(
         title: const Text('Delete conversation?'),
-        content: Text(
-          'Delete "${conversation.title}" and its messages?',
-        ),
+        content: Text('Delete "${conversation.title}" and its messages?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogContext, false),
@@ -177,15 +165,15 @@ class _AiCoachViewState extends State<_AiCoachView> {
     if (userId == null) return;
 
     await context.read<AiCoachCubit>().deleteConversation(
-          userId: userId,
-          conversationId: conversation.id,
-        );
+      userId: userId,
+      conversationId: conversation.id,
+    );
   }
 
   void _showMessage(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
   }
 
   @override
@@ -242,9 +230,7 @@ class _AiCoachViewState extends State<_AiCoachView> {
             actions: [
               IconButton(
                 tooltip: 'Nutrition advice',
-                onPressed: state.isSending
-                    ? null
-                    : _loadNutritionAdvice,
+                onPressed: state.isSending ? null : _loadNutritionAdvice,
                 icon: const Icon(Icons.health_and_safety_outlined),
               ),
               IconButton(
@@ -258,11 +244,8 @@ class _AiCoachViewState extends State<_AiCoachView> {
           body: Column(
             children: [
               _buildConnectionInfo(state),
-              if (state.nutritionAdvice != null)
-                _buildNutritionAdvice(state),
-              Expanded(
-                child: _buildMessages(state),
-              ),
+              if (state.nutritionAdvice != null) _buildNutritionAdvice(state),
+              Expanded(child: _buildMessages(state)),
               if (state.isSending) _buildTypingIndicator(),
               _buildComposer(state),
             ],
@@ -286,10 +269,7 @@ class _AiCoachViewState extends State<_AiCoachView> {
       ),
       child: Row(
         children: [
-          Icon(
-            Icons.auto_awesome,
-            color: colors.primary,
-          ),
+          Icon(Icons.auto_awesome, color: colors.primary),
           const SizedBox(width: 10),
           Expanded(
             child: Column(
@@ -357,8 +337,7 @@ class _AiCoachViewState extends State<_AiCoachView> {
       );
     }
 
-    if (state.status == AiCoachStatus.loading &&
-        state.messages.isEmpty) {
+    if (state.status == AiCoachStatus.loading && state.messages.isEmpty) {
       return const Center(child: CircularProgressIndicator());
     }
 
@@ -422,8 +401,7 @@ class _AiCoachViewState extends State<_AiCoachView> {
 
   Widget _buildComposer(AiCoachState state) {
     final colors = Theme.of(context).colorScheme;
-    final canSend = state.currentConversation != null &&
-        !state.isSending;
+    final canSend = state.currentConversation != null && !state.isSending;
 
     return SafeArea(
       top: false,
@@ -431,9 +409,7 @@ class _AiCoachViewState extends State<_AiCoachView> {
         padding: const EdgeInsets.fromLTRB(12, 10, 12, 12),
         decoration: BoxDecoration(
           color: Theme.of(context).scaffoldBackgroundColor,
-          border: Border(
-            top: BorderSide(color: colors.outlineVariant),
-          ),
+          border: Border(top: BorderSide(color: colors.outlineVariant)),
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -492,11 +468,7 @@ class _AiCoachViewState extends State<_AiCoachView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Icon(
-                    Icons.auto_awesome,
-                    size: 36,
-                    color: colors.primary,
-                  ),
+                  Icon(Icons.auto_awesome, size: 36, color: colors.primary),
                   const SizedBox(height: 12),
                   Text(
                     'AI Coach',
@@ -530,8 +502,7 @@ class _AiCoachViewState extends State<_AiCoachView> {
                   : ListView.builder(
                       itemCount: state.conversations.length,
                       itemBuilder: (context, index) {
-                        final conversation =
-                            state.conversations[index];
+                        final conversation = state.conversations[index];
 
                         return ListTile(
                           selected: conversation.id == currentId,
@@ -551,8 +522,7 @@ class _AiCoachViewState extends State<_AiCoachView> {
                           trailing: IconButton(
                             tooltip: 'Delete conversation',
                             icon: const Icon(Icons.delete_outline),
-                            onPressed: () =>
-                                _deleteConversation(conversation),
+                            onPressed: () => _deleteConversation(conversation),
                           ),
                         );
                       },
@@ -635,9 +605,7 @@ class _AiCoachViewState extends State<_AiCoachView> {
 class _MessageBubble extends StatelessWidget {
   final CoachMessage message;
 
-  const _MessageBubble({
-    required this.message,
-  });
+  const _MessageBubble({required this.message});
 
   @override
   Widget build(BuildContext context) {
@@ -645,23 +613,19 @@ class _MessageBubble extends StatelessWidget {
     final colors = theme.colorScheme;
     final isUser = message.role == CoachMessageRole.user;
 
-    final bubbleColor =
-        isUser ? colors.primary : colors.surfaceContainerHighest;
-    final textColor =
-        isUser ? colors.onPrimary : colors.onSurface;
+    final bubbleColor = isUser
+        ? colors.primary
+        : colors.surfaceContainerHighest;
+    final textColor = isUser ? colors.onPrimary : colors.onSurface;
 
     return Align(
-      alignment:
-          isUser ? Alignment.centerRight : Alignment.centerLeft,
+      alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
         constraints: BoxConstraints(
           maxWidth: MediaQuery.sizeOf(context).width * 0.82,
         ),
         margin: const EdgeInsets.symmetric(vertical: 5),
-        padding: const EdgeInsets.symmetric(
-          horizontal: 15,
-          vertical: 11,
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 11),
         decoration: BoxDecoration(
           color: bubbleColor,
           borderRadius: BorderRadius.only(
@@ -693,8 +657,7 @@ class _MessageBubble extends StatelessWidget {
             Align(
               alignment: AlignmentDirectional.bottomEnd,
               child: Text(
-                TimeOfDay.fromDateTime(message.createdAt)
-                    .format(context),
+                TimeOfDay.fromDateTime(message.createdAt).format(context),
                 style: theme.textTheme.labelSmall?.copyWith(
                   color: textColor.withValues(alpha: 0.7),
                 ),

@@ -19,11 +19,14 @@ class AddMealScreen extends StatelessWidget {
       backgroundColor: AppColors.background,
       appBar: !isDesktop
           ? AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        iconTheme: const IconThemeData(color: AppColors.darkText),
-        title: const Text('NutriVision Clinical', style: TextStyle(color: AppColors.darkText, fontSize: 16)),
-      )
+              backgroundColor: Colors.white,
+              elevation: 0,
+              iconTheme: const IconThemeData(color: AppColors.darkText),
+              title: const Text(
+                'NutriVision Clinical',
+                style: TextStyle(color: AppColors.darkText, fontSize: 16),
+              ),
+            )
           : null,
       drawer: !isDesktop ? const Drawer(child: SidebarWidget()) : null,
       body: Row(
@@ -51,15 +54,38 @@ class AddMealScreen extends StatelessWidget {
                           children: [
                             TextButton.icon(
                               onPressed: () {},
-                              icon: const Icon(Icons.arrow_back, size: 14, color: AppColors.primaryTeal),
-                              label: const Text('Back to Dashboard', style: TextStyle(color: AppColors.primaryTeal, fontSize: 12, fontWeight: FontWeight.bold)),
-                              style: TextButton.styleFrom(padding: EdgeInsets.zero),
+                              icon: const Icon(
+                                Icons.arrow_back,
+                                size: 14,
+                                color: AppColors.primaryTeal,
+                              ),
+                              label: const Text(
+                                'Back to Dashboard',
+                                style: TextStyle(
+                                  color: AppColors.primaryTeal,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              style: TextButton.styleFrom(
+                                padding: EdgeInsets.zero,
+                              ),
                             ),
-                            const Text('Add a Meal', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: AppColors.darkText)),
+                            const Text(
+                              'Add a Meal',
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.darkText,
+                              ),
+                            ),
                             const SizedBox(height: 4),
                             const Text(
                               'How would you like to add your meal today? Choose multimodal AI input or clinical database lookup.',
-                              style: TextStyle(color: AppColors.mutedText, fontSize: 12),
+                              style: TextStyle(
+                                color: AppColors.mutedText,
+                                fontSize: 12,
+                              ),
                             ),
                           ],
                         );
@@ -72,15 +98,38 @@ class AddMealScreen extends StatelessWidget {
                             children: [
                               TextButton.icon(
                                 onPressed: () {},
-                                icon: const Icon(Icons.arrow_back, size: 14, color: AppColors.primaryTeal),
-                                label: const Text('Back to Dashboard', style: TextStyle(color: AppColors.primaryTeal, fontSize: 12, fontWeight: FontWeight.bold)),
-                                style: TextButton.styleFrom(padding: EdgeInsets.zero),
+                                icon: const Icon(
+                                  Icons.arrow_back,
+                                  size: 14,
+                                  color: AppColors.primaryTeal,
+                                ),
+                                label: const Text(
+                                  'Back to Dashboard',
+                                  style: TextStyle(
+                                    color: AppColors.primaryTeal,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                style: TextButton.styleFrom(
+                                  padding: EdgeInsets.zero,
+                                ),
                               ),
-                              const Text('Add a Meal', style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: AppColors.darkText)),
+                              const Text(
+                                'Add a Meal',
+                                style: TextStyle(
+                                  fontSize: 26,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.darkText,
+                                ),
+                              ),
                               const SizedBox(height: 4),
                               const Text(
                                 'How would you like to add your meal today? Choose multimodal AI input or clinical database lookup.',
-                                style: TextStyle(color: AppColors.mutedText, fontSize: 12),
+                                style: TextStyle(
+                                  color: AppColors.mutedText,
+                                  fontSize: 12,
+                                ),
                               ),
                             ],
                           ),
@@ -93,18 +142,35 @@ class AddMealScreen extends StatelessWidget {
                             ),
                             child: Row(
                               children: [
-                                const Icon(Icons.hub_outlined, color: AppColors.primaryTeal, size: 20),
+                                const Icon(
+                                  Icons.hub_outlined,
+                                  color: AppColors.primaryTeal,
+                                  size: 20,
+                                ),
                                 const SizedBox(width: 8),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: const [
-                                    Text('CLINICAL ENGINE', style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold, color: AppColors.mutedText)),
-                                    Text('Gemini Multimodal 2.5 + USDA Rev 28', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),
+                                    Text(
+                                      'CLINICAL ENGINE',
+                                      style: TextStyle(
+                                        fontSize: 9,
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.mutedText,
+                                      ),
+                                    ),
+                                    Text(
+                                      'Gemini Multimodal 2.5 + USDA Rev 28',
+                                      style: TextStyle(
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ],
                             ),
-                          )
+                          ),
                         ],
                       );
                     },
@@ -115,24 +181,24 @@ class AddMealScreen extends StatelessWidget {
                   // Inputs Section (تتحول إلى عمود رأسي على الهاتف، وبجانب بعضها على الشاشات الكبيرة)
                   isDesktop
                       ? Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Expanded(child: DescribeMealCard()),
-                      SizedBox(width: 16),
-                      Expanded(child: VisionAiCard()),
-                      SizedBox(width: 16),
-                      Expanded(child: SearchDatabaseCard()),
-                    ],
-                  )
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: const [
+                            Expanded(child: DescribeMealCard()),
+                            SizedBox(width: 16),
+                            Expanded(child: VisionAiCard()),
+                            SizedBox(width: 16),
+                            Expanded(child: SearchDatabaseCard()),
+                          ],
+                        )
                       : Column(
-                    children: const [
-                      DescribeMealCard(),
-                      SizedBox(height: 16),
-                      VisionAiCard(),
-                      SizedBox(height: 16),
-                      SearchDatabaseCard(),
-                    ],
-                  ),
+                          children: const [
+                            DescribeMealCard(),
+                            SizedBox(height: 16),
+                            VisionAiCard(),
+                            SizedBox(height: 16),
+                            SearchDatabaseCard(),
+                          ],
+                        ),
 
                   const SizedBox(height: 20),
 

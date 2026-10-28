@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../domain/entities/progress_entry.dart';
@@ -37,12 +36,8 @@ class ProgressEntryModel extends ProgressEntry {
       id: documentId ?? json['id'] as String,
       userId: json['userId'] as String,
       weightKg: parseDouble(json['weightKg']),
-      bodyFatPercentage: parseDouble(
-        json['bodyFatPercentage'],
-      ),
-      waistCircumferenceCm: parseDouble(
-        json['waistCircumferenceCm'],
-      ),
+      bodyFatPercentage: parseDouble(json['bodyFatPercentage']),
+      waistCircumferenceCm: parseDouble(json['waistCircumferenceCm']),
       recordedAt: parseDate(json['recordedAt']),
       notes: json['notes'] as String?,
       createdAt: parseDate(json['createdAt']),
@@ -62,9 +57,7 @@ class ProgressEntryModel extends ProgressEntry {
       'recordedAt': Timestamp.fromDate(recordedAt),
       'notes': notes,
       'createdAt': Timestamp.fromDate(createdAt),
-      'updatedAt': updatedAt == null
-          ? null
-          : Timestamp.fromDate(updatedAt!),
+      'updatedAt': updatedAt == null ? null : Timestamp.fromDate(updatedAt!),
     };
   }
 }

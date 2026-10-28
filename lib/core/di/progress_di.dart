@@ -13,13 +13,10 @@ import '../../features/progress/domain/usecases/record_progress_entry.dart';
 import '../../features/progress/domain/usecases/update_progress_entry.dart';
 import '../../features/progress/presentation/cubit/progress_cubit.dart';
 
-
 final sl = GetIt.instance;
 void registerProgressDependencies() {
   sl.registerLazySingleton<ProgressRemoteDataSource>(
-    () => ProgressRemoteDataSourceImpl(
-      firestore: sl<FirebaseFirestore>(),
-    ),
+    () => ProgressRemoteDataSourceImpl(firestore: sl<FirebaseFirestore>()),
   );
 
   sl.registerLazySingleton<ProgressRepository>(
@@ -28,29 +25,17 @@ void registerProgressDependencies() {
     ),
   );
 
-  sl.registerLazySingleton(
-    () => RecordProgressEntry(sl<ProgressRepository>()),
-  );
+  sl.registerLazySingleton(() => RecordProgressEntry(sl<ProgressRepository>()));
 
-  sl.registerLazySingleton(
-    () => UpdateProgressEntry(sl<ProgressRepository>()),
-  );
+  sl.registerLazySingleton(() => UpdateProgressEntry(sl<ProgressRepository>()));
 
-  sl.registerLazySingleton(
-    () => DeleteProgressEntry(sl<ProgressRepository>()),
-  );
+  sl.registerLazySingleton(() => DeleteProgressEntry(sl<ProgressRepository>()));
 
-  sl.registerLazySingleton(
-    () => GetProgressHistory(sl<ProgressRepository>()),
-  );
+  sl.registerLazySingleton(() => GetProgressHistory(sl<ProgressRepository>()));
 
-  sl.registerLazySingleton(
-    () => GetProgressSummary(sl<ProgressRepository>()),
-  );
+  sl.registerLazySingleton(() => GetProgressSummary(sl<ProgressRepository>()));
 
-  sl.registerLazySingleton(
-    () => GetNutritionTrends(sl<ProgressRepository>()),
-  );
+  sl.registerLazySingleton(() => GetNutritionTrends(sl<ProgressRepository>()));
 
   sl.registerFactory(
     () => ProgressCubit(

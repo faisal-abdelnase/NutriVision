@@ -5,13 +5,7 @@ class UploadProfilePhoto {
 
   UploadProfilePhoto(this.repository);
 
-  Future<String> call({
-    required String userId,
-    required String imagePath,
-  }) {
-    return repository.uploadProfilePhoto(
-      userId: userId,
-      imagePath: imagePath,
-    );
+  Future<String> call({required String userId, required String imagePath}) {
+    return repository.uploadProfilePhoto(userId: userId, imagePath: imagePath);
   }
 }

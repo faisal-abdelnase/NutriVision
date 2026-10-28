@@ -227,4 +227,3 @@ class ThemeColors {
   static const Color stitchShadowPrimary = Color(0x28006C49);
   static const Color stitchAmberAlert = Color(0xFFFFDBCA);
 }
-

@@ -1,4 +1,3 @@
-
 import '../entities/nutrition_profile.dart';
 import '../repositories/nutrition_profile_repository.dart';
 
@@ -7,11 +6,7 @@ class GetNutritionProfile {
 
   GetNutritionProfile(this.repository);
 
-  Future<NutritionProfile?> call({
-    required String userId,
-  }) {
-    return repository.getNutritionProfile(
-      userId: userId,
-    );
+  Future<NutritionProfile?> call({required String userId}) {
+    return repository.getNutritionProfile(userId: userId);
   }
 }

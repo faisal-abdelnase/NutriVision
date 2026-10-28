@@ -85,8 +85,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           baseFontSize: 28,
                           breakpoint: bp,
                           textAlign: TextAlign.center,
-                          style: context.textTheme.headlineMedium!
-                              .copyWith(color: s.textPrimary),
+                          style: context.textTheme.headlineMedium!.copyWith(
+                            color: s.textPrimary,
+                          ),
                         ),
                         const SizedBox(height: ThemeDimensions.spaceSm),
                         AppText(
@@ -94,8 +95,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           baseFontSize: 14,
                           breakpoint: bp,
                           textAlign: TextAlign.center,
-                          style: context.textTheme.bodyMedium!
-                              .copyWith(color: s.textSecondary),
+                          style: context.textTheme.bodyMedium!.copyWith(
+                            color: s.textSecondary,
+                          ),
                         ),
                         const SizedBox(height: ThemeDimensions.spaceLg),
 
@@ -117,8 +119,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         ElevatedButton(
                           onPressed: widget.isLoading
                               ? null
-                              : () => widget.onSendPressed
-                                  ?.call(_emailController.text.trim()),
+                              : () => widget.onSendPressed?.call(
+                                  _emailController.text.trim(),
+                                ),
                           child: widget.isLoading
                               ? const SizedBox(
                                   width: 20,
@@ -150,8 +153,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                               context.tr('authBackToLogin'),
                               baseFontSize: 14,
                               breakpoint: bp,
-                              style: context.textTheme.labelLarge!
-                                  .copyWith(color: primary),
+                              style: context.textTheme.labelLarge!.copyWith(
+                                color: primary,
+                              ),
                             ),
                           ),
                         ),
@@ -200,8 +204,9 @@ class _SentView extends StatelessWidget {
           baseFontSize: 28,
           breakpoint: bp,
           textAlign: TextAlign.center,
-          style: context.textTheme.headlineMedium!
-              .copyWith(color: s.textPrimary),
+          style: context.textTheme.headlineMedium!.copyWith(
+            color: s.textPrimary,
+          ),
         ),
         const SizedBox(height: ThemeDimensions.spaceSm),
         AppText(
@@ -209,8 +214,7 @@ class _SentView extends StatelessWidget {
           baseFontSize: 14,
           breakpoint: bp,
           textAlign: TextAlign.center,
-          style: context.textTheme.bodyMedium!
-              .copyWith(color: s.textSecondary),
+          style: context.textTheme.bodyMedium!.copyWith(color: s.textSecondary),
         ),
         const SizedBox(height: ThemeDimensions.spaceLg),
         ElevatedButton(

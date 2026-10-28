@@ -1,11 +1,9 @@
-
 import '../../domain/entities/coach_conversation.dart';
 import '../../domain/entities/coach_message.dart';
 import '../../domain/entities/nutrition_advice.dart';
 import '../../domain/repositories/ai_coach_repository.dart';
 import '../datasources/ai_coach_local_data_source.dart';
 import '../datasources/ai_coach_remote_data_source.dart';
-
 
 class AiCoachRepositoryImpl implements AiCoachRepository {
   final AiCoachRemoteDataSource remoteDataSource;
@@ -22,8 +20,7 @@ class AiCoachRepositoryImpl implements AiCoachRepository {
     required String conversationId,
     required String message,
   }) async {
-    final context = await localDataSource
-        .getCachedConversationMessages(
+    final context = await localDataSource.getCachedConversationMessages(
       conversationId: conversationId,
     );
 
@@ -81,8 +78,7 @@ class AiCoachRepositoryImpl implements AiCoachRepository {
       return remote;
     } catch (_) {
       if (page == 1) {
-        final cached = await localDataSource
-            .getCachedConversationMessages(
+        final cached = await localDataSource.getCachedConversationMessages(
           conversationId: conversationId,
         );
 
@@ -118,8 +114,9 @@ class AiCoachRepositoryImpl implements AiCoachRepository {
       return remote;
     } catch (_) {
       if (page == 1) {
-        final cached = await localDataSource
-            .getCachedUserConversations(userId: userId);
+        final cached = await localDataSource.getCachedUserConversations(
+          userId: userId,
+        );
 
         final filtered = includeArchived
             ? cached
@@ -177,9 +174,7 @@ class AiCoachRepositoryImpl implements AiCoachRepository {
 
     await localDataSource.cacheUserConversations(
       userId: userId,
-      conversations: cached
-          .where((item) => item.id != conversationId)
-          .toList(),
+      conversations: cached.where((item) => item.id != conversationId).toList(),
     );
   }
 
@@ -191,8 +186,7 @@ class AiCoachRepositoryImpl implements AiCoachRepository {
     required List<String> referencedMealIds,
     required String? goal,
   }) async {
-    final advice =
-        await remoteDataSource.fetchPersonalizedNutritionAdvice(
+    final advice = await remoteDataSource.fetchPersonalizedNutritionAdvice(
       userId: userId,
       dietaryPreferences: dietaryPreferences,
       allergies: allergies,
@@ -200,9 +194,7 @@ class AiCoachRepositoryImpl implements AiCoachRepository {
       goal: goal,
     );
 
-    await localDataSource.cacheNutritionAdvice(
-      advice: advice,
-    );
+    await localDataSource.cacheNutritionAdvice(advice: advice);
 
     return advice;
   }

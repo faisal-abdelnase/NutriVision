@@ -11,9 +11,9 @@ class DashboardCubit extends Cubit<DashboardState> {
   DashboardCubit({
     required GetDailyNutritionSummary getDailyNutritionSummary,
     required GetRecentMealsSummary getRecentMealsSummary,
-  })  : _getDailyNutritionSummary = getDailyNutritionSummary,
-        _getRecentMealsSummary = getRecentMealsSummary,
-        super(const DashboardInitial());
+  }) : _getDailyNutritionSummary = getDailyNutritionSummary,
+       _getRecentMealsSummary = getRecentMealsSummary,
+       super(const DashboardInitial());
 
   Future<void> loadDashboard({
     required String userId,
@@ -26,11 +26,7 @@ class DashboardCubit extends Cubit<DashboardState> {
     }
 
     if (recentMealsLimit < 0) {
-      emit(
-        const DashboardError(
-          'Recent meals limit cannot be negative.',
-        ),
-      );
+      emit(const DashboardError('Recent meals limit cannot be negative.'));
       return;
     }
 
@@ -40,34 +36,19 @@ class DashboardCubit extends Cubit<DashboardState> {
       final selectedDate = date ?? DateTime.now();
 
       final results = await Future.wait<Object>([
-        _getDailyNutritionSummary(
-          userId: userId,
-          date: selectedDate,
-        ),
-        _getRecentMealsSummary(
-          userId: userId,
-          limit: recentMealsLimit,
-        ),
+        _getDailyNutritionSummary(userId: userId, date: selectedDate),
+        _getRecentMealsSummary(userId: userId, limit: recentMealsLimit),
       ]);
 
-      final dailySummary = results[0]
-          as dynamic;
+      final dailySummary = results[0] as dynamic;
 
-      final recentMeals = results[1]
-          as dynamic;
+      final recentMeals = results[1] as dynamic;
 
       emit(
-        DashboardLoaded(
-          dailySummary: dailySummary,
-          recentMeals: recentMeals,
-        ),
+        DashboardLoaded(dailySummary: dailySummary, recentMeals: recentMeals),
       );
     } catch (error) {
-      emit(
-        DashboardError(
-          _mapError(error),
-        ),
-      );
+      emit(DashboardError(_mapError(error)));
     }
   }
 

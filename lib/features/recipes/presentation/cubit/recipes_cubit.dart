@@ -1,4 +1,3 @@
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../domain/repositories/recipes_repository.dart';
@@ -33,15 +32,11 @@ class RecipesCubit extends Cubit<RecipesState> {
     }
   }
 
-  Future<void> fetchRecipeById({
-    required String recipeId,
-  }) async {
+  Future<void> fetchRecipeById({required String recipeId}) async {
     emit(const RecipesLoading());
 
     try {
-      final recipe = await _repository.getRecipeById(
-        recipeId: recipeId,
-      );
+      final recipe = await _repository.getRecipeById(recipeId: recipeId);
 
       if (recipe == null) {
         emit(const RecipesError('Recipe not found.'));
@@ -110,14 +105,9 @@ class RecipesCubit extends Cubit<RecipesState> {
     required String recipeId,
   }) async {
     try {
-      await _repository.saveRecipe(
-        userId: userId,
-        recipeId: recipeId,
-      );
+      await _repository.saveRecipe(userId: userId, recipeId: recipeId);
 
-      emit(
-        const RecipesOperationSuccess('Recipe saved successfully.'),
-      );
+      emit(const RecipesOperationSuccess('Recipe saved successfully.'));
     } catch (error) {
       emit(RecipesError('Failed to save recipe: $error'));
     }
@@ -128,14 +118,9 @@ class RecipesCubit extends Cubit<RecipesState> {
     required String recipeId,
   }) async {
     try {
-      await _repository.removeSavedRecipe(
-        userId: userId,
-        recipeId: recipeId,
-      );
+      await _repository.removeSavedRecipe(userId: userId, recipeId: recipeId);
 
-      emit(
-        const RecipesOperationSuccess('Saved recipe removed.'),
-      );
+      emit(const RecipesOperationSuccess('Saved recipe removed.'));
     } catch (error) {
       emit(RecipesError('Failed to remove saved recipe: $error'));
     }

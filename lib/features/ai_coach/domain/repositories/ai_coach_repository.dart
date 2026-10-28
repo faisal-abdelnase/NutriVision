@@ -1,5 +1,3 @@
-
-
 import '../entities/coach_message.dart';
 import '../entities/coach_conversation.dart';
 import '../entities/nutrition_advice.dart';
@@ -35,8 +33,7 @@ abstract class AiCoachRepository {
     required String conversationId,
   });
 
-  Future<NutritionAdvice>
-      getPersonalizedNutritionAdvice({
+  Future<NutritionAdvice> getPersonalizedNutritionAdvice({
     required String userId,
     required List<String> dietaryPreferences,
     required List<String> allergies,

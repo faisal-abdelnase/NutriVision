@@ -107,15 +107,17 @@ class SplashScreen extends StatelessWidget {
                               'Nutri',
                               baseFontSize: 32,
                               breakpoint: bp,
-                              style: context.textTheme.headlineMedium!
-                                  .copyWith(color: s.textPrimary),
+                              style: context.textTheme.headlineMedium!.copyWith(
+                                color: s.textPrimary,
+                              ),
                             ),
                             AppText(
                               'Vision',
                               baseFontSize: 32,
                               breakpoint: bp,
-                              style: context.textTheme.headlineMedium!
-                                  .copyWith(color: context.colorScheme.primary),
+                              style: context.textTheme.headlineMedium!.copyWith(
+                                color: context.colorScheme.primary,
+                              ),
                             ),
                           ],
                         ),

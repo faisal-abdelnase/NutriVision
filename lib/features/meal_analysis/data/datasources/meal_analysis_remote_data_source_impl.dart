@@ -3,25 +3,20 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 
-
 import '../models/meal_analysis_request_model.dart';
 import '../models/meal_analysis_result_model.dart';
 import 'meal_analysis_remote_data_source.dart';
 
-class MealAnalysisRemoteDataSourceImpl
-    implements MealAnalysisRemoteDataSource {
+class MealAnalysisRemoteDataSourceImpl implements MealAnalysisRemoteDataSource {
   final Dio dio;
   final FirebaseFirestore firestore;
-
 
   MealAnalysisRemoteDataSourceImpl({
     required this.dio,
     required this.firestore,
   });
 
-  CollectionReference<Map<String, dynamic>> _collection(
-    String userId,
-  ) {
+  CollectionReference<Map<String, dynamic>> _collection(String userId) {
     return firestore
         .collection('users')
         .doc(userId)
@@ -39,9 +34,7 @@ class MealAnalysisRemoteDataSourceImpl
 
     final data = response.data;
     if (data == null) {
-      throw const FormatException(
-        'The AI service returned an empty response.',
-      );
+      throw const FormatException('The AI service returned an empty response.');
     }
 
     final result = MealAnalysisResultModel.fromJson(data);
@@ -91,9 +84,7 @@ class MealAnalysisRemoteDataSourceImpl
 
     final data = response.data;
     if (data == null) {
-      throw const FormatException(
-        'The AI service returned an empty response.',
-      );
+      throw const FormatException('The AI service returned an empty response.');
     }
 
     final result = MealAnalysisResultModel.fromJson(data);
@@ -132,9 +123,7 @@ class MealAnalysisRemoteDataSourceImpl
 
     final savedResult = result;
 
-    await _collection(result.userId)
-        .doc(result.id)
-        .set(savedResult.toJson());
+    await _collection(result.userId).doc(result.id).set(savedResult.toJson());
 
     return savedResult;
   }
@@ -146,9 +135,7 @@ class MealAnalysisRemoteDataSourceImpl
     required int pageSize,
   }) async {
     if (page < 1 || pageSize < 1) {
-      throw ArgumentError(
-        'Page and pageSize must be greater than zero.',
-      );
+      throw ArgumentError('Page and pageSize must be greater than zero.');
     }
 
     final snapshot = await _collection(userId)
@@ -159,10 +146,7 @@ class MealAnalysisRemoteDataSourceImpl
     final documents = snapshot.docs.skip((page - 1) * pageSize);
 
     return documents.map((doc) {
-      return MealAnalysisResultModel.fromJson({
-        ...doc.data(),
-        'id': doc.id,
-      });
+      return MealAnalysisResultModel.fromJson({...doc.data(), 'id': doc.id});
     }).toList();
   }
 }

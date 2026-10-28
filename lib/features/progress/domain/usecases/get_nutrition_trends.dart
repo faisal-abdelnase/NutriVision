@@ -1,5 +1,3 @@
-
-
 import '../entities/nutrition_trend_point.dart';
 import '../repositories/progress_repository.dart';
 

@@ -24,10 +24,9 @@ class AuthPlaceholderPage extends StatelessWidget {
     if (context.mounted) {
       await context.read<OnboardingCubit>().checkOnboardingStatus();
       if (context.mounted) {
-        Navigator.of(context).pushNamedAndRemoveUntil(
-          RouteNames.onboarding,
-          (_) => false,
-        );
+        Navigator.of(
+          context,
+        ).pushNamedAndRemoveUntil(RouteNames.onboarding, (_) => false);
       }
     }
   }
@@ -55,7 +54,10 @@ class AuthPlaceholderPage extends StatelessWidget {
                       gradient: const LinearGradient(
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
-                        colors: [ThemeColors.primaryDarker, ThemeColors.primary],
+                        colors: [
+                          ThemeColors.primaryDarker,
+                          ThemeColors.primary,
+                        ],
                       ),
                       borderRadius: ThemeDimensions.borderRadiusCard,
                       boxShadow: [
@@ -114,6 +116,31 @@ class AuthPlaceholderPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: ThemeDimensions.spaceXl),
+
+                  FilledButton.icon(
+                    onPressed: () {
+                      Navigator.of(
+                        context,
+                      ).pushNamed(RouteNames.infoCompletion);
+                    },
+                    style: FilledButton.styleFrom(
+                      backgroundColor: ThemeColors.stitchPrimary,
+                      foregroundColor: Colors.white,
+                      minimumSize: const Size(
+                        260,
+                        ThemeDimensions.buttonHeight,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    icon: const Icon(Icons.speed_rounded, size: 18),
+                    label: const Text(
+                      'Launch Info Completion Screens',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  const SizedBox(height: ThemeDimensions.spaceMd),
 
                   // Reset Button for Testing Flow
                   OutlinedButton.icon(

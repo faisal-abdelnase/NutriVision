@@ -1,15 +1,14 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
+
+import '../../features/authentication/presentation/pages/auth_placeholder_page.dart';
+import '../../features/dashboard/presentation/screens/dashboard_screen.dart';
 import '../../features/meal_analysis/domain/entities/analyzed_food_item.dart';
 import '../../features/meal_analysis/domain/entities/meal_analysis_result.dart';
-import '../../features/authentication/presentation/screens/login_screen.dart';
 import '../../features/meal_analysis/presentation/pages/meal_analysis_page.dart';
-=======
-import '../../features/authentication/presentation/pages/auth_placeholder_page.dart';
+import '../../features/nutrition_profile/presentation/pages/info_completion_page.dart';
 import '../../features/onboarding/presentation/pages/onboarding_page.dart';
 import '../../features/onboarding/presentation/pages/splash_screen.dart';
->>>>>>> 221dac99ad6eb8630614390a1cac750a9add04cb
 import 'route_names.dart';
 
 class AppRouter {
@@ -17,24 +16,14 @@ class AppRouter {
 
   static Route<dynamic>? generateRoute(RouteSettings settings) {
     switch (settings.name) {
-      // case RouteNames.root:
+      case RouteNames.root:
       case RouteNames.splash:
         return MaterialPageRoute<void>(
           settings: settings,
-<<<<<<< HEAD
-          builder: (_) => LoginScreen(),
-=======
           builder: (_) => const SplashScreen(),
->>>>>>> 221dac99ad6eb8630614390a1cac750a9add04cb
         );
 
       case RouteNames.onboarding:
-<<<<<<< HEAD
-      // return MaterialPageRoute<void>(
-      //   settings: settings,
-      //   builder: (_) => OnboardingPage(repository: onboardingRepository),
-      // );
-=======
         return PageRouteBuilder<void>(
           settings: settings,
           transitionDuration: const Duration(milliseconds: 500),
@@ -56,13 +45,13 @@ class AppRouter {
           },
         );
 
->>>>>>> 221dac99ad6eb8630614390a1cac750a9add04cb
       case RouteNames.authentication:
         return MaterialPageRoute<void>(
           settings: settings,
           builder: (_) => const AuthPlaceholderPage(),
         );
-      case RouteNames.root:
+
+      case RouteNames.mealAnalysis:
         final arguments = settings.arguments;
         if (arguments == null && kDebugMode) {
           return MaterialPageRoute<void>(
@@ -88,6 +77,18 @@ class AppRouter {
             analysisId: arguments.analysisId,
             userId: arguments.userId,
           ),
+        );
+
+      case RouteNames.infoCompletion:
+        return MaterialPageRoute<void>(
+          settings: settings,
+          builder: (_) => const InfoCompletionPage(),
+        );
+
+      case RouteNames.home:
+        return MaterialPageRoute<void>(
+          settings: settings,
+          builder: (_) => const DashboardScreen(),
         );
 
       default:

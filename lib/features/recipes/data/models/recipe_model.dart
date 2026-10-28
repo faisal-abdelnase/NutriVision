@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../domain/entities/recipe.dart';
@@ -40,8 +39,7 @@ class RecipeModel extends Recipe {
   }
 
   factory RecipeModel.fromJson(Map<String, dynamic> json) {
-    final rawIngredients =
-        json['ingredients'] as List<dynamic>? ?? [];
+    final rawIngredients = json['ingredients'] as List<dynamic>? ?? [];
 
     return RecipeModel(
       id: json['id'] as String,
@@ -54,22 +52,17 @@ class RecipeModel extends Recipe {
           Map<String, dynamic>.from(item as Map),
         );
       }).toList(),
-      instructions: List<String>.from(
-        json['instructions'] as List? ?? [],
-      ),
+      instructions: List<String>.from(json['instructions'] as List? ?? []),
       tags: List<String>.from(json['tags'] as List? ?? []),
-      preparationMinutes:
-          (json['preparationMinutes'] as num).toInt(),
+      preparationMinutes: (json['preparationMinutes'] as num).toInt(),
       cookingMinutes: (json['cookingMinutes'] as num).toInt(),
       servings: (json['servings'] as num).toInt(),
-      caloriesPerServing:
-          (json['caloriesPerServing'] as num).toDouble(),
-      proteinGramsPerServing:
-          (json['proteinGramsPerServing'] as num).toDouble(),
-      carbohydrateGramsPerServing:
-          (json['carbohydrateGramsPerServing'] as num).toDouble(),
-      fatGramsPerServing:
-          (json['fatGramsPerServing'] as num).toDouble(),
+      caloriesPerServing: (json['caloriesPerServing'] as num).toDouble(),
+      proteinGramsPerServing: (json['proteinGramsPerServing'] as num)
+          .toDouble(),
+      carbohydrateGramsPerServing: (json['carbohydrateGramsPerServing'] as num)
+          .toDouble(),
+      fatGramsPerServing: (json['fatGramsPerServing'] as num).toDouble(),
       dietaryCategory: json['dietaryCategory'] as String?,
       isAiGenerated: json['isAiGenerated'] as bool? ?? false,
       isSaved: json['isSaved'] as bool? ?? false,
@@ -97,15 +90,13 @@ class RecipeModel extends Recipe {
       'servings': servings,
       'caloriesPerServing': caloriesPerServing,
       'proteinGramsPerServing': proteinGramsPerServing,
-      'carbohydrateGramsPerServing':
-          carbohydrateGramsPerServing,
+      'carbohydrateGramsPerServing': carbohydrateGramsPerServing,
       'fatGramsPerServing': fatGramsPerServing,
       'dietaryCategory': dietaryCategory,
       'isAiGenerated': isAiGenerated,
       'isSaved': isSaved,
       'createdAt': Timestamp.fromDate(createdAt),
-      'updatedAt':
-          updatedAt == null ? null : Timestamp.fromDate(updatedAt!),
+      'updatedAt': updatedAt == null ? null : Timestamp.fromDate(updatedAt!),
     };
   }
 

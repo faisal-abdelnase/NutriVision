@@ -1,5 +1,3 @@
-
-
 import '../entities/meal_analysis_request.dart';
 import '../entities/meal_analysis_result.dart';
 
@@ -21,8 +19,7 @@ abstract class MealAnalysisRepository {
     required MealAnalysisResult result,
   });
 
-  Future<List<MealAnalysisResult>>
-      getMealAnalysisHistory({
+  Future<List<MealAnalysisResult>> getMealAnalysisHistory({
     required String userId,
     required int page,
     required int pageSize,

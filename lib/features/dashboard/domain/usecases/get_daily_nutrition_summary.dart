@@ -10,9 +10,6 @@ class GetDailyNutritionSummary {
     required String userId,
     required DateTime date,
   }) {
-    return repository.getDailyNutritionSummary(
-      userId: userId,
-      date: date,
-    );
+    return repository.getDailyNutritionSummary(userId: userId, date: date);
   }
 }

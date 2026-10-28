@@ -1,4 +1,3 @@
-
 import '../repositories/recipes_repository.dart';
 
 class RemoveSavedRecipe {
@@ -6,13 +5,7 @@ class RemoveSavedRecipe {
 
   final RecipesRepository repository;
 
-  Future<void> call({
-    required String userId,
-    required String recipeId,
-  }) {
-    return repository.removeSavedRecipe(
-      userId: userId,
-      recipeId: recipeId,
-    );
+  Future<void> call({required String userId, required String recipeId}) {
+    return repository.removeSavedRecipe(userId: userId, recipeId: recipeId);
   }
 }

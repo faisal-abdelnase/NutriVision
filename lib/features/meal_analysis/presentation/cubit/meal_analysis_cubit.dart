@@ -28,9 +28,7 @@ class MealAnalysisCubit extends Cubit<MealAnalysisState> {
     return error.toString().replaceFirst('Exception: ', '');
   }
 
-  Future<void> analyzeText({
-    required MealAnalysisRequest request,
-  }) async {
+  Future<void> analyzeText({required MealAnalysisRequest request}) async {
     emit(const MealAnalysisLoading());
 
     try {
@@ -41,9 +39,7 @@ class MealAnalysisCubit extends Cubit<MealAnalysisState> {
     }
   }
 
-  Future<void> analyzeImage({
-    required MealAnalysisRequest request,
-  }) async {
+  Future<void> analyzeImage({required MealAnalysisRequest request}) async {
     emit(const MealAnalysisLoading());
 
     try {

@@ -6,9 +6,7 @@ class UpdateUserProfile {
 
   UpdateUserProfile(this.repository);
 
-  Future<UserProfile> call({
-    required UserProfile profile,
-  }) {
+  Future<UserProfile> call({required UserProfile profile}) {
     return repository.updateUserProfile(profile: profile);
   }
 }

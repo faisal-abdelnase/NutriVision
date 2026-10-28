@@ -5,9 +5,7 @@ import '../datasources/auth_remote_data_source.dart';
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource remoteDataSource;
 
-  AuthRepositoryImpl({
-    required this.remoteDataSource,
-  });
+  AuthRepositoryImpl({required this.remoteDataSource});
 
   @override
   Future<AuthUser> signIn({
@@ -37,11 +35,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<void> sendPasswordResetEmail({
-    required String email,
-  }) async {
-    await remoteDataSource.sendPasswordResetEmail(
-      email: email,
-    );
+  Future<void> sendPasswordResetEmail({required String email}) async {
+    await remoteDataSource.sendPasswordResetEmail(email: email);
   }
 }

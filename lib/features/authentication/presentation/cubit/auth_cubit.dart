@@ -1,4 +1,3 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -23,10 +22,7 @@ class AuthCubit extends Cubit<AuthState> {
     required this.sendPasswordResetEmailUseCase,
   }) : super(const AuthInitial());
 
-  Future<void> signIn({
-    required String email,
-    required String password,
-  }) async {
+  Future<void> signIn({required String email, required String password}) async {
     emit(const AuthLoading());
 
     try {
@@ -39,16 +35,11 @@ class AuthCubit extends Cubit<AuthState> {
     } on FirebaseAuthException catch (e) {
       emit(AuthError(FirebaseErrorMapper.map(e.code)));
     } catch (_) {
-      emit(const AuthError(
-        'حدث خطأ غير متوقع. حاول مرة أخرى.',
-      ));
+      emit(const AuthError('حدث خطأ غير متوقع. حاول مرة أخرى.'));
     }
   }
 
-  Future<void> signUp({
-    required String email,
-    required String password,
-  }) async {
+  Future<void> signUp({required String email, required String password}) async {
     emit(const AuthLoading());
 
     try {
@@ -61,9 +52,7 @@ class AuthCubit extends Cubit<AuthState> {
     } on FirebaseAuthException catch (e) {
       emit(AuthError(FirebaseErrorMapper.map(e.code)));
     } catch (_) {
-      emit(const AuthError(
-        'تعذر إنشاء الحساب. حاول مرة أخرى.',
-      ));
+      emit(const AuthError('تعذر إنشاء الحساب. حاول مرة أخرى.'));
     }
   }
 
@@ -77,31 +66,21 @@ class AuthCubit extends Cubit<AuthState> {
     } on FirebaseAuthException catch (e) {
       emit(AuthError(FirebaseErrorMapper.map(e.code)));
     } catch (_) {
-      emit(const AuthError(
-        'تعذر تسجيل الخروج. حاول مرة أخرى.',
-      ));
+      emit(const AuthError('تعذر تسجيل الخروج. حاول مرة أخرى.'));
     }
   }
 
-  Future<void> sendPasswordResetEmail({
-    required String email,
-  }) async {
+  Future<void> sendPasswordResetEmail({required String email}) async {
     emit(const AuthLoading());
 
     try {
-      await sendPasswordResetEmailUseCase(
-        email: email.trim(),
-      );
+      await sendPasswordResetEmailUseCase(email: email.trim());
 
       emit(const AuthPasswordResetSent());
     } on FirebaseAuthException catch (e) {
       emit(AuthError(FirebaseErrorMapper.map(e.code)));
     } catch (_) {
-      emit(const AuthError(
-        'تعذر إرسال رسالة استعادة كلمة المرور.',
-      ));
+      emit(const AuthError('تعذر إرسال رسالة استعادة كلمة المرور.'));
     }
   }
-
-
 }

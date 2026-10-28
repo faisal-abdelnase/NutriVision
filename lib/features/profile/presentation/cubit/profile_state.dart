@@ -31,8 +31,7 @@ class ProfileState {
     return ProfileState(
       status: status ?? this.status,
       profile: clearProfile ? null : profile ?? this.profile,
-      errorMessage:
-          clearError ? null : errorMessage ?? this.errorMessage,
+      errorMessage: clearError ? null : errorMessage ?? this.errorMessage,
     );
   }
 }

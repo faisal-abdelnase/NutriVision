@@ -19,11 +19,14 @@ class ProgressScreen extends StatelessWidget {
       backgroundColor: AppColors.background,
       appBar: !isDesktop
           ? AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        iconTheme: const IconThemeData(color: AppColors.darkText),
-        title: const Text('Your Progress', style: TextStyle(color: AppColors.darkText, fontSize: 16)),
-      )
+              backgroundColor: Colors.white,
+              elevation: 0,
+              iconTheme: const IconThemeData(color: AppColors.darkText),
+              title: const Text(
+                'Your Progress',
+                style: TextStyle(color: AppColors.darkText, fontSize: 16),
+              ),
+            )
           : null,
       drawer: !isDesktop ? const Drawer(child: SidebarWidget()) : null,
       body: Row(
@@ -51,7 +54,14 @@ class ProgressScreen extends StatelessWidget {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: const [
-                                  Text('Your Progress', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: AppColors.darkText)),
+                                  Text(
+                                    'Your Progress',
+                                    style: TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.darkText,
+                                    ),
+                                  ),
                                 ],
                               ),
                               if (!isSmall)
@@ -59,27 +69,39 @@ class ProgressScreen extends StatelessWidget {
                                   children: [
                                     OutlinedButton.icon(
                                       onPressed: () {},
-                                      icon: const Icon(Icons.picture_as_pdf_outlined, size: 14),
-                                      label: const Text('Export PDF Report', style: TextStyle(fontSize: 10)),
+                                      icon: const Icon(
+                                        Icons.picture_as_pdf_outlined,
+                                        size: 14,
+                                      ),
+                                      label: const Text(
+                                        'Export PDF Report',
+                                        style: TextStyle(fontSize: 10),
+                                      ),
                                     ),
                                     const SizedBox(width: 8),
                                     ElevatedButton.icon(
                                       onPressed: () {},
                                       icon: const Icon(Icons.share, size: 14),
-                                      label: const Text('Share with Dietitian', style: TextStyle(fontSize: 10)),
+                                      label: const Text(
+                                        'Share with Dietitian',
+                                        style: TextStyle(fontSize: 10),
+                                      ),
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: AppColors.primaryTeal,
                                         foregroundColor: Colors.white,
                                       ),
-                                    )
+                                    ),
                                   ],
-                                )
+                                ),
                             ],
                           ),
                           const SizedBox(height: 4),
                           const Text(
                             'Track longitudinal caloric balance, macronutrient distribution trends, and metabolic compliance across clinical cycles.',
-                            style: TextStyle(fontSize: 10, color: AppColors.mutedText),
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: AppColors.mutedText,
+                            ),
                           ),
                         ],
                       );
@@ -103,7 +125,7 @@ class ProgressScreen extends StatelessWidget {
                 ],
               ),
             ),
-          )
+          ),
         ],
       ),
     );

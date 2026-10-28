@@ -40,7 +40,6 @@ class MealAnalysisResult {
     required this.analyzedAt,
     this.linkedMealId,
   });
-
   MealAnalysisResult copyWith({String? linkedMealId}) {
     return MealAnalysisResult(
       id: id,

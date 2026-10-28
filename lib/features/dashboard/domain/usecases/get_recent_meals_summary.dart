@@ -10,9 +10,6 @@ class GetRecentMealsSummary {
     required String userId,
     required int limit,
   }) {
-    return repository.getRecentMealsSummary(
-      userId: userId,
-      limit: limit,
-    );
+    return repository.getRecentMealsSummary(userId: userId, limit: limit);
   }
 }

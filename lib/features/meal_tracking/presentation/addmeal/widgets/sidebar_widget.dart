@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../../core/routing/route_names.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../dashboard/presentation/screens/dashboard_screen.dart';
+import '../../../../nutrition_profile/domain/entities/nutrition_profile.dart';
+import '../../../../nutrition_profile/presentation/cubit/nutrition_profile_cubit.dart';
 import '../../../../progress/presentation/screens/progress_screen.dart';
 import '../screens/add_meal_screen.dart';
-
 
 class SidebarWidget extends StatelessWidget {
   const SidebarWidget({super.key});
@@ -11,6 +14,7 @@ class SidebarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String? currentRoute = ModalRoute.of(context)?.settings.name;
+    final profile = context.watch<NutritionProfileCubit?>()?.currentProfile;
 
     return Material(
       color: AppColors.sidebarBackground,
@@ -29,14 +33,31 @@ class SidebarWidget extends StatelessWidget {
                       color: AppColors.primaryTeal.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: const Icon(Icons.blur_on, color: AppColors.primaryTeal, size: 24),
+                    child: const Icon(
+                      Icons.blur_on,
+                      color: AppColors.primaryTeal,
+                      size: 24,
+                    ),
                   ),
                   const SizedBox(width: 10),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: const [
-                      Text('NutriVision', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                      Text('CLINICAL INTEL', style: TextStyle(color: AppColors.primaryTeal, fontSize: 10, fontWeight: FontWeight.bold)),
+                      Text(
+                        'NutriVision',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                      Text(
+                        'CLINICAL INTEL',
+                        style: TextStyle(
+                          color: AppColors.primaryTeal,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ],
                   ),
                 ],
@@ -95,6 +116,15 @@ class SidebarWidget extends StatelessWidget {
             ),
             _buildNavItem(
               context,
+              Icons.tune,
+              'Calibration • المعايرة',
+              isSelected: currentRoute == RouteNames.infoCompletion,
+              onTap: () {
+                Navigator.of(context).pushNamed(RouteNames.infoCompletion);
+              },
+            ),
+            _buildNavItem(
+              context,
               Icons.restaurant_menu,
               'Nutrition Log',
               isSelected: false,
@@ -118,32 +148,62 @@ class SidebarWidget extends StatelessWidget {
             const Spacer(),
 
             // Footer
-            Container(
-              padding: const EdgeInsets.all(12),
-              margin: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: const Color(0xFFF8FAFC),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Row(
-                children: [
-                  const CircleAvatar(
-                    backgroundColor: AppColors.primaryTeal,
-                    radius: 16,
-                    child: Icon(Icons.person, color: Colors.white, size: 18),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text('Dr. E. Vance', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
-                        Text('Lead Dietitian', style: TextStyle(color: AppColors.mutedText, fontSize: 10)),
-                      ],
+            InkWell(
+              onTap: () {
+                Navigator.of(context).pushNamed(RouteNames.infoCompletion);
+              },
+              borderRadius: BorderRadius.circular(12),
+              child: Container(
+                padding: const EdgeInsets.all(12),
+                margin: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF8FAFC),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Row(
+                  children: [
+                    const CircleAvatar(
+                      backgroundColor: AppColors.primaryTeal,
+                      radius: 16,
+                      child: Icon(Icons.person, color: Colors.white, size: 18),
                     ),
-                  ),
-                  const Icon(Icons.verified_outlined, size: 16, color: AppColors.mutedText),
-                ],
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            profile != null && profile.isCalibrated
+                                ? '${profile.weightKg}kg • ${profile.goalLabelEn}'
+                                : 'Dr. E. Vance',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 11,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          Text(
+                            profile != null && profile.isCalibrated
+                                ? '${profile.regimenLabelEn} Regimen'
+                                : 'Lead Dietitian',
+                            style: const TextStyle(
+                              color: AppColors.mutedText,
+                              fontSize: 9,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                    ),
+                    const Icon(
+                      Icons.tune,
+                      size: 14,
+                      color: AppColors.primaryTeal,
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
@@ -153,30 +213,38 @@ class SidebarWidget extends StatelessWidget {
   }
 
   Widget _buildNavItem(
-      BuildContext context,
-      IconData icon,
-      String label, {
-        required bool isSelected,
-        required VoidCallback onTap,
-      }) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-      decoration: BoxDecoration(
+    BuildContext context,
+    IconData icon,
+    String label, {
+    required bool isSelected,
+    required VoidCallback onTap,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+      child: Material(
         color: isSelected ? const Color(0xFF00B074) : Colors.transparent,
         borderRadius: BorderRadius.circular(8),
-      ),
-      child: ListTile(
-        dense: true,
-        leading: Icon(icon, color: isSelected ? Colors.white : AppColors.mutedText, size: 20),
-        title: Text(
-          label,
-          style: TextStyle(
-            color: isSelected ? Colors.white : AppColors.darkText,
-            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-            fontSize: 13,
+        clipBehavior: Clip.antiAlias,
+        child: ListTile(
+          dense: true,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
           ),
+          leading: Icon(
+            icon,
+            color: isSelected ? Colors.white : AppColors.mutedText,
+            size: 20,
+          ),
+          title: Text(
+            label,
+            style: TextStyle(
+              color: isSelected ? Colors.white : AppColors.darkText,
+              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+              fontSize: 13,
+            ),
+          ),
+          onTap: onTap,
         ),
-        onTap: onTap,
       ),
     );
   }

@@ -4,13 +4,10 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 import 'profile_storage_data_source.dart';
 
-class ProfileStorageDataSourceImpl
-    implements ProfileStorageDataSource {
+class ProfileStorageDataSourceImpl implements ProfileStorageDataSource {
   final FirebaseStorage storage;
 
-  ProfileStorageDataSourceImpl({
-    required this.storage,
-  });
+  ProfileStorageDataSourceImpl({required this.storage});
 
   Reference _imageRef(String userId) {
     return storage.ref('profile_images/$userId/profile.jpg');

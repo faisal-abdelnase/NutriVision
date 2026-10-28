@@ -13,9 +13,7 @@ final GetIt sl = GetIt.instance;
 Future<void> registerOnboardingDependencies() async {
   final sharedPreferences = await SharedPreferences.getInstance();
 
-  sl.registerLazySingleton<SharedPreferences>(
-    () => sharedPreferences,
-  );
+  sl.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
 
   sl.registerLazySingleton<OnboardingLocalDataSource>(
     () => OnboardingLocalDataSourceImpl(
@@ -30,22 +28,17 @@ Future<void> registerOnboardingDependencies() async {
   );
 
   sl.registerLazySingleton<CompleteOnboarding>(
-    () => CompleteOnboarding(
-      sl<OnboardingRepository>(),
-    ),
+    () => CompleteOnboarding(sl<OnboardingRepository>()),
   );
 
   sl.registerLazySingleton<HasCompletedOnboarding>(
-    () => HasCompletedOnboarding(
-      sl<OnboardingRepository>(),
-    ),
+    () => HasCompletedOnboarding(sl<OnboardingRepository>()),
   );
 
-
   sl.registerFactory<OnboardingCubit>(
-  () => OnboardingCubit(
-    hasCompletedOnboarding: sl<HasCompletedOnboarding>(),
-    completeOnboarding: sl<CompleteOnboarding>(),
-  ),
-);
+    () => OnboardingCubit(
+      hasCompletedOnboarding: sl<HasCompletedOnboarding>(),
+      completeOnboarding: sl<CompleteOnboarding>(),
+    ),
+  );
 }

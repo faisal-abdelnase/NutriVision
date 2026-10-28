@@ -19,7 +19,7 @@ class LoginScreen extends StatefulWidget {
 
   /// Called with (email, password, rememberMe).
   final void Function(String email, String password, bool rememberMe)?
-      onLoginPressed;
+  onLoginPressed;
   final VoidCallback? onGooglePressed;
   final VoidCallback? onForgotPasswordPressed;
   final VoidCallback? onSignUpPressed;
@@ -90,8 +90,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           context.tr('splashLanguage'),
                           baseFontSize: 14,
                           breakpoint: bp,
-                          style: context.textTheme.labelLarge!
-                              .copyWith(color: primary),
+                          style: context.textTheme.labelLarge!.copyWith(
+                            color: primary,
+                          ),
                         ),
                       ),
                     ],
@@ -124,8 +125,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     baseFontSize: 28,
                     breakpoint: bp,
                     textAlign: TextAlign.center,
-                    style: context.textTheme.headlineMedium!
-                        .copyWith(color: s.textPrimary),
+                    style: context.textTheme.headlineMedium!.copyWith(
+                      color: s.textPrimary,
+                    ),
                   ),
                   const SizedBox(height: ThemeDimensions.spaceSm),
                   AppText(
@@ -133,8 +135,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     baseFontSize: 14,
                     breakpoint: bp,
                     textAlign: TextAlign.center,
-                    style: context.textTheme.bodyMedium!
-                        .copyWith(color: s.textSecondary),
+                    style: context.textTheme.bodyMedium!.copyWith(
+                      color: s.textSecondary,
+                    ),
                   ),
                   const SizedBox(height: ThemeDimensions.spaceLg),
 
@@ -221,8 +224,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           context.tr('authForgotPassword'),
                           baseFontSize: 14,
                           breakpoint: bp,
-                          style: context.textTheme.labelLarge!
-                              .copyWith(color: primary),
+                          style: context.textTheme.labelLarge!.copyWith(
+                            color: primary,
+                          ),
                         ),
                       ),
                     ],
@@ -234,10 +238,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: widget.isLoading
                         ? null
                         : () => widget.onLoginPressed?.call(
-                              _emailController.text.trim(),
-                              _passwordController.text,
-                              _rememberMe,
-                            ),
+                            _emailController.text.trim(),
+                            _passwordController.text,
+                            _rememberMe,
+                          ),
                     child: widget.isLoading
                         ? const SizedBox(
                             width: 20,
@@ -260,8 +264,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           context.tr('authOrContinueWith'),
                           baseFontSize: 12,
                           breakpoint: bp,
-                          style: context.textTheme.bodySmall!
-                              .copyWith(color: s.textMuted),
+                          style: context.textTheme.bodySmall!.copyWith(
+                            color: s.textMuted,
+                          ),
                         ),
                       ),
                       Expanded(child: Divider(color: s.border)),
@@ -286,8 +291,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         context.tr('authNoAccount'),
                         baseFontSize: 14,
                         breakpoint: bp,
-                        style: context.textTheme.bodyMedium!
-                            .copyWith(color: s.textSecondary),
+                        style: context.textTheme.bodyMedium!.copyWith(
+                          color: s.textSecondary,
+                        ),
                       ),
                       TextButton(
                         style: TextButton.styleFrom(
@@ -301,8 +307,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           context.tr('authCreateAccount'),
                           baseFontSize: 14,
                           breakpoint: bp,
-                          style: context.textTheme.labelLarge!
-                              .copyWith(color: primary),
+                          style: context.textTheme.labelLarge!.copyWith(
+                            color: primary,
+                          ),
                         ),
                       ),
                     ],

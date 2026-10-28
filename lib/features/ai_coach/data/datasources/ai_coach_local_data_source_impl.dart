@@ -1,4 +1,3 @@
-
 import 'package:hive_ce/hive.dart';
 
 import '../models/coach_conversation_model.dart';
@@ -41,9 +40,9 @@ class AiCoachLocalDataSourceImpl implements AiCoachLocalDataSource {
 
     return raw
         .whereType<Map>()
-        .map((item) => CoachMessageModel.fromJson(
-              Map<String, dynamic>.from(item),
-            ))
+        .map(
+          (item) => CoachMessageModel.fromJson(Map<String, dynamic>.from(item)),
+        )
         .toList();
   }
 
@@ -67,9 +66,10 @@ class AiCoachLocalDataSourceImpl implements AiCoachLocalDataSource {
 
     return raw
         .whereType<Map>()
-        .map((item) => CoachConversationModel.fromJson(
-              Map<String, dynamic>.from(item),
-            ))
+        .map(
+          (item) =>
+              CoachConversationModel.fromJson(Map<String, dynamic>.from(item)),
+        )
         .toList();
   }
 
@@ -101,16 +101,12 @@ class AiCoachLocalDataSourceImpl implements AiCoachLocalDataSource {
   }
 
   @override
-  Future<void> clearConversationCache({
-    required String conversationId,
-  }) async {
+  Future<void> clearConversationCache({required String conversationId}) async {
     await messagesBox.delete(_messagesKey(conversationId));
   }
 
   @override
-  Future<void> clearUserCoachCache({
-    required String userId,
-  }) async {
+  Future<void> clearUserCoachCache({required String userId}) async {
     await conversationsBox.delete(_conversationsKey(userId));
     await adviceBox.delete(_adviceKey(userId));
   }

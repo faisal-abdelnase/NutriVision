@@ -1,4 +1,3 @@
-
 import '../entities/progress_entry.dart';
 import '../repositories/progress_repository.dart';
 

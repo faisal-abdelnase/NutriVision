@@ -5,9 +5,7 @@ class DeleteProfilePhoto {
 
   DeleteProfilePhoto(this.repository);
 
-  Future<void> call({
-    required String userId,
-  }) {
+  Future<void> call({required String userId}) {
     return repository.deleteProfilePhoto(userId: userId);
   }
 }

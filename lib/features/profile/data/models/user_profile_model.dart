@@ -17,9 +17,7 @@ class UserProfileModel extends UserProfile {
     super.updatedAt,
   });
 
-  factory UserProfileModel.fromJson(
-    Map<String, dynamic> json,
-  ) {
+  factory UserProfileModel.fromJson(Map<String, dynamic> json) {
     DateTime? parseDate(dynamic value) {
       if (value == null) return null;
       if (value is DateTime) return value;
@@ -36,14 +34,10 @@ class UserProfileModel extends UserProfile {
       bio: json['bio'] as String?,
       dateOfBirth: parseDate(json['dateOfBirth']),
       gender: json['gender'] as String?,
-      preferredLanguage:
-          json['preferredLanguage'] as String? ?? 'ar',
-      preferredTheme:
-          json['preferredTheme'] as String? ?? 'system',
-      notificationsEnabled:
-          json['notificationsEnabled'] as bool? ?? true,
-      createdAt: parseDate(json['createdAt']) ??
-          DateTime.now(),
+      preferredLanguage: json['preferredLanguage'] as String? ?? 'ar',
+      preferredTheme: json['preferredTheme'] as String? ?? 'system',
+      notificationsEnabled: json['notificationsEnabled'] as bool? ?? true,
+      createdAt: parseDate(json['createdAt']) ?? DateTime.now(),
       updatedAt: parseDate(json['updatedAt']),
     );
   }
@@ -84,22 +78,21 @@ class UserProfileModel extends UserProfile {
     );
   }
 
-
   UserProfileModel copyWithPhoto(String? photoUrl) {
-  return UserProfileModel(
-    userId: userId,
-    fullName: fullName,
-    email: email,
-    phoneNumber: phoneNumber,
-    profilePhotoUrl: photoUrl,
-    bio: bio,
-    dateOfBirth: dateOfBirth,
-    gender: gender,
-    preferredLanguage: preferredLanguage,
-    preferredTheme: preferredTheme,
-    notificationsEnabled: notificationsEnabled,
-    createdAt: createdAt,
-    updatedAt: DateTime.now(),
-  );
-}
+    return UserProfileModel(
+      userId: userId,
+      fullName: fullName,
+      email: email,
+      phoneNumber: phoneNumber,
+      profilePhotoUrl: photoUrl,
+      bio: bio,
+      dateOfBirth: dateOfBirth,
+      gender: gender,
+      preferredLanguage: preferredLanguage,
+      preferredTheme: preferredTheme,
+      notificationsEnabled: notificationsEnabled,
+      createdAt: createdAt,
+      updatedAt: DateTime.now(),
+    );
+  }
 }

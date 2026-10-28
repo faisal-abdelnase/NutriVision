@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_ai/firebase_ai.dart';
 
@@ -13,25 +12,18 @@ class AiCoachRemoteDataSourceImpl implements AiCoachRemoteDataSource {
   final FirebaseFirestore firestore;
   final GenerativeModel model;
 
-  AiCoachRemoteDataSourceImpl({
-    required this.firestore,
-    required this.model,
-  });
+  AiCoachRemoteDataSourceImpl({required this.firestore, required this.model});
 
-  CollectionReference<Map<String, dynamic>> _conversations(
-    String userId,
-  ) =>
-      firestore.collection('users').doc(userId).collection(
-            'aiCoachConversations',
-          );
+  CollectionReference<Map<String, dynamic>> _conversations(String userId) =>
+      firestore
+          .collection('users')
+          .doc(userId)
+          .collection('aiCoachConversations');
 
   CollectionReference<Map<String, dynamic>> _messages(
     String userId,
     String conversationId,
-  ) =>
-      _conversations(userId)
-          .doc(conversationId)
-          .collection('messages');
+  ) => _conversations(userId).doc(conversationId).collection('messages');
 
   @override
   Future<CoachConversationModel> createConversation({
@@ -86,15 +78,18 @@ class AiCoachRemoteDataSourceImpl implements AiCoachRemoteDataSource {
 
     await userMessageRef.set(userMessage.toFirestore());
 
-    final context = conversationContext
-        .where((item) => item.role != CoachMessageRole.system)
-        .toList()
-      ..sort((a, b) => a.createdAt.compareTo(b.createdAt));
+    final context =
+        conversationContext
+            .where((item) => item.role != CoachMessageRole.system)
+            .toList()
+          ..sort((a, b) => a.createdAt.compareTo(b.createdAt));
 
     final history = context
-        .map((item) =>
-            '${item.role == CoachMessageRole.user ? "User" : "Assistant"}: '
-            '${item.content}')
+        .map(
+          (item) =>
+              '${item.role == CoachMessageRole.user ? "User" : "Assistant"}: '
+              '${item.content}',
+        )
         .join('\n');
 
     const systemPrompt = '''
@@ -108,7 +103,8 @@ For medical symptoms or urgent concerns, advise consulting a qualified professio
 You are not a substitute for a registered dietitian or physician.
 ''';
 
-    final prompt = '''
+    final prompt =
+        '''
 $systemPrompt
 
 Previous conversation:
@@ -120,9 +116,7 @@ $text
 Provide a clear, friendly, personalized response.
 ''';
 
-    final response = await model.generateContent([
-      Content.text(prompt),
-    ]);
+    final response = await model.generateContent([Content.text(prompt)]);
 
     final answer = response.text?.trim();
     if (answer == null || answer.isEmpty) {
@@ -166,8 +160,10 @@ Provide a clear, friendly, personalized response.
       throw ArgumentError('Page and pageSize must be positive.');
     }
 
-    Query<Map<String, dynamic>> query = _messages(userId, conversationId)
-        .orderBy('createdAt', descending: true);
+    Query<Map<String, dynamic>> query = _messages(
+      userId,
+      conversationId,
+    ).orderBy('createdAt', descending: true);
 
     final precedingCount = (page - 1) * pageSize;
     if (precedingCount > 0) {
@@ -216,9 +212,7 @@ Provide a clear, friendly, personalized response.
 
     final snapshot = await query.limit(pageSize).get();
 
-    return snapshot.docs
-        .map(CoachConversationModel.fromFirestore)
-        .toList();
+    return snapshot.docs.map(CoachConversationModel.fromFirestore).toList();
   }
 
   @override
@@ -256,7 +250,8 @@ Provide a clear, friendly, personalized response.
     required List<String> referencedMealIds,
     required String? goal,
   }) async {
-    final prompt = '''
+    final prompt =
+        '''
 You are NutriVision's nutrition assistant.
 Generate general nutrition guidance, not a medical diagnosis.
 
@@ -275,9 +270,7 @@ Do not invent personal health data.
 Treat listed allergies seriously and advise professional care for medical concerns.
 ''';
 
-    final response = await model.generateContent([
-      Content.text(prompt),
-    ]);
+    final response = await model.generateContent([Content.text(prompt)]);
 
     final text = response.text?.trim();
     if (text == null || text.isEmpty) {
@@ -295,67 +288,62 @@ Treat listed allergies seriously and advise professional care for medical concer
     );
   }
 
-  
-Future<NutritionAdviceModel> _parseAdvice({
-  required String userId,
-  required List<String> dietaryPreferences,
-  required List<String> allergies,
-  required List<String> referencedMealIds,
-  required String? goal,
-  required String generatedText,
-}) async {
-  final cleaned = generatedText
-      .replaceAll(RegExp(r'^```(?:json)?\s*'), '')
-      .replaceAll(RegExp(r'\s*```$'), '')
-      .trim();
+  Future<NutritionAdviceModel> _parseAdvice({
+    required String userId,
+    required List<String> dietaryPreferences,
+    required List<String> allergies,
+    required List<String> referencedMealIds,
+    required String? goal,
+    required String generatedText,
+  }) async {
+    final cleaned = generatedText
+        .replaceAll(RegExp(r'^```(?:json)?\s*'), '')
+        .replaceAll(RegExp(r'\s*```$'), '')
+        .trim();
 
-  final decoded = jsonDecode(cleaned);
+    final decoded = jsonDecode(cleaned);
 
-  if (decoded is! Map<String, dynamic>) {
-    throw const FormatException(
-      'Gemini response must be a JSON object.',
+    if (decoded is! Map<String, dynamic>) {
+      throw const FormatException('Gemini response must be a JSON object.');
+    }
+
+    List<String> readStringList(String key) {
+      final value = decoded[key];
+      if (value is! List) return const [];
+
+      return value.whereType<String>().toList();
+    }
+
+    final adviceRef = _conversations(
+      userId,
+    ).doc('_nutrition_advice').collection('items').doc();
+
+    final now = Timestamp.now();
+
+    final advice = NutritionAdviceModel(
+      id: adviceRef.id,
+      userId: userId,
+      title: decoded['title'] is String
+          ? decoded['title'] as String
+          : 'Nutrition advice',
+      content: decoded['content'] is String
+          ? decoded['content'] as String
+          : 'No advice content returned.',
+      category: decoded['category'] is String
+          ? decoded['category'] as String
+          : 'general',
+      recommendations: readStringList('recommendations'),
+      warnings: [
+        ...readStringList('warnings'),
+        if (allergies.isNotEmpty)
+          'Verify all ingredients against your reported allergies.',
+      ],
+      referencedMealIds: referencedMealIds,
+      generatedAt: now.toDate(),
+      expiresAt: now.toDate().add(const Duration(days: 7)),
     );
+
+    await adviceRef.set(advice.toFirestore());
+    return advice;
   }
-
-  List<String> readStringList(String key) {
-    final value = decoded[key];
-    if (value is! List) return const [];
-
-    return value.whereType<String>().toList();
-  }
-
-  final adviceRef = _conversations(userId)
-      .doc('_nutrition_advice')
-      .collection('items')
-      .doc();
-
-  final now = Timestamp.now();
-
-  final advice = NutritionAdviceModel(
-    id: adviceRef.id,
-    userId: userId,
-    title: decoded['title'] is String
-        ? decoded['title'] as String
-        : 'Nutrition advice',
-    content: decoded['content'] is String
-        ? decoded['content'] as String
-        : 'No advice content returned.',
-    category: decoded['category'] is String
-        ? decoded['category'] as String
-        : 'general',
-    recommendations: readStringList('recommendations'),
-    warnings: [
-      ...readStringList('warnings'),
-      if (allergies.isNotEmpty)
-        'Verify all ingredients against your reported allergies.',
-    ],
-    referencedMealIds: referencedMealIds,
-    generatedAt: now.toDate(),
-    expiresAt: now.toDate().add(const Duration(days: 7)),
-  );
-
-  await adviceRef.set(advice.toFirestore());
-  return advice;
-}
-
 }

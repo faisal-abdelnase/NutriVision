@@ -3,13 +3,9 @@ import '../entities/progress_entry.dart';
 import '../entities/progress_summary.dart';
 
 abstract class ProgressRepository {
-  Future<ProgressEntry> recordProgressEntry({
-    required ProgressEntry entry,
-  });
+  Future<ProgressEntry> recordProgressEntry({required ProgressEntry entry});
 
-  Future<ProgressEntry> updateProgressEntry({
-    required ProgressEntry entry,
-  });
+  Future<ProgressEntry> updateProgressEntry({required ProgressEntry entry});
 
   Future<void> deleteProgressEntry({
     required String userId,

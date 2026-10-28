@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../domain/entities/grocery_item.dart';
@@ -76,8 +75,7 @@ class GroceryItemModel extends GroceryItem {
       'recipeTitle': recipeTitle,
       'category': category,
       'createdAt': Timestamp.fromDate(createdAt),
-      'updatedAt':
-          updatedAt == null ? null : Timestamp.fromDate(updatedAt!),
+      'updatedAt': updatedAt == null ? null : Timestamp.fromDate(updatedAt!),
     };
   }
 }

@@ -4,23 +4,17 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../models/user_profile_model.dart';
 import 'profile_remote_data_source.dart';
 
-class ProfileRemoteDataSourceImpl
-    implements ProfileRemoteDataSource {
+class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
   final FirebaseFirestore firestore;
   final FirebaseAuth auth;
 
-  ProfileRemoteDataSourceImpl({
-    required this.firestore,
-    required this.auth,
-  });
+  ProfileRemoteDataSourceImpl({required this.firestore, required this.auth});
 
-  CollectionReference<Map<String, dynamic>>
-      get _profiles => firestore.collection('users');
+  CollectionReference<Map<String, dynamic>> get _profiles =>
+      firestore.collection('users');
 
   @override
-  Future<UserProfileModel?> fetchUserProfile({
-    required String userId,
-  }) async {
+  Future<UserProfileModel?> fetchUserProfile({required String userId}) async {
     final snapshot = await _profiles.doc(userId).get();
 
     if (!snapshot.exists || snapshot.data() == null) {
@@ -50,10 +44,9 @@ class ProfileRemoteDataSourceImpl
       updatedAt: DateTime.now(),
     );
 
-    await _profiles.doc(profile.userId).set(
-          updatedProfile.toJson(),
-          SetOptions(merge: true),
-        );
+    await _profiles
+        .doc(profile.userId)
+        .set(updatedProfile.toJson(), SetOptions(merge: true));
 
     return updatedProfile;
   }
@@ -75,9 +68,7 @@ class ProfileRemoteDataSourceImpl
     final email = currentUser.email;
 
     if (email == null) {
-      throw FirebaseAuthException(
-        code: 'reauthentication-required',
-      );
+      throw FirebaseAuthException(code: 'reauthentication-required');
     }
 
     final credential = EmailAuthProvider.credential(
@@ -86,7 +77,6 @@ class ProfileRemoteDataSourceImpl
     );
 
     await currentUser.reauthenticateWithCredential(credential);
-
 
     await _profiles.doc(userId).delete();
 

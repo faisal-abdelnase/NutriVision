@@ -9,7 +9,7 @@ class AuthUserModel extends AuthUser {
     required super.emailVerified,
     super.createdAt,
   });
-  
+
   factory AuthUserModel.fromFirebaseUser(User user) {
     return AuthUserModel(
       id: user.uid,
@@ -18,6 +18,4 @@ class AuthUserModel extends AuthUser {
       createdAt: user.metadata.creationTime,
     );
   }
-
-
 }

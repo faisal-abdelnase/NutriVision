@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../domain/entities/coach_message.dart';
@@ -32,8 +31,9 @@ class CoachMessageModel extends CoachMessage {
       content: json['content'] as String? ?? '',
       createdAt: _dateFromJson(json['createdAt']),
       isNutritionAdvice: json['isNutritionAdvice'] as bool? ?? false,
-      referencedMealIds:
-          List<String>.from(json['referencedMealIds'] ?? const []),
+      referencedMealIds: List<String>.from(
+        json['referencedMealIds'] ?? const [],
+      ),
       modelName: json['modelName'] as String?,
       promptTokens: json['promptTokens'] as int?,
       completionTokens: json['completionTokens'] as int?,
@@ -48,25 +48,23 @@ class CoachMessageModel extends CoachMessage {
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'conversationId': conversationId,
-        'userId': userId,
-        'role': role.name,
-        'content': content,
-        'createdAt': createdAt.toIso8601String(),
-        'isNutritionAdvice': isNutritionAdvice,
-        'referencedMealIds': referencedMealIds,
-        'modelName': modelName,
-        'promptTokens': promptTokens,
-        'completionTokens': completionTokens,
-      };
+    'id': id,
+    'conversationId': conversationId,
+    'userId': userId,
+    'role': role.name,
+    'content': content,
+    'createdAt': createdAt.toIso8601String(),
+    'isNutritionAdvice': isNutritionAdvice,
+    'referencedMealIds': referencedMealIds,
+    'modelName': modelName,
+    'promptTokens': promptTokens,
+    'completionTokens': completionTokens,
+  };
 
-  
-Map<String, dynamic> toFirestore() => {
-  ...toJson(),
-  'createdAt': Timestamp.fromDate(createdAt),
-};
-
+  Map<String, dynamic> toFirestore() => {
+    ...toJson(),
+    'createdAt': Timestamp.fromDate(createdAt),
+  };
 
   static DateTime _dateFromJson(dynamic value) {
     if (value is Timestamp) return value.toDate();

@@ -5,30 +5,20 @@ import '../models/progress_entry_model.dart';
 import '../models/progress_summary_model.dart';
 import 'progress_remote_data_source.dart';
 
-class ProgressRemoteDataSourceImpl
-    implements ProgressRemoteDataSource {
+class ProgressRemoteDataSourceImpl implements ProgressRemoteDataSource {
   final FirebaseFirestore firestore;
 
-  ProgressRemoteDataSourceImpl({
-    required this.firestore,
-  });
+  ProgressRemoteDataSourceImpl({required this.firestore});
 
-  CollectionReference<Map<String, dynamic>> _entries(
-    String userId,
-  ) {
+  CollectionReference<Map<String, dynamic>> _entries(String userId) {
     return firestore
         .collection('users')
         .doc(userId)
         .collection('progress_entries');
   }
 
-  CollectionReference<Map<String, dynamic>> _mealLogs(
-    String userId,
-  ) {
-    return firestore
-        .collection('users')
-        .doc(userId)
-        .collection('meal_logs');
+  CollectionReference<Map<String, dynamic>> _mealLogs(String userId) {
+    return firestore.collection('users').doc(userId).collection('meal_logs');
   }
 
   @override
@@ -106,11 +96,7 @@ class ProgressRemoteDataSourceImpl
     }
 
     if (pageSize < 1) {
-      throw ArgumentError.value(
-        pageSize,
-        'pageSize',
-        'Must be at least 1',
-      );
+      throw ArgumentError.value(pageSize, 'pageSize', 'Must be at least 1');
     }
 
     final query = _entries(userId)
@@ -118,10 +104,7 @@ class ProgressRemoteDataSourceImpl
           'recordedAt',
           isGreaterThanOrEqualTo: Timestamp.fromDate(startDate),
         )
-        .where(
-          'recordedAt',
-          isLessThanOrEqualTo: Timestamp.fromDate(endDate),
-        )
+        .where('recordedAt', isLessThanOrEqualTo: Timestamp.fromDate(endDate))
         .orderBy('recordedAt', descending: true)
         .limit(page * pageSize);
 
@@ -129,10 +112,7 @@ class ProgressRemoteDataSourceImpl
 
     final models = snapshot.docs
         .map(
-          (doc) => ProgressEntryModel.fromJson(
-            doc.data(),
-            documentId: doc.id,
-          ),
+          (doc) => ProgressEntryModel.fromJson(doc.data(), documentId: doc.id),
         )
         .toList();
 
@@ -158,28 +138,21 @@ class ProgressRemoteDataSourceImpl
           'recordedAt',
           isGreaterThanOrEqualTo: Timestamp.fromDate(startDate),
         )
-        .where(
-          'recordedAt',
-          isLessThanOrEqualTo: Timestamp.fromDate(endDate),
-        )
+        .where('recordedAt', isLessThanOrEqualTo: Timestamp.fromDate(endDate))
         .orderBy('recordedAt')
         .get();
 
-    final entries = snapshot.docs
-        .map(
-          (doc) => ProgressEntryModel.fromJson(
-            doc.data(),
-            documentId: doc.id,
-          ),
-        )
-        .toList()
-      ..sort((a, b) => a.recordedAt.compareTo(b.recordedAt));
+    final entries =
+        snapshot.docs
+            .map(
+              (doc) =>
+                  ProgressEntryModel.fromJson(doc.data(), documentId: doc.id),
+            )
+            .toList()
+          ..sort((a, b) => a.recordedAt.compareTo(b.recordedAt));
 
     if (entries.isEmpty) {
-      return ProgressSummaryModel(
-        userId: userId,
-        totalEntries: 0,
-      );
+      return ProgressSummaryModel(userId: userId, totalEntries: 0);
     }
 
     final first = entries.first;
@@ -199,10 +172,9 @@ class ProgressRemoteDataSourceImpl
           : null,
       currentBodyFatPercentage: lastBodyFat,
       startingBodyFatPercentage: firstBodyFat,
-      bodyFatChangePercentage:
-          firstBodyFat != null && lastBodyFat != null
-              ? lastBodyFat - firstBodyFat
-              : null,
+      bodyFatChangePercentage: firstBodyFat != null && lastBodyFat != null
+          ? lastBodyFat - firstBodyFat
+          : null,
       totalEntries: entries.length,
       firstRecordedAt: first.recordedAt,
       lastRecordedAt: last.recordedAt,
@@ -222,10 +194,7 @@ class ProgressRemoteDataSourceImpl
           'recordedAt',
           isGreaterThanOrEqualTo: Timestamp.fromDate(startDate),
         )
-        .where(
-          'recordedAt',
-          isLessThanOrEqualTo: Timestamp.fromDate(endDate),
-        )
+        .where('recordedAt', isLessThanOrEqualTo: Timestamp.fromDate(endDate))
         .orderBy('recordedAt')
         .get();
 
@@ -234,11 +203,7 @@ class ProgressRemoteDataSourceImpl
     for (final doc in snapshot.docs) {
       final data = doc.data();
       final recordedAt = _parseDate(data['recordedAt']);
-      final day = DateTime(
-        recordedAt.year,
-        recordedAt.month,
-        recordedAt.day,
-      );
+      final day = DateTime(recordedAt.year, recordedAt.month, recordedAt.day);
 
       final totals = dailyTotals.putIfAbsent(
         day,
@@ -250,15 +215,12 @@ class ProgressRemoteDataSourceImpl
         },
       );
 
-      totals['calories'] =
-          totals['calories']! + _number(data['calories']);
+      totals['calories'] = totals['calories']! + _number(data['calories']);
       totals['proteinGrams'] =
           totals['proteinGrams']! + _number(data['proteinGrams']);
       totals['carbohydrateGrams'] =
-          totals['carbohydrateGrams']! +
-          _number(data['carbohydrateGrams']);
-      totals['fatGrams'] =
-          totals['fatGrams']! + _number(data['fatGrams']);
+          totals['carbohydrateGrams']! + _number(data['carbohydrateGrams']);
+      totals['fatGrams'] = totals['fatGrams']! + _number(data['fatGrams']);
     }
 
     final dates = dailyTotals.keys.toList()..sort();
@@ -276,14 +238,9 @@ class ProgressRemoteDataSourceImpl
     }).toList();
   }
 
-  void _validateDateRange(
-    DateTime startDate,
-    DateTime endDate,
-  ) {
+  void _validateDateRange(DateTime startDate, DateTime endDate) {
     if (endDate.isBefore(startDate)) {
-      throw ArgumentError(
-        'endDate must be on or after startDate.',
-      );
+      throw ArgumentError('endDate must be on or after startDate.');
     }
   }
 

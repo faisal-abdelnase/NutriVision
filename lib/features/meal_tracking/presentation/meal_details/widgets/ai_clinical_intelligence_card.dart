@@ -93,7 +93,11 @@ class AiClinicalIntelligenceCard extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: const [
-                Icon(Icons.check_circle_outline, size: 14, color: Color(0xFF0369A1)),
+                Icon(
+                  Icons.check_circle_outline,
+                  size: 14,
+                  color: Color(0xFF0369A1),
+                ),
                 SizedBox(width: 6),
                 Expanded(
                   child: Text(
@@ -158,33 +162,45 @@ class AiClinicalIntelligenceCard extends StatelessWidget {
                     Expanded(
                       child: Text(
                         'Fast (0 min)',
-                        style: TextStyle(fontSize: 7, color: AppColors.mutedText),
+                        style: TextStyle(
+                          fontSize: 7,
+                          color: AppColors.mutedText,
+                        ),
                         textAlign: TextAlign.left,
                       ),
                     ),
                     Expanded(
                       child: Text(
                         '+60 min (Peak)',
-                        style: TextStyle(fontSize: 7, color: AppColors.mutedText),
+                        style: TextStyle(
+                          fontSize: 7,
+                          color: AppColors.mutedText,
+                        ),
                         textAlign: TextAlign.center,
                       ),
                     ),
                     Expanded(
                       child: Text(
                         '+120 min',
-                        style: TextStyle(fontSize: 7, color: AppColors.mutedText),
+                        style: TextStyle(
+                          fontSize: 7,
+                          color: AppColors.mutedText,
+                        ),
                         textAlign: TextAlign.center,
                       ),
                     ),
                     Expanded(
                       child: Text(
                         '+180 min (Basal)',
-                        style: TextStyle(fontSize: 7, color: AppColors.mutedText),
+                        style: TextStyle(
+                          fontSize: 7,
+                          color: AppColors.mutedText,
+                        ),
                         textAlign: TextAlign.right,
                       ),
                     ),
                   ],
-                )
+                ),
               ],
             ),
           ),
@@ -240,7 +256,7 @@ class AiClinicalIntelligenceCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
               ),
             ),
-          )
+          ),
         ],
       ),
     );

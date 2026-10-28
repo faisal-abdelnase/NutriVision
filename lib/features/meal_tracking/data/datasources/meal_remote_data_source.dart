@@ -1,19 +1,11 @@
-
 import '../models/meal_model.dart';
 
 abstract class MealRemoteDataSource {
-  Future<MealModel> createMeal({
-    required MealModel meal,
-  });
+  Future<MealModel> createMeal({required MealModel meal});
 
-  Future<MealModel> updateMeal({
-    required MealModel meal,
-  });
+  Future<MealModel> updateMeal({required MealModel meal});
 
-  Future<void> deleteMeal({
-    required String mealId,
-    required String userId,
-  });
+  Future<void> deleteMeal({required String mealId, required String userId});
 
   Future<MealModel?> fetchMealById({
     required String mealId,

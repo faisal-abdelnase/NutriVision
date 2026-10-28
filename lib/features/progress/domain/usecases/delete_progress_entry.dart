@@ -1,4 +1,3 @@
-
 import '../repositories/progress_repository.dart';
 
 class DeleteProgressEntry {
@@ -6,13 +5,7 @@ class DeleteProgressEntry {
 
   DeleteProgressEntry(this.repository);
 
-  Future<void> call({
-    required String userId,
-    required String entryId,
-  }) {
-    return repository.deleteProgressEntry(
-      userId: userId,
-      entryId: entryId,
-    );
+  Future<void> call({required String userId, required String entryId}) {
+    return repository.deleteProgressEntry(userId: userId, entryId: entryId);
   }
 }

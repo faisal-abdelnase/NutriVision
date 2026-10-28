@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../nutrition_profile/domain/entities/nutrition_profile.dart';
+import '../../../nutrition_profile/presentation/cubit/nutrition_profile_cubit.dart';
 
 class CaloricEquilibriumCard extends StatelessWidget {
   const CaloricEquilibriumCard({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final profile = context.watch<NutritionProfileCubit?>()?.currentProfile;
+    final int targetCalories = profile?.dailyCalorieTarget?.round() ?? 1950;
+    final int todayCalories = (targetCalories * 0.98).round();
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -27,20 +34,37 @@ class CaloricEquilibriumCard extends StatelessWidget {
                 spacing: 8,
                 runSpacing: 6,
                 children: [
-                  const Text(
-                    'Caloric Intake & Target Equilibrium',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                  Text(
+                    profile != null && profile.isCalibrated
+                        ? 'Caloric Equilibrium (${profile.weightKg}kg • ${profile.dailyCalorieTarget} kcal Target)'
+                        : 'Caloric Intake & Target Equilibrium',
+                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
                   ),
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: const [
-                      CircleAvatar(radius: 3, backgroundColor: AppColors.primaryTeal),
+                      CircleAvatar(
+                        radius: 3,
+                        backgroundColor: AppColors.primaryTeal,
+                      ),
                       SizedBox(width: 4),
-                      Text('Intake', style: TextStyle(fontSize: 8, color: AppColors.mutedText)),
+                      Text(
+                        'Intake',
+                        style: TextStyle(
+                          fontSize: 8,
+                          color: AppColors.mutedText,
+                        ),
+                      ),
                       SizedBox(width: 8),
                       CircleAvatar(radius: 3, backgroundColor: Colors.orange),
                       SizedBox(width: 4),
-                      Text('Target', style: TextStyle(fontSize: 8, color: AppColors.mutedText)),
+                      Text(
+                        'Target',
+                        style: TextStyle(
+                          fontSize: 8,
+                          color: AppColors.mutedText,
+                        ),
+                      ),
                     ],
                   ),
                 ],
@@ -79,7 +103,11 @@ class CaloricEquilibriumCard extends StatelessWidget {
                   ),
                   Text(
                     'Net Adherence: 95.6%',
-                    style: TextStyle(fontSize: 8, fontWeight: FontWeight.bold, color: AppColors.primaryTeal),
+                    style: TextStyle(
+                      fontSize: 8,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.primaryTeal,
+                    ),
                   ),
                 ],
               ),
@@ -97,12 +125,28 @@ class CaloricEquilibriumCard extends StatelessWidget {
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    Text('Wed • Oct 24', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11)),
-                    Text('1,980 kcal', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: AppColors.primaryTeal)),
+                  children: [
+                    const Text(
+                      'Wed • Oct 24',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 11,
+                      ),
+                    ),
+                    Text(
+                      '$todayCalories kcal',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12,
+                        color: AppColors.primaryTeal,
+                      ),
+                    ),
                   ],
                 ),
-                const Text('On Target (101.5%)', style: TextStyle(fontSize: 8, color: AppColors.mutedText)),
+                Text(
+                  'On Target (Target: $targetCalories kcal)',
+                  style: const TextStyle(fontSize: 8, color: AppColors.mutedText),
+                ),
                 const SizedBox(height: 10),
                 _buildMealRow('Breakfast (08:15 AM)', '490 kcal'),
                 _buildMealRow('Lunch (01:30 PM)', '710 kcal'),
@@ -143,10 +187,16 @@ class CaloricEquilibriumCard extends StatelessWidget {
         Container(
           width: 16,
           height: 100 * hRatio,
-          decoration: BoxDecoration(color: clr, borderRadius: BorderRadius.circular(4)),
+          decoration: BoxDecoration(
+            color: clr,
+            borderRadius: BorderRadius.circular(4),
+          ),
         ),
         const SizedBox(height: 6),
-        Text(day, style: const TextStyle(fontSize: 8, color: AppColors.mutedText)),
+        Text(
+          day,
+          style: const TextStyle(fontSize: 8, color: AppColors.mutedText),
+        ),
       ],
     );
   }

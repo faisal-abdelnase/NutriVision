@@ -83,13 +83,16 @@ class _AppLocalizationsDelegate
     }
 
     final localizations = AppLocalizations(locale);
-    return localizations.load().then((_) {
-      AppLocalizations._cache[locale.languageCode] = localizations._strings;
-      return localizations;
-    }).catchError((_) {
-      // Fallback in tests or missing asset
-      return localizations;
-    });
+    return localizations
+        .load()
+        .then((_) {
+          AppLocalizations._cache[locale.languageCode] = localizations._strings;
+          return localizations;
+        })
+        .catchError((_) {
+          // Fallback in tests or missing asset
+          return localizations;
+        });
   }
 
   @override

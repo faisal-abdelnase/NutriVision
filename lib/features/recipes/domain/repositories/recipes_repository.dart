@@ -1,5 +1,3 @@
-
-
 import '../entities/recipe.dart';
 import '../entities/grocery_list.dart';
 import '../entities/grocery_item.dart';
@@ -13,9 +11,7 @@ abstract class RecipesRepository {
     String? dietaryCategory,
   });
 
-  Future<Recipe?> getRecipeById({
-    required String recipeId,
-  });
+  Future<Recipe?> getRecipeById({required String recipeId});
 
   Future<Recipe> generatePersonalizedRecipe({
     required String userId,
@@ -26,10 +22,7 @@ abstract class RecipesRepository {
     required int servings,
   });
 
-  Future<void> saveRecipe({
-    required String userId,
-    required String recipeId,
-  });
+  Future<void> saveRecipe({required String userId, required String recipeId});
 
   Future<void> removeSavedRecipe({
     required String userId,
@@ -42,24 +35,16 @@ abstract class RecipesRepository {
     required int pageSize,
   });
 
-  Future<GroceryList> getGroceryList({
-    required String userId,
-  });
+  Future<GroceryList> getGroceryList({required String userId});
 
-  Future<GroceryItem> addGroceryItem({
-    required GroceryItem item,
-  });
+  Future<GroceryItem> addGroceryItem({required GroceryItem item});
 
-  Future<GroceryItem> updateGroceryItem({
-    required GroceryItem item,
-  });
+  Future<GroceryItem> updateGroceryItem({required GroceryItem item});
 
   Future<void> removeGroceryItem({
     required String userId,
     required String itemId,
   });
 
-  Future<void> clearGroceryList({
-    required String userId,
-  });
+  Future<void> clearGroceryList({required String userId});
 }

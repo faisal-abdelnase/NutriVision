@@ -1,7 +1,6 @@
-
-
 import '../entities/meal.dart';
 import '../repositories/meal_repository.dart';
+
 class GetMealHistory {
   final MealRepository repository;
 
@@ -11,7 +10,11 @@ class GetMealHistory {
     required String userId,
     required int page,
     required int pageSize,
-  }){
-    return repository.getMealHistory(userId: userId, page: page, pageSize: pageSize);
+  }) {
+    return repository.getMealHistory(
+      userId: userId,
+      page: page,
+      pageSize: pageSize,
+    );
   }
 }

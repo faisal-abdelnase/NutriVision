@@ -6,9 +6,7 @@ import 'auth_remote_data_source.dart';
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final FirebaseAuth firebaseAuth;
 
-  AuthRemoteDataSourceImpl({
-    required this.firebaseAuth,
-  });
+  AuthRemoteDataSourceImpl({required this.firebaseAuth});
 
   @override
   Future<AuthUserModel> signInWithEmailAndPassword({
@@ -37,8 +35,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required String email,
     required String password,
   }) async {
-    final credential =
-        await firebaseAuth.createUserWithEmailAndPassword(
+    final credential = await firebaseAuth.createUserWithEmailAndPassword(
       email: email.trim(),
       password: password,
     );
@@ -61,11 +58,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<void> sendPasswordResetEmail({
-    required String email,
-  }) async {
-    await firebaseAuth.sendPasswordResetEmail(
-      email: email.trim(),
-    );
+  Future<void> sendPasswordResetEmail({required String email}) async {
+    await firebaseAuth.sendPasswordResetEmail(email: email.trim());
   }
 }

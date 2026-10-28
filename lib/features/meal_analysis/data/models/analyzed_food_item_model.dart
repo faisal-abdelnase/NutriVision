@@ -13,22 +13,16 @@ class AnalyzedFoodItemModel extends AnalyzedFoodItem {
     super.foodDatabaseId,
   });
 
-  factory AnalyzedFoodItemModel.fromJson(
-    Map<String, dynamic> json,
-  ) {
+  factory AnalyzedFoodItemModel.fromJson(Map<String, dynamic> json) {
     return AnalyzedFoodItemModel(
       name: json['name'] as String? ?? '',
-      estimatedQuantity:
-          (json['estimatedQuantity'] as num?)?.toDouble() ?? 0,
+      estimatedQuantity: (json['estimatedQuantity'] as num?)?.toDouble() ?? 0,
       quantityUnit: json['quantityUnit'] as String? ?? 'g',
       calories: (json['calories'] as num?)?.toDouble() ?? 0,
-      proteinGrams:
-          (json['proteinGrams'] as num?)?.toDouble() ?? 0,
-      carbohydrateGrams:
-          (json['carbohydrateGrams'] as num?)?.toDouble() ?? 0,
+      proteinGrams: (json['proteinGrams'] as num?)?.toDouble() ?? 0,
+      carbohydrateGrams: (json['carbohydrateGrams'] as num?)?.toDouble() ?? 0,
       fatGrams: (json['fatGrams'] as num?)?.toDouble() ?? 0,
-      confidenceScore:
-          (json['confidenceScore'] as num?)?.toDouble(),
+      confidenceScore: (json['confidenceScore'] as num?)?.toDouble(),
       foodDatabaseId: json['foodDatabaseId'] as String?,
     );
   }

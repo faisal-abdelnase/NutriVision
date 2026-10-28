@@ -26,7 +26,6 @@ class AuthPasswordResetSent extends AuthState {
   const AuthPasswordResetSent();
 }
 
-
 class AuthError extends AuthState {
   final String message;
 
