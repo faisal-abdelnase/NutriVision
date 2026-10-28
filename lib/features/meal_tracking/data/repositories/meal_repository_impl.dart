@@ -1,4 +1,3 @@
-
 import '../../domain/entities/meal.dart';
 import '../../domain/repositories/meal_repository.dart';
 import '../datasources/meal_remote_data_source.dart';
@@ -7,48 +6,30 @@ import '../models/meal_model.dart';
 class MealRepositoryImpl implements MealRepository {
   final MealRemoteDataSource remoteDataSource;
 
-  MealRepositoryImpl({
-    required this.remoteDataSource,
-  });
+  MealRepositoryImpl({required this.remoteDataSource});
 
   @override
-  Future<Meal> addMeal({
-    required Meal meal,
-  }) async {
+  Future<Meal> addMeal({required Meal meal}) async {
     final model = MealModel.fromEntity(meal);
 
     return remoteDataSource.createMeal(meal: model);
   }
 
   @override
-  Future<Meal> updateMeal({
-    required Meal meal,
-  }) async {
+  Future<Meal> updateMeal({required Meal meal}) async {
     final model = MealModel.fromEntity(meal);
 
     return remoteDataSource.updateMeal(meal: model);
   }
 
   @override
-  Future<void> deleteMeal({
-    required String mealId,
-    required String userId,
-  }) {
-    return remoteDataSource.deleteMeal(
-      mealId: mealId,
-      userId: userId,
-    );
+  Future<void> deleteMeal({required String mealId, required String userId}) {
+    return remoteDataSource.deleteMeal(mealId: mealId, userId: userId);
   }
 
   @override
-  Future<Meal?> getMealById({
-    required String mealId,
-    required String userId,
-  }) {
-    return remoteDataSource.fetchMealById(
-      mealId: mealId,
-      userId: userId,
-    );
+  Future<Meal?> getMealById({required String mealId, required String userId}) {
+    return remoteDataSource.fetchMealById(mealId: mealId, userId: userId);
   }
 
   @override
@@ -69,9 +50,6 @@ class MealRepositoryImpl implements MealRepository {
     required String userId,
     required DateTime date,
   }) async {
-    return remoteDataSource.fetchMealsByDate(
-      userId: userId,
-      date: date,
-    );
+    return remoteDataSource.fetchMealsByDate(userId: userId, date: date);
   }
 }

@@ -1,7 +1,8 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../features/nutrition_profile/data/datasources/nutrition_profile_local_data_source.dart';
 import '../../features/nutrition_profile/data/datasources/nutrition_profile_remote_data_source.dart';
 import '../../features/nutrition_profile/data/datasources/nutrition_profile_remote_data_source_impl.dart';
 import '../../features/nutrition_profile/data/repositories/nutrition_profile_repository_impl.dart';
@@ -26,6 +27,14 @@ Future<void> setupServiceLocator() async {
   }
 
   // Data Sources
+  if (sl.isRegistered<SharedPreferences>()) {
+    sl.registerLazySingleton<NutritionProfileLocalDataSource>(
+      () => NutritionProfileLocalDataSourceImpl(
+        preferences: sl<SharedPreferences>(),
+      ),
+    );
+  }
+
   sl.registerLazySingleton<NutritionProfileRemoteDataSource>(
     () => NutritionProfileRemoteDataSourceImpl(
       firestore: sl<FirebaseFirestore>(),
@@ -36,38 +45,31 @@ Future<void> setupServiceLocator() async {
   sl.registerLazySingleton<NutritionProfileRepository>(
     () => NutritionProfileRepositoryImpl(
       remoteDataSource: sl<NutritionProfileRemoteDataSource>(),
+      localDataSource: sl.isRegistered<NutritionProfileLocalDataSource>()
+          ? sl<NutritionProfileLocalDataSource>()
+          : null,
     ),
   );
 
   // Use Cases
   sl.registerLazySingleton(
-    () => GetNutritionProfile(
-      sl<NutritionProfileRepository>(),
-    ),
+    () => GetNutritionProfile(sl<NutritionProfileRepository>()),
   );
 
   sl.registerLazySingleton(
-    () => CreateNutritionProfile(
-      sl<NutritionProfileRepository>(),
-    ),
+    () => CreateNutritionProfile(sl<NutritionProfileRepository>()),
   );
 
   sl.registerLazySingleton(
-    () => UpdateNutritionProfile(
-      sl<NutritionProfileRepository>(),
-    ),
+    () => UpdateNutritionProfile(sl<NutritionProfileRepository>()),
   );
 
   sl.registerLazySingleton(
-    () => UpdateNutritionGoals(
-      sl<NutritionProfileRepository>(),
-    ),
+    () => UpdateNutritionGoals(sl<NutritionProfileRepository>()),
   );
 
   sl.registerLazySingleton(
-    () => UpdateDietaryPreferences(
-      sl<NutritionProfileRepository>(),
-    ),
+    () => UpdateDietaryPreferences(sl<NutritionProfileRepository>()),
   );
 
   // Cubit

@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../domain/entities/meal_ingredient.dart';
@@ -9,22 +8,13 @@ import 'meal_remote_data_source.dart';
 class MealRemoteDataSourceImpl implements MealRemoteDataSource {
   final FirebaseFirestore firestore;
 
-  MealRemoteDataSourceImpl({
-    required this.firestore,
-  });
+  MealRemoteDataSourceImpl({required this.firestore});
 
-  CollectionReference<Map<String, dynamic>> _meals(
-    String userId,
-  ) {
-    return firestore
-        .collection('users')
-        .doc(userId)
-        .collection('meals');
+  CollectionReference<Map<String, dynamic>> _meals(String userId) {
+    return firestore.collection('users').doc(userId).collection('meals');
   }
 
-  List<MealIngredientModel> _mapIngredients(
-    List<MealIngredient> ingredients,
-  ) {
+  List<MealIngredientModel> _mapIngredients(List<MealIngredient> ingredients) {
     return ingredients.map((ingredient) {
       return MealIngredientModel(
         name: ingredient.name,
@@ -36,9 +26,7 @@ class MealRemoteDataSourceImpl implements MealRemoteDataSource {
   }
 
   @override
-  Future<MealModel> createMeal({
-    required MealModel meal,
-  }) async {
+  Future<MealModel> createMeal({required MealModel meal}) async {
     final collection = _meals(meal.userId);
     final document = meal.id.trim().isEmpty
         ? collection.doc()
@@ -68,9 +56,7 @@ class MealRemoteDataSourceImpl implements MealRemoteDataSource {
   }
 
   @override
-  Future<MealModel> updateMeal({
-    required MealModel meal,
-  }) async {
+  Future<MealModel> updateMeal({required MealModel meal}) async {
     final document = _meals(meal.userId).doc(meal.id);
     final snapshot = await document.get();
 
@@ -132,10 +118,7 @@ class MealRemoteDataSourceImpl implements MealRemoteDataSource {
       return null;
     }
 
-    return MealModel.fromJson(
-      snapshot.data()!,
-      id: snapshot.id,
-    );
+    return MealModel.fromJson(snapshot.data()!, id: snapshot.id);
   }
 
   @override
@@ -145,25 +128,16 @@ class MealRemoteDataSourceImpl implements MealRemoteDataSource {
     required int pageSize,
   }) async {
     if (page < 0 || pageSize <= 0) {
-      throw ArgumentError(
-        'page must be >= 0 and pageSize must be > 0.',
-      );
+      throw ArgumentError('page must be >= 0 and pageSize must be > 0.');
     }
 
-    final snapshot = await _meals(userId)
-        .orderBy('eatenAt', descending: true)
-        .limit((page + 1) * pageSize)
-        .get();
+    final snapshot = await _meals(
+      userId,
+    ).orderBy('eatenAt', descending: true).limit((page + 1) * pageSize).get();
 
-    return snapshot.docs
-        .skip(page * pageSize)
-        .map((document) {
-          return MealModel.fromJson(
-            document.data(),
-            id: document.id,
-          );
-        })
-        .toList();
+    return snapshot.docs.skip(page * pageSize).map((document) {
+      return MealModel.fromJson(document.data(), id: document.id);
+    }).toList();
   }
 
   @override
@@ -175,22 +149,13 @@ class MealRemoteDataSourceImpl implements MealRemoteDataSource {
     final end = start.add(const Duration(days: 1));
 
     final snapshot = await _meals(userId)
-        .where(
-          'eatenAt',
-          isGreaterThanOrEqualTo: Timestamp.fromDate(start),
-        )
-        .where(
-          'eatenAt',
-          isLessThan: Timestamp.fromDate(end),
-        )
+        .where('eatenAt', isGreaterThanOrEqualTo: Timestamp.fromDate(start))
+        .where('eatenAt', isLessThan: Timestamp.fromDate(end))
         .orderBy('eatenAt', descending: true)
         .get();
 
     return snapshot.docs.map((document) {
-      return MealModel.fromJson(
-        document.data(),
-        id: document.id,
-      );
+      return MealModel.fromJson(document.data(), id: document.id);
     }).toList();
   }
 }

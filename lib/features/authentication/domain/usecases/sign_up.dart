@@ -6,13 +6,7 @@ class SignUp {
 
   SignUp(this.repository);
 
-  Future<AuthUser> call({
-    required String email,
-    required String password,
-  }) {
-    return repository.signUp(
-      email: email,
-      password: password,
-    );
+  Future<AuthUser> call({required String email, required String password}) {
+    return repository.signUp(email: email, password: password);
   }
 }

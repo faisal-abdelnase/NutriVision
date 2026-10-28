@@ -4,6 +4,7 @@ import 'package:nutri_vision/core/responsive/responsive_text.dart';
 import 'package:nutri_vision/core/theme/theme_dimensions.dart';
 import 'package:nutri_vision/core/theme/theme_extensions.dart';
 import 'package:nutri_vision/core/responsive/breakpoints.dart';
+
 /// Sign Up UI only. Validation / auth logic is wired later by the team.
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({
@@ -17,7 +18,7 @@ class SignUpScreen extends StatefulWidget {
 
   /// Called with (fullName, email, password).
   final void Function(String fullName, String email, String password)?
-      onSignUpPressed;
+  onSignUpPressed;
   final VoidCallback? onGooglePressed;
   final VoidCallback? onLoginPressed;
   final VoidCallback? onBackPressed;
@@ -73,9 +74,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        leading: BackButton(onPressed: widget.onBackPressed),
-      ),
+      appBar: AppBar(leading: BackButton(onPressed: widget.onBackPressed)),
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
@@ -91,8 +90,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     baseFontSize: 28,
                     breakpoint: bp,
                     textAlign: TextAlign.center,
-                    style: context.textTheme.headlineMedium!
-                        .copyWith(color: s.textPrimary),
+                    style: context.textTheme.headlineMedium!.copyWith(
+                      color: s.textPrimary,
+                    ),
                   ),
                   const SizedBox(height: ThemeDimensions.spaceSm),
                   AppText(
@@ -100,8 +100,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     baseFontSize: 14,
                     breakpoint: bp,
                     textAlign: TextAlign.center,
-                    style: context.textTheme.bodyMedium!
-                        .copyWith(color: s.textSecondary),
+                    style: context.textTheme.bodyMedium!.copyWith(
+                      color: s.textSecondary,
+                    ),
                   ),
                   const SizedBox(height: ThemeDimensions.spaceLg),
 
@@ -208,9 +209,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         tooltip: _obscureConfirm
                             ? context.tr('authShowPassword')
                             : context.tr('authHidePassword'),
-                        onPressed: () => setState(
-                          () => _obscureConfirm = !_obscureConfirm,
-                        ),
+                        onPressed: () =>
+                            setState(() => _obscureConfirm = !_obscureConfirm),
                         icon: Icon(
                           _obscureConfirm
                               ? Icons.visibility_outlined
@@ -241,8 +241,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               context.tr('authAcceptTerms'),
                               baseFontSize: 13,
                               breakpoint: bp,
-                              style: context.textTheme.bodySmall!
-                                  .copyWith(color: s.textSecondary),
+                              style: context.textTheme.bodySmall!.copyWith(
+                                color: s.textSecondary,
+                              ),
                             ),
                           ),
                         ],
@@ -256,10 +257,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     onPressed: (widget.isLoading || !_acceptTerms)
                         ? null
                         : () => widget.onSignUpPressed?.call(
-                              _nameController.text.trim(),
-                              _emailController.text.trim(),
-                              _passwordController.text,
-                            ),
+                            _nameController.text.trim(),
+                            _emailController.text.trim(),
+                            _passwordController.text,
+                          ),
                     child: widget.isLoading
                         ? const SizedBox(
                             width: 20,
@@ -282,8 +283,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           context.tr('authOrContinueWith'),
                           baseFontSize: 12,
                           breakpoint: bp,
-                          style: context.textTheme.bodySmall!
-                              .copyWith(color: s.textMuted),
+                          style: context.textTheme.bodySmall!.copyWith(
+                            color: s.textMuted,
+                          ),
                         ),
                       ),
                       Expanded(child: Divider(color: s.border)),
@@ -308,8 +310,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         context.tr('authHaveAccount'),
                         baseFontSize: 14,
                         breakpoint: bp,
-                        style: context.textTheme.bodyMedium!
-                            .copyWith(color: s.textSecondary),
+                        style: context.textTheme.bodyMedium!.copyWith(
+                          color: s.textSecondary,
+                        ),
                       ),
                       TextButton(
                         style: TextButton.styleFrom(
@@ -323,8 +326,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           context.tr('authSignInLink'),
                           baseFontSize: 14,
                           breakpoint: bp,
-                          style: context.textTheme.labelLarge!
-                              .copyWith(color: primary),
+                          style: context.textTheme.labelLarge!.copyWith(
+                            color: primary,
+                          ),
                         ),
                       ),
                     ],

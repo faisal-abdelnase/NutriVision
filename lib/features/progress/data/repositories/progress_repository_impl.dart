@@ -5,30 +5,19 @@ import '../../domain/repositories/progress_repository.dart';
 import '../datasources/progress_remote_data_source.dart';
 import '../models/progress_entry_model.dart';
 
-
 class ProgressRepositoryImpl implements ProgressRepository {
   final ProgressRemoteDataSource remoteDataSource;
 
-  ProgressRepositoryImpl({
-    required this.remoteDataSource,
-  });
+  ProgressRepositoryImpl({required this.remoteDataSource});
 
   @override
-  Future<ProgressEntry> recordProgressEntry({
-    required ProgressEntry entry,
-  }) {
-    return remoteDataSource.createProgressEntry(
-      entry: _toEntryModel(entry),
-    );
+  Future<ProgressEntry> recordProgressEntry({required ProgressEntry entry}) {
+    return remoteDataSource.createProgressEntry(entry: _toEntryModel(entry));
   }
 
   @override
-  Future<ProgressEntry> updateProgressEntry({
-    required ProgressEntry entry,
-  }) {
-    return remoteDataSource.updateProgressEntry(
-      entry: _toEntryModel(entry),
-    );
+  Future<ProgressEntry> updateProgressEntry({required ProgressEntry entry}) {
+    return remoteDataSource.updateProgressEntry(entry: _toEntryModel(entry));
   }
 
   @override

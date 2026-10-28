@@ -1,4 +1,3 @@
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../domain/entities/nutrition_profile.dart';
@@ -9,14 +8,21 @@ import '../../domain/usecases/update_nutrition_goals.dart';
 import '../../domain/usecases/update_nutrition_profile.dart';
 import 'nutrition_profile_state.dart';
 
-
-
 class NutritionProfileCubit extends Cubit<NutritionProfileState> {
   final GetNutritionProfile getNutritionProfile;
   final CreateNutritionProfile createNutritionProfile;
   final UpdateNutritionProfile updateNutritionProfile;
   final UpdateNutritionGoals updateNutritionGoals;
   final UpdateDietaryPreferences updateDietaryPreferences;
+
+  NutritionProfile? _cachedProfile;
+
+  NutritionProfile? get currentProfile {
+    final s = state;
+    if (s is NutritionProfileLoaded) return s.profile;
+    if (s is NutritionProfileActionSuccess) return s.profile;
+    return _cachedProfile;
+  }
 
   NutritionProfileCubit({
     required this.getNutritionProfile,
@@ -26,36 +32,42 @@ class NutritionProfileCubit extends Cubit<NutritionProfileState> {
     required this.updateDietaryPreferences,
   }) : super(const NutritionProfileInitial());
 
-  Future<void> fetchProfile({
-    required String userId,
-  }) async {
+  Future<void> loadInitialProfile({String? userId}) async {
+    final uid = userId ?? 'guest_user';
+    try {
+      final profile = await getNutritionProfile(userId: uid);
+      if (profile != null) {
+        _cachedProfile = profile;
+        emit(NutritionProfileLoaded(profile: profile));
+      }
+    } catch (_) {}
+  }
+
+  Future<void> fetchProfile({required String userId}) async {
     emit(const NutritionProfileLoading());
 
     try {
-      final profile = await getNutritionProfile(
-        userId: userId,
-      );
+      final profile = await getNutritionProfile(userId: userId);
 
       if (profile == null) {
         emit(const NutritionProfileNotFound());
         return;
       }
 
+      _cachedProfile = profile;
       emit(NutritionProfileLoaded(profile: profile));
     } catch (e) {
       emit(NutritionProfileError(message: _errorMessage(e)));
     }
   }
 
-  Future<void> createProfile({
-    required NutritionProfile profile,
-  }) async {
+  Future<void> createProfile({required NutritionProfile profile}) async {
+    _cachedProfile = profile;
     emit(const NutritionProfileLoading());
 
     try {
-      final created = await createNutritionProfile(
-        profile: profile,
-      );
+      final created = await createNutritionProfile(profile: profile);
+      _cachedProfile = created;
 
       emit(
         NutritionProfileActionSuccess(
@@ -68,15 +80,12 @@ class NutritionProfileCubit extends Cubit<NutritionProfileState> {
     }
   }
 
-  Future<void> updateProfile({
-    required NutritionProfile profile,
-  }) async {
+  Future<void> updateProfile({required NutritionProfile profile}) async {
     emit(const NutritionProfileLoading());
 
     try {
-      final updated = await updateNutritionProfile(
-        profile: profile,
-      );
+      final updated = await updateNutritionProfile(profile: profile);
+      _cachedProfile = updated;
 
       emit(
         NutritionProfileActionSuccess(
@@ -106,6 +115,7 @@ class NutritionProfileCubit extends Cubit<NutritionProfileState> {
         carbohydrateTargetGrams: carbohydrateTargetGrams,
         fatTargetGrams: fatTargetGrams,
       );
+      _cachedProfile = updated;
 
       emit(
         NutritionProfileActionSuccess(
@@ -131,6 +141,7 @@ class NutritionProfileCubit extends Cubit<NutritionProfileState> {
         dietaryPreferences: dietaryPreferences,
         allergies: allergies,
       );
+      _cachedProfile = updated;
 
       emit(
         NutritionProfileActionSuccess(

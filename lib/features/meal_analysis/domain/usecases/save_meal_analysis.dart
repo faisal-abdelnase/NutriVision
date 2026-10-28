@@ -6,9 +6,7 @@ class SaveMealAnalysis {
 
   SaveMealAnalysis(this.repository);
 
-  Future<MealAnalysisResult> call({
-    required MealAnalysisResult result,
-  }) {
+  Future<MealAnalysisResult> call({required MealAnalysisResult result}) {
     return repository.saveMealAnalysis(result: result);
   }
 }

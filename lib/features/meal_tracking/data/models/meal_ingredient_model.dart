@@ -1,4 +1,3 @@
-
 import '../../domain/entities/meal_ingredient.dart';
 
 class MealIngredientModel extends MealIngredient {
@@ -9,9 +8,7 @@ class MealIngredientModel extends MealIngredient {
     super.foodId,
   });
 
-  factory MealIngredientModel.fromJson(
-    Map<String, dynamic> json,
-  ) {
+  factory MealIngredientModel.fromJson(Map<String, dynamic> json) {
     return MealIngredientModel(
       name: json['name'] as String,
       quantity: (json['quantity'] as num).toDouble(),
@@ -21,22 +18,15 @@ class MealIngredientModel extends MealIngredient {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'name': name,
-      'quantity': quantity,
-      'unit': unit,
-      'foodId': foodId,
-    };
+    return {'name': name, 'quantity': quantity, 'unit': unit, 'foodId': foodId};
   }
 
-  MealIngredientModel toIngredientModel(
-  MealIngredient ingredient,
-) {
-  return MealIngredientModel(
-    name: ingredient.name,
-    quantity: ingredient.quantity,
-    unit: ingredient.unit,
-    foodId: ingredient.foodId,
-  );
-}
+  MealIngredientModel toIngredientModel(MealIngredient ingredient) {
+    return MealIngredientModel(
+      name: ingredient.name,
+      quantity: ingredient.quantity,
+      unit: ingredient.unit,
+      foodId: ingredient.foodId,
+    );
+  }
 }

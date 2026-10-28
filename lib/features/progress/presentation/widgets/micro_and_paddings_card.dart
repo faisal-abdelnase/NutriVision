@@ -20,20 +20,41 @@ class MicroAndPaddingsCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Micro-Nutrient & Hydration Compliance', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
+              const Text(
+                'Micro-Nutrient & Hydration Compliance',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+              ),
               const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  _buildMicroItem('Dietary Fiber', '29g', '/ 38g goal', 'Optimal Microbiome'),
-                  _buildMicroItem('Sodium Intake', '1,820 mg', '(<2,300)', 'Blood Pressure Norm'),
-                  _buildMicroItem('Hydration Vol', '2.4L', '/ 2.8L goal', '98% Cellular Target'),
+                  _buildMicroItem(
+                    'Dietary Fiber',
+                    '29g',
+                    '/ 38g goal',
+                    'Optimal Microbiome',
+                  ),
+                  _buildMicroItem(
+                    'Sodium Intake',
+                    '1,820 mg',
+                    '(<2,300)',
+                    'Blood Pressure Norm',
+                  ),
+                  _buildMicroItem(
+                    'Hydration Vol',
+                    '2.4L',
+                    '/ 2.8L goal',
+                    '98% Cellular Target',
+                  ),
                 ],
               ),
               const SizedBox(height: 10),
               Container(
                 padding: const EdgeInsets.all(6),
-                decoration: BoxDecoration(color: const Color(0xFFDCFCE7), borderRadius: BorderRadius.circular(6)),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFDCFCE7),
+                  borderRadius: BorderRadius.circular(6),
+                ),
                 child: Row(
                   children: const [
                     Icon(Icons.eco, size: 12, color: Color(0xFF166534)),
@@ -41,13 +62,17 @@ class MicroAndPaddingsCard extends StatelessWidget {
                     Expanded(
                       child: Text(
                         'Plant Diversity Index: 28 distinct botanical species logged this week.',
-                        style: TextStyle(fontSize: 8, color: Color(0xFF166534), fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          fontSize: 8,
+                          color: Color(0xFF166534),
+                          fontWeight: FontWeight.bold,
+                        ),
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         );
@@ -62,11 +87,26 @@ class MicroAndPaddingsCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Top Nutritional Pillar Foods', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
+              const Text(
+                'Top Nutritional Pillar Foods',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+              ),
               const SizedBox(height: 8),
-              _buildFoodTile('Wild Sockeye Salmon', 'EPA/DHA • 34g Bioavailable P.', '5 Logs'),
-              _buildFoodTile('Fermented Sourdough', 'Probiotics • Low Glycemic Ind.', '4 Logs'),
-              _buildFoodTile('Greek Probiotic Yogurt', 'Casein • Active Live Cultures', '4 Logs'),
+              _buildFoodTile(
+                'Wild Sockeye Salmon',
+                'EPA/DHA • 34g Bioavailable P.',
+                '5 Logs',
+              ),
+              _buildFoodTile(
+                'Fermented Sourdough',
+                'Probiotics • Low Glycemic Ind.',
+                '4 Logs',
+              ),
+              _buildFoodTile(
+                'Greek Probiotic Yogurt',
+                'Casein • Active Live Cultures',
+                '4 Logs',
+              ),
             ],
           ),
         );
@@ -82,11 +122,7 @@ class MicroAndPaddingsCard extends StatelessWidget {
           );
         } else {
           return Column(
-            children: [
-              microCard,
-              const SizedBox(height: 12),
-              topFoodsCard,
-            ],
+            children: [microCard, const SizedBox(height: 12), topFoodsCard],
           );
         }
       },
@@ -96,11 +132,27 @@ class MicroAndPaddingsCard extends StatelessWidget {
   Widget _buildMicroItem(String label, String val, String target, String tag) {
     return Column(
       children: [
-        Text(label, style: const TextStyle(fontSize: 8, color: AppColors.mutedText)),
-        Text(val, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-        Text(target, style: const TextStyle(fontSize: 7, color: AppColors.mutedText)),
+        Text(
+          label,
+          style: const TextStyle(fontSize: 8, color: AppColors.mutedText),
+        ),
+        Text(
+          val,
+          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+        ),
+        Text(
+          target,
+          style: const TextStyle(fontSize: 7, color: AppColors.mutedText),
+        ),
         const SizedBox(height: 2),
-        Text(tag, style: const TextStyle(fontSize: 7, color: AppColors.primaryTeal, fontWeight: FontWeight.bold)),
+        Text(
+          tag,
+          style: const TextStyle(
+            fontSize: 7,
+            color: AppColors.primaryTeal,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ],
     );
   }
@@ -115,16 +167,36 @@ class MicroAndPaddingsCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold), overflow: TextOverflow.ellipsis),
-                Text(desc, style: const TextStyle(fontSize: 8, color: AppColors.mutedText), overflow: TextOverflow.ellipsis),
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Text(
+                  desc,
+                  style: const TextStyle(
+                    fontSize: 8,
+                    color: AppColors.mutedText,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
               ],
             ),
           ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-            decoration: BoxDecoration(color: const Color(0xFFF1F5F9), borderRadius: BorderRadius.circular(4)),
-            child: Text(logs, style: const TextStyle(fontSize: 8, fontWeight: FontWeight.bold)),
-          )
+            decoration: BoxDecoration(
+              color: const Color(0xFFF1F5F9),
+              borderRadius: BorderRadius.circular(4),
+            ),
+            child: Text(
+              logs,
+              style: const TextStyle(fontSize: 8, fontWeight: FontWeight.bold),
+            ),
+          ),
         ],
       ),
     );

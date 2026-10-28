@@ -47,33 +47,23 @@ Future<void> initMealAnalysisInjection() async {
   // Use Cases
 
   getIt.registerLazySingleton(
-    () => AnalyzeMealFromText(
-      getIt<MealAnalysisRepository>(),
-    ),
+    () => AnalyzeMealFromText(getIt<MealAnalysisRepository>()),
   );
 
   getIt.registerLazySingleton(
-    () => AnalyzeMealFromImage(
-      getIt<MealAnalysisRepository>(),
-    ),
+    () => AnalyzeMealFromImage(getIt<MealAnalysisRepository>()),
   );
 
   getIt.registerLazySingleton(
-    () => GetMealAnalysisById(
-      getIt<MealAnalysisRepository>(),
-    ),
+    () => GetMealAnalysisById(getIt<MealAnalysisRepository>()),
   );
 
   getIt.registerLazySingleton(
-    () => GetMealAnalysisHistory(
-      getIt<MealAnalysisRepository>(),
-    ),
+    () => GetMealAnalysisHistory(getIt<MealAnalysisRepository>()),
   );
 
   getIt.registerLazySingleton(
-    () => SaveMealAnalysis(
-      getIt<MealAnalysisRepository>(),
-    ),
+    () => SaveMealAnalysis(getIt<MealAnalysisRepository>()),
   );
 
   // Cubit

@@ -11,18 +11,16 @@ class MealAnalysisRequestModel extends MealAnalysisRequest {
     super.allergies,
   });
 
-  factory MealAnalysisRequestModel.fromJson(
-    Map<String, dynamic> json,
-  ) {
+  factory MealAnalysisRequestModel.fromJson(Map<String, dynamic> json) {
     return MealAnalysisRequestModel(
       userId: json['userId'] as String,
       description: json['description'] as String?,
       imagePath: json['imagePath'] as String?,
       mealType: json['mealType'] as String?,
-      servingSizeGrams:
-          (json['servingSizeGrams'] as num?)?.toDouble(),
-      dietaryPreferences:
-          List<String>.from(json['dietaryPreferences'] ?? const []),
+      servingSizeGrams: (json['servingSizeGrams'] as num?)?.toDouble(),
+      dietaryPreferences: List<String>.from(
+        json['dietaryPreferences'] ?? const [],
+      ),
       allergies: List<String>.from(json['allergies'] ?? const []),
     );
   }

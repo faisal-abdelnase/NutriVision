@@ -1,4 +1,3 @@
-
 import '../../domain/entities/nutrition_trend_point.dart';
 import '../../domain/entities/progress_entry.dart';
 import '../../domain/entities/progress_summary.dart';
@@ -43,8 +42,5 @@ final class ProgressOperationSuccess extends ProgressState {
   final String message;
   final ProgressSuccess? updatedData;
 
-  const ProgressOperationSuccess({
-    required this.message,
-    this.updatedData,
-  });
+  const ProgressOperationSuccess({required this.message, this.updatedData});
 }

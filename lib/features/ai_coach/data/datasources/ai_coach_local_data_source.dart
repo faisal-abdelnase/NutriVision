@@ -21,19 +21,13 @@ abstract class AiCoachLocalDataSource {
     required String userId,
   });
 
-  Future<void> cacheNutritionAdvice({
-    required NutritionAdviceModel advice,
-  });
+  Future<void> cacheNutritionAdvice({required NutritionAdviceModel advice});
 
   Future<NutritionAdviceModel?> getCachedNutritionAdvice({
     required String userId,
   });
 
-  Future<void> clearConversationCache({
-    required String conversationId,
-  });
+  Future<void> clearConversationCache({required String conversationId});
 
-  Future<void> clearUserCoachCache({
-    required String userId,
-  });
+  Future<void> clearUserCoachCache({required String userId});
 }

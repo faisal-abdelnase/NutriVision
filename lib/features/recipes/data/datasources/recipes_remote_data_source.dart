@@ -1,4 +1,3 @@
-
 import '../models/recipe_model.dart';
 
 abstract interface class RecipesRemoteDataSource {
@@ -10,9 +9,7 @@ abstract interface class RecipesRemoteDataSource {
     String? dietaryCategory,
   });
 
-  Future<RecipeModel?> fetchRecipeById({
-    required String recipeId,
-  });
+  Future<RecipeModel?> fetchRecipeById({required String recipeId});
 
   Future<RecipeModel> generatePersonalizedRecipe({
     required String userId,
@@ -23,10 +20,7 @@ abstract interface class RecipesRemoteDataSource {
     required int servings,
   });
 
-  Future<void> saveRecipe({
-    required String userId,
-    required String recipeId,
-  });
+  Future<void> saveRecipe({required String userId, required String recipeId});
 
   Future<void> removeSavedRecipe({
     required String userId,

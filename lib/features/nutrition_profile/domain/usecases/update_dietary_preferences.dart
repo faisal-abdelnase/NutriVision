@@ -1,4 +1,3 @@
-
 import '../entities/nutrition_profile.dart';
 import '../repositories/nutrition_profile_repository.dart';
 

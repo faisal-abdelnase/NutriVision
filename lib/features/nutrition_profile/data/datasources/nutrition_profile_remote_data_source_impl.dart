@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../models/nutrition_profile_model.dart';
@@ -8,9 +7,7 @@ class NutritionProfileRemoteDataSourceImpl
     implements NutritionProfileRemoteDataSource {
   final FirebaseFirestore firestore;
 
-  NutritionProfileRemoteDataSourceImpl({
-    required this.firestore,
-  });
+  NutritionProfileRemoteDataSourceImpl({required this.firestore});
 
   CollectionReference<Map<String, dynamic>> get _collection =>
       firestore.collection('nutrition_profiles');
@@ -33,19 +30,9 @@ class NutritionProfileRemoteDataSourceImpl
     required NutritionProfileModel profile,
   }) async {
     final docRef = _collection.doc(profile.userId);
-    final snapshot = await docRef.get();
+    final model = NutritionProfileModel.fromEntity(_withUpdatedAt(profile));
 
-    if (snapshot.exists) {
-      throw StateError(
-        'Nutrition profile already exists for this user.',
-      );
-    }
-
-    final model = NutritionProfileModel.fromEntity(
-      _withUpdatedAt(profile),
-    );
-
-    await docRef.set(model.toJson());
+    await docRef.set(model.toJson(), SetOptions(merge: true));
 
     return model;
   }
@@ -58,14 +45,10 @@ class NutritionProfileRemoteDataSourceImpl
     final snapshot = await docRef.get();
 
     if (!snapshot.exists) {
-      throw StateError(
-        'Nutrition profile does not exist for this user.',
-      );
+      throw StateError('Nutrition profile does not exist for this user.');
     }
 
-    final model = NutritionProfileModel.fromEntity(
-      _withUpdatedAt(profile),
-    );
+    final model = NutritionProfileModel.fromEntity(_withUpdatedAt(profile));
 
     await docRef.set(model.toJson(), SetOptions(merge: true));
 
@@ -81,24 +64,17 @@ class NutritionProfileRemoteDataSourceImpl
     final snapshot = await docRef.get();
 
     if (!snapshot.exists) {
-      throw StateError(
-        'Create the nutrition profile before updating goals.',
-      );
+      throw StateError('Create the nutrition profile before updating goals.');
     }
 
-    await docRef.set(
-      {
-        ...goals,
-        'updatedAt': FieldValue.serverTimestamp(),
-      },
-      SetOptions(merge: true),
-    );
+    await docRef.set({
+      ...goals,
+      'updatedAt': FieldValue.serverTimestamp(),
+    }, SetOptions(merge: true));
 
     final updatedSnapshot = await docRef.get();
 
-    return NutritionProfileModel.fromJson(
-      updatedSnapshot.data()!,
-    );
+    return NutritionProfileModel.fromJson(updatedSnapshot.data()!);
   }
 
   @override
@@ -116,25 +92,18 @@ class NutritionProfileRemoteDataSourceImpl
       );
     }
 
-    await docRef.set(
-      {
-        'dietaryPreferences': dietaryPreferences,
-        'allergies': allergies,
-        'updatedAt': FieldValue.serverTimestamp(),
-      },
-      SetOptions(merge: true),
-    );
+    await docRef.set({
+      'dietaryPreferences': dietaryPreferences,
+      'allergies': allergies,
+      'updatedAt': FieldValue.serverTimestamp(),
+    }, SetOptions(merge: true));
 
     final updatedSnapshot = await docRef.get();
 
-    return NutritionProfileModel.fromJson(
-      updatedSnapshot.data()!,
-    );
+    return NutritionProfileModel.fromJson(updatedSnapshot.data()!);
   }
 
-  NutritionProfileModel _withUpdatedAt(
-    NutritionProfileModel profile,
-  ) {
+  NutritionProfileModel _withUpdatedAt(NutritionProfileModel profile) {
     return NutritionProfileModel(
       userId: profile.userId,
       age: profile.age,
@@ -145,9 +114,7 @@ class NutritionProfileRemoteDataSourceImpl
       proteinTargetGrams: profile.proteinTargetGrams,
       carbohydrateTargetGrams: profile.carbohydrateTargetGrams,
       fatTargetGrams: profile.fatTargetGrams,
-      dietaryPreferences: List<String>.from(
-        profile.dietaryPreferences,
-      ),
+      dietaryPreferences: List<String>.from(profile.dietaryPreferences),
       allergies: List<String>.from(profile.allergies),
       updatedAt: DateTime.now(),
     );

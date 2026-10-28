@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../domain/entities/grocery_item.dart';
@@ -60,9 +59,7 @@ class GroceryListModel extends GroceryList {
     };
   }
 
-  List<GroceryItemModel> itemsToModels(
-    List<GroceryItem> items,
-  ) {
+  List<GroceryItemModel> itemsToModels(List<GroceryItem> items) {
     return items.map((item) {
       if (item is GroceryItemModel) return item;
 

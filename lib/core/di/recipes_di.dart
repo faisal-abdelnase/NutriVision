@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
@@ -25,9 +24,7 @@ Future<void> registerRecipesDependencies() async {
   }
 
   if (!sl.isRegistered<SharedPreferences>()) {
-    throw StateError(
-      'Register SharedPreferences before Recipes dependencies.',
-    );
+    throw StateError('Register SharedPreferences before Recipes dependencies.');
   }
 
   if (!sl.isRegistered<Dio>()) {
@@ -55,22 +52,17 @@ Future<void> registerRecipesDependencies() async {
   );
 
   sl.registerLazySingleton<GroceryListLocalDataSource>(
-    () => GroceryListLocalDataSourceImpl(
-      sl<SharedPreferences>(),
-    ),
+    () => GroceryListLocalDataSourceImpl(sl<SharedPreferences>()),
   );
 
   sl.registerLazySingleton<RecipesRepository>(
     () => RecipesRepositoryImpl(
       remoteDataSource: sl<RecipesRemoteDataSource>(),
-      groceryListLocalDataSource:
-          sl<GroceryListLocalDataSource>(),
+      groceryListLocalDataSource: sl<GroceryListLocalDataSource>(),
     ),
   );
 
-  sl.registerFactory<RecipesCubit>(
-    () => RecipesCubit(sl<RecipesRepository>()),
-  );
+  sl.registerFactory<RecipesCubit>(() => RecipesCubit(sl<RecipesRepository>()));
 
   sl.registerFactory<GroceryListCubit>(
     () => GroceryListCubit(sl<RecipesRepository>()),

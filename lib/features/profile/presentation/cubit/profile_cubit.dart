@@ -24,45 +24,42 @@ class ProfileCubit extends Cubit<ProfileState> {
   }) : super(const ProfileState());
 
   Future<void> loadProfile(String userId) async {
-    emit(state.copyWith(
-      status: ProfileStatus.loading,
-      clearError: true,
-    ));
+    emit(state.copyWith(status: ProfileStatus.loading, clearError: true));
 
     try {
       final profile = await getUserProfile(userId: userId);
 
-      emit(state.copyWith(
-        status: ProfileStatus.success,
-        profile: profile,
-        clearProfile: profile == null,
-      ));
+      emit(
+        state.copyWith(
+          status: ProfileStatus.success,
+          profile: profile,
+          clearProfile: profile == null,
+        ),
+      );
     } catch (e) {
-      emit(state.copyWith(
-        status: ProfileStatus.failure,
-        errorMessage: e.toString(),
-      ));
+      emit(
+        state.copyWith(
+          status: ProfileStatus.failure,
+          errorMessage: e.toString(),
+        ),
+      );
     }
   }
 
   Future<void> updateProfile(UserProfile profile) async {
-    emit(state.copyWith(
-      status: ProfileStatus.updating,
-      clearError: true,
-    ));
+    emit(state.copyWith(status: ProfileStatus.updating, clearError: true));
 
     try {
       final updated = await updateUserProfile(profile: profile);
 
-      emit(state.copyWith(
-        status: ProfileStatus.success,
-        profile: updated,
-      ));
+      emit(state.copyWith(status: ProfileStatus.success, profile: updated));
     } catch (e) {
-      emit(state.copyWith(
-        status: ProfileStatus.failure,
-        errorMessage: e.toString(),
-      ));
+      emit(
+        state.copyWith(
+          status: ProfileStatus.failure,
+          errorMessage: e.toString(),
+        ),
+      );
     }
   }
 
@@ -70,53 +67,54 @@ class ProfileCubit extends Cubit<ProfileState> {
     required String userId,
     required String imagePath,
   }) async {
-    emit(state.copyWith(
-      status: ProfileStatus.uploadingPhoto,
-      clearError: true,
-    ));
+    emit(
+      state.copyWith(status: ProfileStatus.uploadingPhoto, clearError: true),
+    );
 
     try {
-      await uploadProfilePhoto(
-        userId: userId,
-        imagePath: imagePath,
-      );
+      await uploadProfilePhoto(userId: userId, imagePath: imagePath);
 
       final profile = await getUserProfile(userId: userId);
 
-      emit(state.copyWith(
-        status: ProfileStatus.success,
-        profile: profile,
-        clearProfile: profile == null,
-      ));
+      emit(
+        state.copyWith(
+          status: ProfileStatus.success,
+          profile: profile,
+          clearProfile: profile == null,
+        ),
+      );
     } catch (e) {
-      emit(state.copyWith(
-        status: ProfileStatus.failure,
-        errorMessage: e.toString(),
-      ));
+      emit(
+        state.copyWith(
+          status: ProfileStatus.failure,
+          errorMessage: e.toString(),
+        ),
+      );
     }
   }
 
   Future<void> removePhoto(String userId) async {
-    emit(state.copyWith(
-      status: ProfileStatus.updating,
-      clearError: true,
-    ));
+    emit(state.copyWith(status: ProfileStatus.updating, clearError: true));
 
     try {
       await deleteProfilePhoto(userId: userId);
 
       final profile = await getUserProfile(userId: userId);
 
-      emit(state.copyWith(
-        status: ProfileStatus.success,
-        profile: profile,
-        clearProfile: profile == null,
-      ));
+      emit(
+        state.copyWith(
+          status: ProfileStatus.success,
+          profile: profile,
+          clearProfile: profile == null,
+        ),
+      );
     } catch (e) {
-      emit(state.copyWith(
-        status: ProfileStatus.failure,
-        errorMessage: e.toString(),
-      ));
+      emit(
+        state.copyWith(
+          status: ProfileStatus.failure,
+          errorMessage: e.toString(),
+        ),
+      );
     }
   }
 
@@ -124,10 +122,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     required String userId,
     required String reauthenticationToken,
   }) async {
-    emit(state.copyWith(
-      status: ProfileStatus.deleting,
-      clearError: true,
-    ));
+    emit(state.copyWith(status: ProfileStatus.deleting, clearError: true));
 
     try {
       await deleteUserAccount(
@@ -135,15 +130,14 @@ class ProfileCubit extends Cubit<ProfileState> {
         reauthenticationToken: reauthenticationToken,
       );
 
-      emit(state.copyWith(
-        status: ProfileStatus.success,
-        clearProfile: true,
-      ));
+      emit(state.copyWith(status: ProfileStatus.success, clearProfile: true));
     } catch (e) {
-      emit(state.copyWith(
-        status: ProfileStatus.failure,
-        errorMessage: e.toString(),
-      ));
+      emit(
+        state.copyWith(
+          status: ProfileStatus.failure,
+          errorMessage: e.toString(),
+        ),
+      );
     }
   }
 }

@@ -21,9 +21,7 @@ class MealAnalysisResultModel extends MealAnalysisResult {
     super.linkedMealId,
   }) : super(foodItems: foodItems);
 
-  factory MealAnalysisResultModel.fromJson(
-    Map<String, dynamic> json,
-  ) {
+  factory MealAnalysisResultModel.fromJson(Map<String, dynamic> json) {
     final rawDate = json['analyzedAt'];
 
     final DateTime analyzedAt;
@@ -43,20 +41,17 @@ class MealAnalysisResultModel extends MealAnalysisResult {
       sourceDescription: json['sourceDescription'] as String?,
       sourceImageUrl: json['sourceImageUrl'] as String?,
       foodItems: _parseFoodItems(json['foodItems']),
-      totalCalories:
-          (json['totalCalories'] as num?)?.toDouble() ?? 0,
-      totalProteinGrams:
-          (json['totalProteinGrams'] as num?)?.toDouble() ?? 0,
+      totalCalories: (json['totalCalories'] as num?)?.toDouble() ?? 0,
+      totalProteinGrams: (json['totalProteinGrams'] as num?)?.toDouble() ?? 0,
       totalCarbohydrateGrams:
           (json['totalCarbohydrateGrams'] as num?)?.toDouble() ?? 0,
-      totalFatGrams:
-          (json['totalFatGrams'] as num?)?.toDouble() ?? 0,
+      totalFatGrams: (json['totalFatGrams'] as num?)?.toDouble() ?? 0,
       analysisSummary: json['analysisSummary'] as String?,
-      nutritionInsights:
-          List<String>.from(json['nutritionInsights'] ?? const []),
+      nutritionInsights: List<String>.from(
+        json['nutritionInsights'] ?? const [],
+      ),
       warnings: List<String>.from(json['warnings'] ?? const []),
-      confidenceScore:
-          (json['confidenceScore'] as num?)?.toDouble(),
+      confidenceScore: (json['confidenceScore'] as num?)?.toDouble(),
       analyzedAt: analyzedAt,
       linkedMealId: json['linkedMealId'] as String?,
     );
@@ -124,9 +119,7 @@ class MealAnalysisResultModel extends MealAnalysisResult {
     };
   }
 
-  factory MealAnalysisResultModel.fromEntity(
-    MealAnalysisResult result,
-  ) {
+  factory MealAnalysisResultModel.fromEntity(MealAnalysisResult result) {
     return MealAnalysisResultModel(
       id: result.id,
       userId: result.userId,

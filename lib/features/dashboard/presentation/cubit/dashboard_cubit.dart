@@ -13,9 +13,9 @@ class DashboardCubit extends Cubit<DashboardState> {
   DashboardCubit({
     required GetDailyNutritionSummary getDailyNutritionSummary,
     required GetRecentMealsSummary getRecentMealsSummary,
-  })  : _getDailyNutritionSummary = getDailyNutritionSummary,
-        _getRecentMealsSummary = getRecentMealsSummary,
-        super(const DashboardInitial());
+  }) : _getDailyNutritionSummary = getDailyNutritionSummary,
+       _getRecentMealsSummary = getRecentMealsSummary,
+       super(const DashboardInitial());
 
   Future<void> loadDashboard({
     required String userId,
@@ -39,24 +39,15 @@ class DashboardCubit extends Cubit<DashboardState> {
 
       // ✅ Cast للنوع الصح بدل dynamic
       final results = await Future.wait<Object>([
-        _getDailyNutritionSummary(
-          userId: userId,
-          date: selectedDate,
-        ),
-        _getRecentMealsSummary(
-          userId: userId,
-          limit: recentMealsLimit,
-        ),
+        _getDailyNutritionSummary(userId: userId, date: selectedDate),
+        _getRecentMealsSummary(userId: userId, limit: recentMealsLimit),
       ]);
 
       final dailySummary = results[0] as DailyNutritionSummary;
       final recentMeals = results[1] as List<RecentMealSummary>;
 
       emit(
-        DashboardLoaded(
-          dailySummary: dailySummary,
-          recentMeals: recentMeals,
-        ),
+        DashboardLoaded(dailySummary: dailySummary, recentMeals: recentMeals),
       );
     } catch (error) {
       emit(DashboardError(_mapError(error)));

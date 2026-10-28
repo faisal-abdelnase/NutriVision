@@ -1,4 +1,3 @@
-
 import '../entities/coach_message.dart';
 import '../repositories/ai_coach_repository.dart';
 

@@ -1,4 +1,3 @@
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../domain/entities/grocery_item.dart';
@@ -6,8 +5,7 @@ import '../../domain/repositories/recipes_repository.dart';
 import 'grocery_list_state.dart';
 
 class GroceryListCubit extends Cubit<GroceryListState> {
-  GroceryListCubit(this._repository)
-      : super(const GroceryListInitial());
+  GroceryListCubit(this._repository) : super(const GroceryListInitial());
 
   final RecipesRepository _repository;
 
@@ -15,9 +13,7 @@ class GroceryListCubit extends Cubit<GroceryListState> {
     emit(const GroceryListLoading());
 
     try {
-      final list = await _repository.getGroceryList(
-        userId: userId,
-      );
+      final list = await _repository.getGroceryList(userId: userId);
 
       emit(GroceryListLoaded(list));
     } catch (error) {
@@ -48,10 +44,7 @@ class GroceryListCubit extends Cubit<GroceryListState> {
     required String itemId,
   }) async {
     try {
-      await _repository.removeGroceryItem(
-        userId: userId,
-        itemId: itemId,
-      );
+      await _repository.removeGroceryItem(userId: userId, itemId: itemId);
 
       await load(userId: userId);
     } catch (error) {

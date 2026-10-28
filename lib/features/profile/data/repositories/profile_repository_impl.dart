@@ -14,18 +14,12 @@ class ProfileRepositoryImpl implements ProfileRepository {
   });
 
   @override
-  Future<UserProfile?> getUserProfile({
-    required String userId,
-  }) {
-    return remoteDataSource.fetchUserProfile(
-      userId: userId,
-    );
+  Future<UserProfile?> getUserProfile({required String userId}) {
+    return remoteDataSource.fetchUserProfile(userId: userId);
   }
 
   @override
-  Future<UserProfile> updateUserProfile({
-    required UserProfile profile,
-  }) {
+  Future<UserProfile> updateUserProfile({required UserProfile profile}) {
     return remoteDataSource.updateUserProfile(
       profile: UserProfileModel.fromEntity(profile),
     );
@@ -46,8 +40,9 @@ class ProfileRepositoryImpl implements ProfileRepository {
     try {
       if (oldProfile != null) {
         await updateUserProfile(
-          profile: UserProfileModel.fromEntity(oldProfile)
-              .copyWithPhoto(imageUrl),
+          profile: UserProfileModel.fromEntity(
+            oldProfile,
+          ).copyWithPhoto(imageUrl),
         );
       }
 
@@ -63,9 +58,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
   }
 
   @override
-  Future<void> deleteProfilePhoto({
-    required String userId,
-  }) async {
+  Future<void> deleteProfilePhoto({required String userId}) async {
     final profile = await getUserProfile(userId: userId);
 
     if (profile == null || profile.profilePhotoUrl == null) {
@@ -73,8 +66,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
     }
 
     await updateUserProfile(
-      profile: UserProfileModel.fromEntity(profile)
-          .copyWithPhoto(null),
+      profile: UserProfileModel.fromEntity(profile).copyWithPhoto(null),
     );
 
     await storageDataSource.deleteProfileImage(

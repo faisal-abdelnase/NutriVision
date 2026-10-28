@@ -27,16 +27,12 @@ void registerProfileDependencies() {
   );
 
   sl.registerLazySingleton<ProfileStorageDataSource>(
-    () => ProfileStorageDataSourceImpl(
-      storage: FirebaseStorage.instance,
-    ),
+    () => ProfileStorageDataSourceImpl(storage: FirebaseStorage.instance),
   );
 
   sl.registerLazySingleton<ProfileRepository>(
-    () => ProfileRepositoryImpl(
-      remoteDataSource: sl(),
-      storageDataSource: sl(),
-    ),
+    () =>
+        ProfileRepositoryImpl(remoteDataSource: sl(), storageDataSource: sl()),
   );
 
   sl.registerLazySingleton(() => GetUserProfile(sl()));

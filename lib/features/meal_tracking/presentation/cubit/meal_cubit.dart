@@ -1,4 +1,3 @@
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../domain/entities/meal.dart';
@@ -27,9 +26,7 @@ class MealCubit extends Cubit<MealState> {
     required this.getMealsByDateUseCase,
   }) : super(const MealInitial());
 
-  Future<void> addMeal({
-    required Meal meal,
-  }) async {
+  Future<void> addMeal({required Meal meal}) async {
     emit(const MealLoading());
 
     try {
@@ -45,9 +42,7 @@ class MealCubit extends Cubit<MealState> {
     }
   }
 
-  Future<void> updateMeal({
-    required Meal meal,
-  }) async {
+  Future<void> updateMeal({required Meal meal}) async {
     emit(const MealLoading());
 
     try {
@@ -65,10 +60,7 @@ class MealCubit extends Cubit<MealState> {
     emit(const MealLoading());
 
     try {
-      await deleteMealUseCase(
-        mealId: mealId,
-        userId: userId,
-      );
+      await deleteMealUseCase(mealId: mealId, userId: userId);
 
       emit(const MealOperationSuccess('Meal deleted successfully.'));
     } catch (error) {
@@ -83,10 +75,7 @@ class MealCubit extends Cubit<MealState> {
     emit(const MealLoading());
 
     try {
-      final meal = await getMealByIdUseCase(
-        mealId: mealId,
-        userId: userId,
-      );
+      final meal = await getMealByIdUseCase(mealId: mealId, userId: userId);
 
       if (meal == null) {
         emit(const MealError('Meal not found.'));
@@ -132,17 +121,9 @@ class MealCubit extends Cubit<MealState> {
     emit(const MealLoading());
 
     try {
-      final meals = await getMealsByDateUseCase(
-        userId: userId,
-        date: date,
-      );
+      final meals = await getMealsByDateUseCase(userId: userId, date: date);
 
-      emit(
-        MealsByDateLoaded(
-          meals: meals,
-          date: date,
-        ),
-      );
+      emit(MealsByDateLoaded(meals: meals, date: date));
     } catch (error) {
       emit(MealError(_errorMessage(error)));
     }

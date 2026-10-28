@@ -1,4 +1,3 @@
-
 import '../../domain/entities/grocery_list.dart';
 
 abstract class GroceryListState {

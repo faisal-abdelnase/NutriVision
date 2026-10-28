@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../nutrition_profile/domain/entities/nutrition_profile.dart';
+import '../../../nutrition_profile/presentation/cubit/nutrition_profile_cubit.dart';
 import '../../../meal_tracking/presentation/addmeal/screens/add_meal_screen.dart';
 import '../../../meal_tracking/presentation/meal_details/screens/meal_details_screen.dart';
-
 
 class TodaysMealsCard extends StatelessWidget {
   const TodaysMealsCard({super.key});
@@ -27,6 +29,32 @@ class TodaysMealsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final profile = context.watch<NutritionProfileCubit?>()?.currentProfile;
+    final int targetCalories = profile?.dailyCalorieTarget?.round() ?? 2200;
+    final int targetProtein = profile?.proteinTargetGrams?.round() ?? 140;
+
+    // Dynamic allergen verification
+    final hasEggAllergy = profile?.containsAllergen('egg') ?? false;
+    final hasGlutenAllergy = profile?.containsAllergen('gluten') ?? false;
+    final hasSeafoodAllergy = profile?.containsAllergen('seafood') ?? false;
+    final hasDairyAllergy = profile?.containsAllergen('dairy') ?? false;
+
+    final String? breakfastAlert = hasEggAllergy
+        ? 'Egg Alert'
+        : (hasGlutenAllergy ? 'Gluten Alert' : null);
+    final String? lunchAlert = hasSeafoodAllergy ? 'Seafood Alert' : null;
+    final String? snackAlert = hasDairyAllergy ? 'Dairy Alert' : null;
+
+    final int plannedDinnerKcal = (targetCalories - 1220).clamp(350, 1500);
+    final int neededProtein = (targetProtein - 88).clamp(15, 120);
+
+    final isVegan = profile?.regimenName == 'vegan' || profile?.regimenName == 'vegetarian';
+    final dinnerSuggestion = isVegan
+        ? 'Suggested: Crispy Tofu Stir-fry with Sprouted Edamame & Brown Rice.'
+        : (hasSeafoodAllergy
+            ? 'Suggested: Herb-Roasted Turkey Tenderloin with Quinoa & Steamed Greens.'
+            : 'Suggested: Lean Herb Chicken Breast or Garlic Edamame Stir-fry.');
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -42,20 +70,47 @@ class TodaysMealsCard extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  const Text("Today's Meals", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+                  const Text(
+                    "Today's Meals",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                  ),
                   const SizedBox(width: 8),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                    decoration: BoxDecoration(color: const Color(0xFFDCFCE7), borderRadius: BorderRadius.circular(10)),
-                    child: const Text('3 of 4 logged', style: TextStyle(fontSize: 9, color: Color(0xFF166534), fontWeight: FontWeight.bold)),
-                  )
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 6,
+                      vertical: 2,
+                    ),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFDCFCE7),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: const Text(
+                      '3 of 4 logged',
+                      style: TextStyle(
+                        fontSize: 9,
+                        color: Color(0xFF166534),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
                 ],
               ),
               TextButton.icon(
                 onPressed: () => _navigateToAddMeal(context),
-                icon: const Icon(Icons.add, size: 14, color: AppColors.primaryTeal),
-                label: const Text('Add Meal', style: TextStyle(fontSize: 11, color: AppColors.primaryTeal, fontWeight: FontWeight.bold)),
-              )
+                icon: const Icon(
+                  Icons.add,
+                  size: 14,
+                  color: AppColors.primaryTeal,
+                ),
+                label: const Text(
+                  'Add Meal',
+                  style: TextStyle(
+                    fontSize: 11,
+                    color: AppColors.primaryTeal,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 12),
@@ -70,6 +125,8 @@ class TodaysMealsCard extends StatelessWidget {
             'P: 22g • C: 34g • F: 18g',
             'High Choline & Potassium',
             'https://images.unsplash.com/photo-1525351484163-7529414344d8',
+            allergenWarning: breakfastAlert,
+            hasProfileSafeguards: profile != null && profile.allergies.isNotEmpty,
           ),
           const SizedBox(height: 12),
 
@@ -83,6 +140,8 @@ class TodaysMealsCard extends StatelessWidget {
             'P: 48g • C: 52g • F: 22g',
             'Omega-3 EPA/DHA Rich',
             'https://images.unsplash.com/photo-1546069901-ba9599a7e63c',
+            allergenWarning: lunchAlert,
+            hasProfileSafeguards: profile != null && profile.allergies.isNotEmpty,
           ),
           const SizedBox(height: 12),
 
@@ -96,6 +155,8 @@ class TodaysMealsCard extends StatelessWidget {
             'P: 18g • C: 14g • F: 4g',
             'Probiotic Active Microflora',
             'https://images.unsplash.com/photo-1488477181946-6428a0291777',
+            allergenWarning: snackAlert,
+            hasProfileSafeguards: profile != null && profile.allergies.isNotEmpty,
           ),
           const SizedBox(height: 12),
 
@@ -105,7 +166,10 @@ class TodaysMealsCard extends StatelessWidget {
             decoration: BoxDecoration(
               color: const Color(0xFFF8FAFC),
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: AppColors.border, style: BorderStyle.solid),
+              border: Border.all(
+                color: AppColors.border,
+                style: BorderStyle.solid,
+              ),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -115,17 +179,44 @@ class TodaysMealsCard extends StatelessWidget {
                   children: [
                     Row(
                       children: const [
-                        Icon(Icons.restaurant, size: 14, color: AppColors.mutedText),
+                        Icon(
+                          Icons.restaurant,
+                          size: 14,
+                          color: AppColors.mutedText,
+                        ),
                         SizedBox(width: 6),
-                        Text('DINNER • PLANNED SLOT', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: AppColors.mutedText)),
+                        Text(
+                          'DINNER • PLANNED SLOT',
+                          style: TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.mutedText,
+                          ),
+                        ),
                       ],
                     ),
-                    const Text('~680 target kcal', style: TextStyle(fontSize: 10, color: AppColors.mutedText)),
+                    Text(
+                      '~$plannedDinnerKcal target kcal',
+                      style: const TextStyle(
+                        fontSize: 10,
+                        color: AppColors.mutedText,
+                      ),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 6),
-                const Text('Dinner not logged yet', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: AppColors.darkText)),
-                const Text('Suggested: Lean Herb Chicken Breast or Garlic Edamame Stir-fry.', style: TextStyle(fontSize: 10, color: AppColors.mutedText)),
+                const Text(
+                  'Dinner not logged yet',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 13,
+                    color: AppColors.darkText,
+                  ),
+                ),
+                Text(
+                  dinnerSuggestion,
+                  style: const TextStyle(fontSize: 10, color: AppColors.mutedText),
+                ),
                 const SizedBox(height: 10),
                 LayoutBuilder(
                   builder: (context, constraints) {
@@ -133,56 +224,96 @@ class TodaysMealsCard extends StatelessWidget {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('+45g Protein required to hit today\'s target', style: TextStyle(fontSize: 9, color: Color(0xFFC2410C), fontWeight: FontWeight.w600)),
+                          Text(
+                            '+${neededProtein}g Protein required to hit today\'s target',
+                            style: const TextStyle(
+                              fontSize: 9,
+                              color: Color(0xFFC2410C),
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
                           const SizedBox(height: 8),
                           SizedBox(
                             width: double.infinity,
                             child: ElevatedButton.icon(
                               onPressed: () => _navigateToAddMeal(context),
                               icon: const Icon(Icons.crop_free, size: 12),
-                              label: const Text('Scan with Vision AI', style: TextStyle(fontSize: 10)),
+                              label: const Text(
+                                'Scan with Vision AI',
+                                style: TextStyle(fontSize: 10),
+                              ),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: AppColors.primaryTeal,
                                 foregroundColor: Colors.white,
-                                padding: const EdgeInsets.symmetric(vertical: 8),
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 8,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
                               ),
                             ),
-                          )
+                          ),
                         ],
                       );
                     }
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Expanded(
-                          child: Text('+45g Protein required to hit today\'s target', style: TextStyle(fontSize: 9, color: Color(0xFFC2410C), fontWeight: FontWeight.w600)),
+                        Expanded(
+                          child: Text(
+                            '+${neededProtein}g Protein required to hit today\'s target',
+                            style: const TextStyle(
+                              fontSize: 9,
+                              color: Color(0xFFC2410C),
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
                         ),
                         const SizedBox(width: 8),
                         ElevatedButton.icon(
                           onPressed: () => _navigateToAddMeal(context),
                           icon: const Icon(Icons.crop_free, size: 12),
-                          label: const Text('Scan with Vision AI', style: TextStyle(fontSize: 10)),
+                          label: const Text(
+                            'Scan with Vision AI',
+                            style: TextStyle(fontSize: 10),
+                          ),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.primaryTeal,
                             foregroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 6,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(6),
+                            ),
                           ),
-                        )
+                        ),
                       ],
                     );
                   },
-                )
+                ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildMealItem(BuildContext context, String slot, String title, String description, String calories, String macros, String tag, String imageUrl) {
+  Widget _buildMealItem(
+    BuildContext context,
+    String slot,
+    String title,
+    String description,
+    String calories,
+    String macros,
+    String tag,
+    String imageUrl, {
+    String? allergenWarning,
+    bool hasProfileSafeguards = false,
+  }) {
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -221,36 +352,145 @@ class TodaysMealsCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
-                          child: Text(
-                            slot,
-                            style: const TextStyle(fontSize: 9, fontWeight: FontWeight.bold, color: AppColors.mutedText),
-                            overflow: TextOverflow.ellipsis,
+                          child: Row(
+                            children: [
+                              Flexible(
+                                child: Text(
+                                  slot,
+                                  style: const TextStyle(
+                                    fontSize: 9,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.mutedText,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              if (allergenWarning != null) ...[
+                                const SizedBox(width: 4),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 4,
+                                    vertical: 1,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFFFEE2E2),
+                                    borderRadius: BorderRadius.circular(4),
+                                    border: Border.all(
+                                      color: const Color(0xFFFCA5A5),
+                                    ),
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const Icon(
+                                        Icons.warning_amber_rounded,
+                                        size: 8,
+                                        color: Color(0xFFDC2626),
+                                      ),
+                                      const SizedBox(width: 2),
+                                      Text(
+                                        allergenWarning,
+                                        style: const TextStyle(
+                                          fontSize: 7,
+                                          color: Color(0xFFDC2626),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ] else if (hasProfileSafeguards) ...[
+                                const SizedBox(width: 4),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 4,
+                                    vertical: 1,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFFDCFCE7),
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                  child: const Text(
+                                    '✓ Safe',
+                                    style: TextStyle(
+                                      fontSize: 7,
+                                      color: Color(0xFF166534),
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ],
                           ),
                         ),
                         const SizedBox(width: 4),
-                        Text(calories, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: AppColors.darkText)),
+                        Text(
+                          calories,
+                          style: const TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.darkText,
+                          ),
+                        ),
                       ],
                     ),
-                    Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12), maxLines: 1, overflow: TextOverflow.ellipsis),
-                    Text(description, style: const TextStyle(fontSize: 9, color: AppColors.mutedText), maxLines: 1, overflow: TextOverflow.ellipsis),
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Text(
+                      description,
+                      style: const TextStyle(
+                        fontSize: 9,
+                        color: AppColors.mutedText,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                     const SizedBox(height: 6),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
-                          child: Text(macros, style: const TextStyle(fontSize: 9, fontWeight: FontWeight.w600, color: AppColors.darkText), overflow: TextOverflow.ellipsis),
+                          child: Text(
+                            macros,
+                            style: const TextStyle(
+                              fontSize: 9,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.darkText,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                         const SizedBox(width: 4),
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                          decoration: BoxDecoration(color: const Color(0xFFE0F2FE), borderRadius: BorderRadius.circular(4)),
-                          child: Text(tag, style: const TextStyle(fontSize: 8, color: Color(0xFF0369A1), fontWeight: FontWeight.bold)),
-                        )
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 6,
+                            vertical: 2,
+                          ),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFE0F2FE),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: Text(
+                            tag,
+                            style: const TextStyle(
+                              fontSize: 8,
+                              color: Color(0xFF0369A1),
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
                       ],
-                    )
+                    ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),

@@ -1,11 +1,7 @@
-
-
 import '../entities/nutrition_profile.dart';
 
 abstract class NutritionProfileRepository {
-  Future<NutritionProfile?> getNutritionProfile({
-    required String userId,
-  });
+  Future<NutritionProfile?> getNutritionProfile({required String userId});
 
   Future<NutritionProfile> createNutritionProfile({
     required NutritionProfile profile,

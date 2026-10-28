@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -8,8 +7,7 @@ import '../models/grocery_item_model.dart';
 import '../models/grocery_list_model.dart';
 import 'grocery_list_local_data_source.dart';
 
-class GroceryListLocalDataSourceImpl
-    implements GroceryListLocalDataSource {
+class GroceryListLocalDataSourceImpl implements GroceryListLocalDataSource {
   GroceryListLocalDataSourceImpl(this._preferences);
 
   final SharedPreferences _preferences;
@@ -18,9 +16,7 @@ class GroceryListLocalDataSourceImpl
   String _key(String userId) => 'grocery_list_$userId';
 
   @override
-  Future<GroceryListModel?> readGroceryList({
-    required String userId,
-  }) async {
+  Future<GroceryListModel?> readGroceryList({required String userId}) async {
     final raw = _preferences.getString(_key(userId));
     if (raw == null) return null;
 
@@ -53,12 +49,10 @@ class GroceryListLocalDataSourceImpl
   Future<GroceryItemModel> addGroceryItem({
     required GroceryItemModel item,
   }) async {
-    final current =
-        await readGroceryList(userId: item.userId);
+    final current = await readGroceryList(userId: item.userId);
 
-    final items = current?.items
-            .map((entry) => entry as GroceryItemModel)
-            .toList() ??
+    final items =
+        current?.items.map((entry) => entry as GroceryItemModel).toList() ??
         <GroceryItemModel>[];
 
     final newItem = GroceryItemModel(
@@ -92,8 +86,7 @@ class GroceryListLocalDataSourceImpl
   Future<GroceryItemModel> updateGroceryItem({
     required GroceryItemModel item,
   }) async {
-    final current =
-        await readGroceryList(userId: item.userId);
+    final current = await readGroceryList(userId: item.userId);
 
     if (current == null) {
       throw StateError('Grocery list does not exist.');
@@ -103,9 +96,7 @@ class GroceryListLocalDataSourceImpl
         .map((entry) => entry as GroceryItemModel)
         .toList();
 
-    final index = items.indexWhere(
-      (entry) => entry.id == item.id,
-    );
+    final index = items.indexWhere((entry) => entry.id == item.id);
 
     if (index == -1) {
       throw StateError('Grocery item not found.');
@@ -147,9 +138,7 @@ class GroceryListLocalDataSourceImpl
   }
 
   @override
-  Future<void> clearGroceryList({
-    required String userId,
-  }) async {
+  Future<void> clearGroceryList({required String userId}) async {
     await _preferences.remove(_key(userId));
   }
 }

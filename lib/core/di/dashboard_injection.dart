@@ -12,15 +12,11 @@ import '../../features/dashboard/presentation/cubit/dashboard_cubit.dart';
 final GetIt sl = GetIt.instance;
 
 void registerDashboardDependencies() {
-  sl.registerLazySingleton<FirebaseFirestore>(
-    () => FirebaseFirestore.instance,
-  );
+  sl.registerLazySingleton<FirebaseFirestore>(() => FirebaseFirestore.instance);
 
   // Data Source
   sl.registerLazySingleton<DashboardRemoteDataSource>(
-    () => DashboardRemoteDataSourceImpl(
-      firestore: sl<FirebaseFirestore>(),
-    ),
+    () => DashboardRemoteDataSourceImpl(firestore: sl<FirebaseFirestore>()),
   );
 
   // Repository
@@ -32,24 +28,18 @@ void registerDashboardDependencies() {
 
   // Use Cases
   sl.registerLazySingleton<GetDailyNutritionSummary>(
-    () => GetDailyNutritionSummary(
-      sl<DashboardRepository>(),
-    ),
+    () => GetDailyNutritionSummary(sl<DashboardRepository>()),
   );
 
   sl.registerLazySingleton<GetRecentMealsSummary>(
-    () => GetRecentMealsSummary(
-      sl<DashboardRepository>(),
-    ),
+    () => GetRecentMealsSummary(sl<DashboardRepository>()),
   );
 
   // Cubit
   sl.registerFactory<DashboardCubit>(
     () => DashboardCubit(
-      getDailyNutritionSummary:
-          sl<GetDailyNutritionSummary>(),
-      getRecentMealsSummary:
-          sl<GetRecentMealsSummary>(),
+      getDailyNutritionSummary: sl<GetDailyNutritionSummary>(),
+      getRecentMealsSummary: sl<GetRecentMealsSummary>(),
     ),
   );
 }

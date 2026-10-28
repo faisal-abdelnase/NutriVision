@@ -7,9 +7,7 @@ class AnalyzeMealFromText {
 
   AnalyzeMealFromText(this.repository);
 
-  Future<MealAnalysisResult> call({
-    required MealAnalysisRequest request,
-  }) {
+  Future<MealAnalysisResult> call({required MealAnalysisRequest request}) {
     return repository.analyzeMealFromText(request: request);
   }
 }

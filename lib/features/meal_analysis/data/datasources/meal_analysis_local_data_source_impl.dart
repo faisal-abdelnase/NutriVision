@@ -5,46 +5,35 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/meal_analysis_result_model.dart';
 import 'meal_analysis_local_data_source.dart';
 
-class MealAnalysisLocalDataSourceImpl
-    implements MealAnalysisLocalDataSource {
+class MealAnalysisLocalDataSourceImpl implements MealAnalysisLocalDataSource {
   final SharedPreferences preferences;
 
-  MealAnalysisLocalDataSourceImpl({
-    required this.preferences,
-  });
+  MealAnalysisLocalDataSourceImpl({required this.preferences});
 
-  String _key(String analysisId) =>
-      'meal_analysis_$analysisId';
+  String _key(String analysisId) => 'meal_analysis_$analysisId';
 
-  String _historyKey(String userId) =>
-      'meal_analysis_history_$userId';
+  String _historyKey(String userId) => 'meal_analysis_history_$userId';
 
   @override
-Future<void> cacheMealAnalysis({
-  required MealAnalysisResultModel result,
-}) async {
-  final json = result.toJson();
+  Future<void> cacheMealAnalysis({
+    required MealAnalysisResultModel result,
+  }) async {
+    final json = result.toJson();
 
-  json['analyzedAt'] = result.analyzedAt.toIso8601String();
+    json['analyzedAt'] = result.analyzedAt.toIso8601String();
 
-  await preferences.setString(
-    _key(result.id),
-    jsonEncode(json),
-  );
+    await preferences.setString(_key(result.id), jsonEncode(json));
 
-  final historyIds =
-      preferences.getStringList(_historyKey(result.userId)) ??
-          <String>[];
+    final historyIds =
+        preferences.getStringList(_historyKey(result.userId)) ?? <String>[];
 
-  if (!historyIds.contains(result.id)) {
-    historyIds.insert(0, result.id);
+    if (!historyIds.contains(result.id)) {
+      historyIds.insert(0, result.id);
 
-    await preferences.setStringList(
-      _historyKey(result.userId),
-      historyIds,
-    );
+      await preferences.setStringList(_historyKey(result.userId), historyIds);
+    }
   }
-}
+
   @override
   Future<MealAnalysisResultModel?> getCachedMealAnalysis({
     required String analysisId,
@@ -59,19 +48,15 @@ Future<void> cacheMealAnalysis({
   }
 
   @override
-  Future<List<MealAnalysisResultModel>>
-      getCachedMealAnalysisHistory({
+  Future<List<MealAnalysisResultModel>> getCachedMealAnalysisHistory({
     required String userId,
   }) async {
-    final ids = preferences.getStringList(_historyKey(userId)) ??
-        <String>[];
+    final ids = preferences.getStringList(_historyKey(userId)) ?? <String>[];
 
     final results = <MealAnalysisResultModel>[];
 
     for (final id in ids) {
-      final result = await getCachedMealAnalysis(
-        analysisId: id,
-      );
+      final result = await getCachedMealAnalysis(analysisId: id);
 
       if (result != null && result.userId == userId) {
         results.add(result);
@@ -82,12 +67,8 @@ Future<void> cacheMealAnalysis({
   }
 
   @override
-  Future<void> removeCachedMealAnalysis({
-    required String analysisId,
-  }) async {
-    final result = await getCachedMealAnalysis(
-      analysisId: analysisId,
-    );
+  Future<void> removeCachedMealAnalysis({required String analysisId}) async {
+    final result = await getCachedMealAnalysis(analysisId: analysisId);
 
     await preferences.remove(_key(analysisId));
 
@@ -102,11 +83,8 @@ Future<void> cacheMealAnalysis({
   }
 
   @override
-  Future<void> clearCachedMealAnalysisHistory({
-    required String userId,
-  }) async {
-    final ids = preferences.getStringList(_historyKey(userId)) ??
-        <String>[];
+  Future<void> clearCachedMealAnalysisHistory({required String userId}) async {
+    final ids = preferences.getStringList(_historyKey(userId)) ?? <String>[];
 
     for (final id in ids) {
       await preferences.remove(_key(id));

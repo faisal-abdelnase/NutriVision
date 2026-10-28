@@ -26,6 +26,5 @@ extension ContextExtensions on BuildContext {
 }
 
 extension BreakpointContext on BuildContext {
-  AppBreakpoint get breakpoint =>
-      Breakpoints.of(MediaQuery.sizeOf(this).width);
+  AppBreakpoint get breakpoint => Breakpoints.of(MediaQuery.sizeOf(this).width);
 }

@@ -1,4 +1,3 @@
-
 import '../../domain/entities/recipe_ingredient.dart';
 
 class RecipeIngredientModel extends RecipeIngredient {
@@ -11,9 +10,7 @@ class RecipeIngredientModel extends RecipeIngredient {
     super.foodDatabaseId,
   });
 
-  factory RecipeIngredientModel.fromJson(
-    Map<String, dynamic> json,
-  ) {
+  factory RecipeIngredientModel.fromJson(Map<String, dynamic> json) {
     return RecipeIngredientModel(
       id: json['id'] as String,
       name: json['name'] as String,

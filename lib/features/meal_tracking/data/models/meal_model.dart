@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../domain/entities/meal.dart';
 import 'meal_ingredient_model.dart';
@@ -20,10 +19,7 @@ class MealModel extends Meal {
     super.updatedAt,
   }) : super(ingredients: ingredients);
 
-  factory MealModel.fromJson(
-    Map<String, dynamic> json, {
-    required String id,
-  }) {
+  factory MealModel.fromJson(Map<String, dynamic> json, {required String id}) {
     DateTime parseDate(dynamic value) {
       if (value is Timestamp) return value.toDate();
       if (value is DateTime) return value;
@@ -47,8 +43,7 @@ class MealModel extends Meal {
       }).toList(),
       calories: (json['calories'] as num).toDouble(),
       proteinGrams: (json['proteinGrams'] as num).toDouble(),
-      carbohydrateGrams:
-          (json['carbohydrateGrams'] as num).toDouble(),
+      carbohydrateGrams: (json['carbohydrateGrams'] as num).toDouble(),
       fatGrams: (json['fatGrams'] as num).toDouble(),
       eatenAt: parseDate(json['eatenAt']),
       createdAt: parseDate(json['createdAt']),
@@ -93,13 +88,12 @@ class MealModel extends Meal {
       'mealType': mealType,
       'ingredients': ingredients
           .map(
-            (ingredient) =>
-                MealIngredientModel(
-                  name: ingredient.name,
-                  quantity: ingredient.quantity,
-                  unit: ingredient.unit,
-                  foodId: ingredient.foodId,
-                ).toJson(),
+            (ingredient) => MealIngredientModel(
+              name: ingredient.name,
+              quantity: ingredient.quantity,
+              unit: ingredient.unit,
+              foodId: ingredient.foodId,
+            ).toJson(),
           )
           .toList(),
       'calories': calories,
@@ -108,9 +102,7 @@ class MealModel extends Meal {
       'fatGrams': fatGrams,
       'eatenAt': Timestamp.fromDate(eatenAt),
       'createdAt': Timestamp.fromDate(createdAt),
-      'updatedAt': updatedAt == null
-          ? null
-          : Timestamp.fromDate(updatedAt!),
+      'updatedAt': updatedAt == null ? null : Timestamp.fromDate(updatedAt!),
     };
   }
 }

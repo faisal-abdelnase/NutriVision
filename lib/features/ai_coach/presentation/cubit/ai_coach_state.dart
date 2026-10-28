@@ -1,14 +1,8 @@
-
 import '../../domain/entities/coach_conversation.dart';
 import '../../domain/entities/coach_message.dart';
 import '../../domain/entities/nutrition_advice.dart';
 
-enum AiCoachStatus {
-  initial,
-  loading,
-  success,
-  failure,
-}
+enum AiCoachStatus { initial, loading, success, failure }
 
 class AiCoachState {
   final AiCoachStatus status;

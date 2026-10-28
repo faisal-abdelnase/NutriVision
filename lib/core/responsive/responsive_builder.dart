@@ -2,10 +2,8 @@ import 'package:flutter/widgets.dart';
 
 import 'breakpoints.dart';
 
-typedef ResponsiveWidgetBuilder = Widget Function(
-  BuildContext context,
-  AppBreakpoint breakpoint,
-);
+typedef ResponsiveWidgetBuilder =
+    Widget Function(BuildContext context, AppBreakpoint breakpoint);
 
 /// Picks between [mobile], [tablet] and [desktop] builders based on the
 /// available width (via [LayoutBuilder], so it reacts to nested

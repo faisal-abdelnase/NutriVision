@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../domain/entities/progress_summary.dart';
@@ -17,9 +16,7 @@ class ProgressSummaryModel extends ProgressSummary {
     super.lastRecordedAt,
   });
 
-  factory ProgressSummaryModel.fromJson(
-    Map<String, dynamic> json,
-  ) {
+  factory ProgressSummaryModel.fromJson(Map<String, dynamic> json) {
     DateTime? parseDate(dynamic value) {
       if (value == null) return null;
       if (value is Timestamp) return value.toDate();
@@ -37,15 +34,9 @@ class ProgressSummaryModel extends ProgressSummary {
       currentWeightKg: parseDouble(json['currentWeightKg']),
       startingWeightKg: parseDouble(json['startingWeightKg']),
       weightChangeKg: parseDouble(json['weightChangeKg']),
-      currentBodyFatPercentage: parseDouble(
-        json['currentBodyFatPercentage'],
-      ),
-      startingBodyFatPercentage: parseDouble(
-        json['startingBodyFatPercentage'],
-      ),
-      bodyFatChangePercentage: parseDouble(
-        json['bodyFatChangePercentage'],
-      ),
+      currentBodyFatPercentage: parseDouble(json['currentBodyFatPercentage']),
+      startingBodyFatPercentage: parseDouble(json['startingBodyFatPercentage']),
+      bodyFatChangePercentage: parseDouble(json['bodyFatChangePercentage']),
       totalEntries: (json['totalEntries'] as num?)?.toInt() ?? 0,
       firstRecordedAt: parseDate(json['firstRecordedAt']),
       lastRecordedAt: parseDate(json['lastRecordedAt']),

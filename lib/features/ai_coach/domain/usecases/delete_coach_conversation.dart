@@ -1,4 +1,3 @@
-
 import '../repositories/ai_coach_repository.dart';
 
 class DeleteCoachConversation {
@@ -6,10 +5,7 @@ class DeleteCoachConversation {
 
   DeleteCoachConversation(this.repository);
 
-  Future<void> call({
-    required String userId,
-    required String conversationId,
-  }) {
+  Future<void> call({required String userId, required String conversationId}) {
     return repository.deleteConversation(
       userId: userId,
       conversationId: conversationId,

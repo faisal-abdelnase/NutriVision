@@ -1,4 +1,3 @@
-
 import '../../domain/entities/grocery_item.dart';
 import '../../domain/entities/grocery_list.dart';
 import '../../domain/entities/recipe.dart';
@@ -36,12 +35,8 @@ class RecipesRepositoryImpl implements RecipesRepository {
   }
 
   @override
-  Future<Recipe?> getRecipeById({
-    required String recipeId,
-  }) {
-    return remoteDataSource.fetchRecipeById(
-      recipeId: recipeId,
-    );
+  Future<Recipe?> getRecipeById({required String recipeId}) {
+    return remoteDataSource.fetchRecipeById(recipeId: recipeId);
   }
 
   @override
@@ -64,14 +59,8 @@ class RecipesRepositoryImpl implements RecipesRepository {
   }
 
   @override
-  Future<void> saveRecipe({
-    required String userId,
-    required String recipeId,
-  }) {
-    return remoteDataSource.saveRecipe(
-      userId: userId,
-      recipeId: recipeId,
-    );
+  Future<void> saveRecipe({required String userId, required String recipeId}) {
+    return remoteDataSource.saveRecipe(userId: userId, recipeId: recipeId);
   }
 
   @override
@@ -99,9 +88,7 @@ class RecipesRepositoryImpl implements RecipesRepository {
   }
 
   @override
-  Future<GroceryList> getGroceryList({
-    required String userId,
-  }) async {
+  Future<GroceryList> getGroceryList({required String userId}) async {
     final list = await groceryListLocalDataSource.readGroceryList(
       userId: userId,
     );
@@ -115,18 +102,12 @@ class RecipesRepositoryImpl implements RecipesRepository {
   }
 
   @override
-  Future<GroceryItem> addGroceryItem({
-    required GroceryItem item,
-  }) {
-    return groceryListLocalDataSource.addGroceryItem(
-      item: _toItemModel(item),
-    );
+  Future<GroceryItem> addGroceryItem({required GroceryItem item}) {
+    return groceryListLocalDataSource.addGroceryItem(item: _toItemModel(item));
   }
 
   @override
-  Future<GroceryItem> updateGroceryItem({
-    required GroceryItem item,
-  }) {
+  Future<GroceryItem> updateGroceryItem({required GroceryItem item}) {
     return groceryListLocalDataSource.updateGroceryItem(
       item: _toItemModel(item),
     );
@@ -144,12 +125,8 @@ class RecipesRepositoryImpl implements RecipesRepository {
   }
 
   @override
-  Future<void> clearGroceryList({
-    required String userId,
-  }) {
-    return groceryListLocalDataSource.clearGroceryList(
-      userId: userId,
-    );
+  Future<void> clearGroceryList({required String userId}) {
+    return groceryListLocalDataSource.clearGroceryList(userId: userId);
   }
 
   GroceryItemModel _toItemModel(GroceryItem item) {

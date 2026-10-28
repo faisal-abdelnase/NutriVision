@@ -1,4 +1,3 @@
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../domain/entities/progress_entry.dart';
@@ -81,9 +80,7 @@ class ProgressCubit extends Cubit<ProgressState> {
     }
   }
 
-  Future<bool> recordEntry({
-    required ProgressEntry entry,
-  }) async {
+  Future<bool> recordEntry({required ProgressEntry entry}) async {
     final previousData = _currentData;
     emit(ProgressSaving(previousData: previousData));
 
@@ -104,9 +101,7 @@ class ProgressCubit extends Cubit<ProgressState> {
     }
   }
 
-  Future<bool> updateEntry({
-    required ProgressEntry entry,
-  }) async {
+  Future<bool> updateEntry({required ProgressEntry entry}) async {
     final previousData = _currentData;
     emit(ProgressSaving(previousData: previousData));
 
@@ -135,10 +130,7 @@ class ProgressCubit extends Cubit<ProgressState> {
     emit(ProgressSaving(previousData: previousData));
 
     try {
-      await deleteProgressEntry(
-        userId: userId,
-        entryId: entryId,
-      );
+      await deleteProgressEntry(userId: userId, entryId: entryId);
 
       final updatedData = previousData == null
           ? null

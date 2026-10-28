@@ -15,9 +15,7 @@ class MealAnalysisRepositoryImpl implements MealAnalysisRepository {
     required this.localDataSource,
   });
 
-  MealAnalysisRequestModel _requestModel(
-    MealAnalysisRequest request,
-  ) {
+  MealAnalysisRequestModel _requestModel(MealAnalysisRequest request) {
     return MealAnalysisRequestModel(
       userId: request.userId,
       description: request.description,
@@ -98,9 +96,7 @@ class MealAnalysisRepositoryImpl implements MealAnalysisRepository {
   }) async {
     final model = MealAnalysisResultModel.fromEntity(result);
 
-    final saved = await remoteDataSource.saveMealAnalysis(
-      result: model,
-    );
+    final saved = await remoteDataSource.saveMealAnalysis(result: model);
 
     return _cacheResult(saved);
   }
@@ -112,8 +108,7 @@ class MealAnalysisRepositoryImpl implements MealAnalysisRepository {
     required int pageSize,
   }) async {
     try {
-      final results =
-          await remoteDataSource.fetchMealAnalysisHistory(
+      final results = await remoteDataSource.fetchMealAnalysisHistory(
         userId: userId,
         page: page,
         pageSize: pageSize,
@@ -125,8 +120,7 @@ class MealAnalysisRepositoryImpl implements MealAnalysisRepository {
 
       return results;
     } catch (_) {
-      final cached =
-          await localDataSource.getCachedMealAnalysisHistory(
+      final cached = await localDataSource.getCachedMealAnalysisHistory(
         userId: userId,
       );
 

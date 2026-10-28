@@ -22,15 +22,36 @@ class MealHeroCard extends StatelessWidget {
             children: [
               Row(
                 children: const [
-                  Icon(Icons.camera_alt_outlined, size: 14, color: AppColors.mutedText),
+                  Icon(
+                    Icons.camera_alt_outlined,
+                    size: 14,
+                    color: AppColors.mutedText,
+                  ),
                   SizedBox(width: 4),
-                  Text('Photogrammetry: 380g Net', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: AppColors.darkText)),
+                  Text(
+                    'Photogrammetry: 380g Net',
+                    style: TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.darkText,
+                    ),
+                  ),
                 ],
               ),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                decoration: BoxDecoration(color: const Color(0xFFDCFCE7), borderRadius: BorderRadius.circular(4)),
-                child: const Text('99.4% Confidence', style: TextStyle(fontSize: 9, color: Color(0xFF166534), fontWeight: FontWeight.bold)),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFDCFCE7),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: const Text(
+                  '99.4% Confidence',
+                  style: TextStyle(
+                    fontSize: 9,
+                    color: Color(0xFF166534),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             ],
           ),
@@ -46,7 +67,11 @@ class MealHeroCard extends StatelessWidget {
                   height: 180,
                   width: double.infinity,
                   fit: BoxFit.cover,
-                  errorBuilder: (c, e, s) => Container(height: 180, color: Colors.grey.shade300, child: const Icon(Icons.fastfood, size: 40)),
+                  errorBuilder: (c, e, s) => Container(
+                    height: 180,
+                    color: Colors.grey.shade300,
+                    child: const Icon(Icons.fastfood, size: 40),
+                  ),
                 ),
                 Container(
                   height: 180,
@@ -54,7 +79,10 @@ class MealHeroCard extends StatelessWidget {
                     gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      colors: [Colors.transparent, Colors.black.withValues(alpha: 0.8)],
+                      colors: [
+                        Colors.transparent,
+                        Colors.black.withValues(alpha: 0.8),
+                      ],
                     ),
                   ),
                 ),
@@ -65,14 +93,32 @@ class MealHeroCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: const [
-                      Text('LUNCH • 01:15 PM', style: TextStyle(color: AppColors.primaryTeal, fontSize: 10, fontWeight: FontWeight.bold)),
+                      Text(
+                        'LUNCH • 01:15 PM',
+                        style: TextStyle(
+                          color: AppColors.primaryTeal,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       SizedBox(height: 2),
-                      Text('Grilled Herb Salmon &\nQuinoa Bowl', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold, height: 1.2)),
+                      Text(
+                        'Grilled Herb Salmon &\nQuinoa Bowl',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          height: 1.2,
+                        ),
+                      ),
                       SizedBox(height: 4),
-                      Text('سالمون مشوي بالأعشاب مع سلطة الكينوا المغذية', style: TextStyle(color: Colors.white70, fontSize: 10)),
+                      Text(
+                        'سالمون مشوي بالأعشاب مع سلطة الكينوا المغذية',
+                        style: TextStyle(color: Colors.white70, fontSize: 10),
+                      ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -83,10 +129,26 @@ class MealHeroCard extends StatelessWidget {
             spacing: 6,
             runSpacing: 6,
             children: [
-              _buildTag('Lunch • غداء', const Color(0xFFE0F2FE), const Color(0xFF0369A1)),
-              _buildTag('High Omega-3 (EPA/DHA)', const Color(0xFFEFF6FF), const Color(0xFF1E40AF)),
-              _buildTag('Gluten-Free', const Color(0xFFF1F5F9), AppColors.darkText),
-              _buildTag('Low Glycemic (GI: 38)', const Color(0xFFDCFCE7), const Color(0xFF166534)),
+              _buildTag(
+                'Lunch • غداء',
+                const Color(0xFFE0F2FE),
+                const Color(0xFF0369A1),
+              ),
+              _buildTag(
+                'High Omega-3 (EPA/DHA)',
+                const Color(0xFFEFF6FF),
+                const Color(0xFF1E40AF),
+              ),
+              _buildTag(
+                'Gluten-Free',
+                const Color(0xFFF1F5F9),
+                AppColors.darkText,
+              ),
+              _buildTag(
+                'Low Glycemic (GI: 38)',
+                const Color(0xFFDCFCE7),
+                const Color(0xFF166534),
+              ),
             ],
           ),
           const SizedBox(height: 16),
@@ -94,7 +156,10 @@ class MealHeroCard extends StatelessWidget {
           // NutriScore Dial Box
           Container(
             padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(color: const Color(0xFFF8FAFC), borderRadius: BorderRadius.circular(12)),
+            decoration: BoxDecoration(
+              color: const Color(0xFFF8FAFC),
+              borderRadius: BorderRadius.circular(12),
+            ),
             child: Row(
               children: [
                 // Score Circle
@@ -108,8 +173,22 @@ class MealHeroCard extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
-                      Text('88', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: AppColors.darkText)),
-                      Text('NUTRI-SCORE', style: TextStyle(fontSize: 5, color: AppColors.mutedText, fontWeight: FontWeight.bold)),
+                      Text(
+                        '88',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                          color: AppColors.darkText,
+                        ),
+                      ),
+                      Text(
+                        'NUTRI-SCORE',
+                        style: TextStyle(
+                          fontSize: 5,
+                          color: AppColors.mutedText,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -121,21 +200,48 @@ class MealHeroCard extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: const [
-                          Text('Satiety Index 84 / 100', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: AppColors.primaryTeal)),
-                          Text('(High)', style: TextStyle(fontSize: 10, color: AppColors.primaryTeal, fontWeight: FontWeight.bold)),
+                          Text(
+                            'Satiety Index 84 / 100',
+                            style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.primaryTeal,
+                            ),
+                          ),
+                          Text(
+                            '(High)',
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: AppColors.primaryTeal,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ],
                       ),
                       const SizedBox(height: 4),
                       Row(
                         children: const [
-                          Text('Lipid Profile:\nCardioprotective', style: TextStyle(fontSize: 8, color: AppColors.mutedText)),
+                          Text(
+                            'Lipid Profile:\nCardioprotective',
+                            style: TextStyle(
+                              fontSize: 8,
+                              color: AppColors.mutedText,
+                            ),
+                          ),
                           Spacer(),
-                          Text('Metabolic\nBurn:\nClean Energy', style: TextStyle(fontSize: 8, color: AppColors.primaryTeal, fontWeight: FontWeight.bold)),
+                          Text(
+                            'Metabolic\nBurn:\nClean Energy',
+                            style: TextStyle(
+                              fontSize: 8,
+                              color: AppColors.primaryTeal,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ],
-                      )
+                      ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -144,21 +250,32 @@ class MealHeroCard extends StatelessWidget {
           // Clinical Disclaimer Box
           Container(
             padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(color: const Color(0xFFEFF6FF), borderRadius: BorderRadius.circular(8)),
+            decoration: BoxDecoration(
+              color: const Color(0xFFEFF6FF),
+              borderRadius: BorderRadius.circular(8),
+            ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: const [
-                Icon(Icons.verified_outlined, size: 14, color: Color(0xFF0369A1)),
+                Icon(
+                  Icons.verified_outlined,
+                  size: 14,
+                  color: Color(0xFF0369A1),
+                ),
                 SizedBox(width: 6),
                 Expanded(
                   child: Text(
                     'Clinical Notice: Estimated nutritional telemetry calibrated via dual-lens bio-photogrammetry cross-referenced with USDA FoodData Central Node SR-Legacy. Not intended as direct autonomous medical prescription.',
-                    style: TextStyle(fontSize: 8, color: Color(0xFF0369A1), height: 1.3),
+                    style: TextStyle(
+                      fontSize: 8,
+                      color: Color(0xFF0369A1),
+                      height: 1.3,
+                    ),
                   ),
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );
@@ -167,8 +284,18 @@ class MealHeroCard extends StatelessWidget {
   Widget _buildTag(String text, Color bg, Color textClr) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(6)),
-      child: Text(text, style: TextStyle(fontSize: 9, color: textClr, fontWeight: FontWeight.bold)),
+      decoration: BoxDecoration(
+        color: bg,
+        borderRadius: BorderRadius.circular(6),
+      ),
+      child: Text(
+        text,
+        style: TextStyle(
+          fontSize: 9,
+          color: textClr,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
     );
   }
 }

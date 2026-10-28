@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../domain/entities/nutrition_profile.dart';
@@ -19,9 +18,7 @@ class NutritionProfileModel extends NutritionProfile {
     super.updatedAt,
   });
 
-  factory NutritionProfileModel.fromJson(
-    Map<String, dynamic> json,
-  ) {
+  factory NutritionProfileModel.fromJson(Map<String, dynamic> json) {
     final dynamic timestamp = json['updatedAt'];
 
     return NutritionProfileModel(
@@ -30,24 +27,20 @@ class NutritionProfileModel extends NutritionProfile {
       heightCm: (json['heightCm'] as num?)?.toDouble(),
       weightKg: (json['weightKg'] as num?)?.toDouble(),
       goal: json['goal'] as String?,
-      dailyCalorieTarget:
-          (json['dailyCalorieTarget'] as num?)?.toDouble(),
-      proteinTargetGrams:
-          (json['proteinTargetGrams'] as num?)?.toDouble(),
-      carbohydrateTargetGrams:
-          (json['carbohydrateTargetGrams'] as num?)?.toDouble(),
-      fatTargetGrams:
-          (json['fatTargetGrams'] as num?)?.toDouble(),
-      dietaryPreferences:
-          List<String>.from(json['dietaryPreferences'] ?? const []),
+      dailyCalorieTarget: (json['dailyCalorieTarget'] as num?)?.toDouble(),
+      proteinTargetGrams: (json['proteinTargetGrams'] as num?)?.toDouble(),
+      carbohydrateTargetGrams: (json['carbohydrateTargetGrams'] as num?)
+          ?.toDouble(),
+      fatTargetGrams: (json['fatTargetGrams'] as num?)?.toDouble(),
+      dietaryPreferences: List<String>.from(
+        json['dietaryPreferences'] ?? const [],
+      ),
       allergies: List<String>.from(json['allergies'] ?? const []),
       updatedAt: _parseTimestamp(timestamp),
     );
   }
 
-  factory NutritionProfileModel.fromEntity(
-    NutritionProfile profile,
-  ) {
+  factory NutritionProfileModel.fromEntity(NutritionProfile profile) {
     return NutritionProfileModel(
       userId: profile.userId,
       age: profile.age,
@@ -58,9 +51,7 @@ class NutritionProfileModel extends NutritionProfile {
       proteinTargetGrams: profile.proteinTargetGrams,
       carbohydrateTargetGrams: profile.carbohydrateTargetGrams,
       fatTargetGrams: profile.fatTargetGrams,
-      dietaryPreferences: List<String>.from(
-        profile.dietaryPreferences,
-      ),
+      dietaryPreferences: List<String>.from(profile.dietaryPreferences),
       allergies: List<String>.from(profile.allergies),
       updatedAt: profile.updatedAt,
     );
@@ -95,9 +86,24 @@ class NutritionProfileModel extends NutritionProfile {
       'fatTargetGrams': fatTargetGrams,
       'dietaryPreferences': dietaryPreferences,
       'allergies': allergies,
-      'updatedAt': Timestamp.fromDate(
-        updatedAt ?? DateTime.now(),
-      ),
+      'updatedAt': Timestamp.fromDate(updatedAt ?? DateTime.now()),
+    };
+  }
+
+  Map<String, dynamic> toLocalJson() {
+    return {
+      'userId': userId,
+      'age': age,
+      'heightCm': heightCm,
+      'weightKg': weightKg,
+      'goal': goal,
+      'dailyCalorieTarget': dailyCalorieTarget,
+      'proteinTargetGrams': proteinTargetGrams,
+      'carbohydrateTargetGrams': carbohydrateTargetGrams,
+      'fatTargetGrams': fatTargetGrams,
+      'dietaryPreferences': dietaryPreferences,
+      'allergies': allergies,
+      'updatedAt': (updatedAt ?? DateTime.now()).toIso8601String(),
     };
   }
 }

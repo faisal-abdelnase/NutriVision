@@ -1,17 +1,15 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../models/recipe_model.dart';
 import 'recipes_remote_data_source.dart';
 import 'recipe_generator_data_source.dart';
 
-class RecipesRemoteDataSourceImpl
-    implements RecipesRemoteDataSource {
+class RecipesRemoteDataSourceImpl implements RecipesRemoteDataSource {
   RecipesRemoteDataSourceImpl({
     required FirebaseFirestore firestore,
     required RecipeGeneratorDataSource recipeGenerator,
-  })  : _firestore = firestore,
-        _recipeGenerator = recipeGenerator;
+  }) : _firestore = firestore,
+       _recipeGenerator = recipeGenerator;
 
   final FirebaseFirestore _firestore;
   final RecipeGeneratorDataSource _recipeGenerator;
@@ -19,13 +17,8 @@ class RecipesRemoteDataSourceImpl
   CollectionReference<Map<String, dynamic>> get _recipes =>
       _firestore.collection('recipes');
 
-  CollectionReference<Map<String, dynamic>> _savedRecipes(
-    String userId,
-  ) =>
-      _firestore
-          .collection('users')
-          .doc(userId)
-          .collection('savedRecipes');
+  CollectionReference<Map<String, dynamic>> _savedRecipes(String userId) =>
+      _firestore.collection('users').doc(userId).collection('savedRecipes');
 
   RecipeModel _fromDocument(
     QueryDocumentSnapshot<Map<String, dynamic>> doc, {
@@ -54,9 +47,7 @@ class RecipesRemoteDataSourceImpl
         .orderBy('createdAt', descending: true)
         .get();
 
-    var recipes = snapshot.docs
-        .map((doc) => _fromDocument(doc))
-        .toList();
+    var recipes = snapshot.docs.map((doc) => _fromDocument(doc)).toList();
 
     if (searchQuery != null && searchQuery.trim().isNotEmpty) {
       final query = searchQuery.trim().toLowerCase();
@@ -73,8 +64,7 @@ class RecipesRemoteDataSourceImpl
       }).toList();
     }
 
-    if (dietaryCategory != null &&
-        dietaryCategory.trim().isNotEmpty) {
+    if (dietaryCategory != null && dietaryCategory.trim().isNotEmpty) {
       recipes = recipes.where((recipe) {
         return recipe.dietaryCategory == dietaryCategory;
       }).toList();
@@ -88,19 +78,14 @@ class RecipesRemoteDataSourceImpl
   }
 
   @override
-  Future<RecipeModel?> fetchRecipeById({
-    required String recipeId,
-  }) async {
+  Future<RecipeModel?> fetchRecipeById({required String recipeId}) async {
     final doc = await _recipes.doc(recipeId).get();
     if (!doc.exists) return null;
 
     final data = doc.data();
     if (data == null) return null;
 
-    return RecipeModel.fromJson({
-      ...data,
-      'id': doc.id,
-    });
+    return RecipeModel.fromJson({...data, 'id': doc.id});
   }
 
   @override
@@ -157,24 +142,20 @@ class RecipesRemoteDataSourceImpl
       throw ArgumentError('page and pageSize must be positive.');
     }
 
-    final savedSnapshot = await _savedRecipes(userId)
-        .orderBy('savedAt', descending: true)
-        .get();
+    final savedSnapshot = await _savedRecipes(
+      userId,
+    ).orderBy('savedAt', descending: true).get();
 
     final start = (page - 1) * pageSize;
     if (start >= savedSnapshot.docs.length) return [];
 
-    final end = (start + pageSize).clamp(
-      0,
-      savedSnapshot.docs.length,
-    );
+    final end = (start + pageSize).clamp(0, savedSnapshot.docs.length);
 
     final pageDocs = savedSnapshot.docs.sublist(start, end);
     final result = <RecipeModel>[];
 
     for (final savedDoc in pageDocs) {
-      final recipeId =
-          savedDoc.data()['recipeId'] as String? ?? savedDoc.id;
+      final recipeId = savedDoc.data()['recipeId'] as String? ?? savedDoc.id;
 
       final recipe = await _recipes.doc(recipeId).get();
       final data = recipe.data();
@@ -182,11 +163,7 @@ class RecipesRemoteDataSourceImpl
       if (!recipe.exists || data == null) continue;
 
       result.add(
-        RecipeModel.fromJson({
-          ...data,
-          'id': recipe.id,
-          'isSaved': true,
-        }),
+        RecipeModel.fromJson({...data, 'id': recipe.id, 'isSaved': true}),
       );
     }
 

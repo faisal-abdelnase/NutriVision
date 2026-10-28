@@ -1,4 +1,3 @@
-
 import '../repositories/meal_repository.dart';
 
 class DeleteMeal {
@@ -6,10 +5,7 @@ class DeleteMeal {
 
   DeleteMeal(this.repository);
 
-  Future<void> call({
-    required String mealId,
-    required String userId,
-  }){
+  Future<void> call({required String mealId, required String userId}) {
     return repository.deleteMeal(mealId: mealId, userId: userId);
   }
 }

@@ -1,8 +1,4 @@
-enum CoachMessageRole {
-  user,
-  assistant,
-  system,
-}
+enum CoachMessageRole { user, assistant, system }
 
 class CoachMessage {
   final String id;

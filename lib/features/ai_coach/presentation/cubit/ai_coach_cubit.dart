@@ -60,10 +60,7 @@ class AiCoachCubit extends Cubit<AiCoachState> {
     required String userId,
     bool includeArchived = false,
   }) async {
-    emit(state.copyWith(
-      status: AiCoachStatus.loading,
-      clearError: true,
-    ));
+    emit(state.copyWith(status: AiCoachStatus.loading, clearError: true));
 
     try {
       final result = await getUserConversations(
@@ -73,15 +70,16 @@ class AiCoachCubit extends Cubit<AiCoachState> {
         includeArchived: includeArchived,
       );
 
-      emit(state.copyWith(
-        status: AiCoachStatus.success,
-        conversations: result,
-      ));
+      emit(
+        state.copyWith(status: AiCoachStatus.success, conversations: result),
+      );
     } catch (error) {
-      emit(state.copyWith(
-        status: AiCoachStatus.failure,
-        errorMessage: error.toString(),
-      ));
+      emit(
+        state.copyWith(
+          status: AiCoachStatus.failure,
+          errorMessage: error.toString(),
+        ),
+      );
     }
   }
 
@@ -95,25 +93,29 @@ class AiCoachCubit extends Cubit<AiCoachState> {
         title: title,
       );
 
-      emit(state.copyWith(
-        status: AiCoachStatus.success,
-        conversations: [
-          conversation,
-          ...state.conversations.where((item) => item.id != conversation.id),
-        ],
-        currentConversation: conversation,
-        messages: const [],
-        hasMoreMessages: true,
-        clearError: true,
-        clearNutritionAdvice: true,
-      ));
+      emit(
+        state.copyWith(
+          status: AiCoachStatus.success,
+          conversations: [
+            conversation,
+            ...state.conversations.where((item) => item.id != conversation.id),
+          ],
+          currentConversation: conversation,
+          messages: const [],
+          hasMoreMessages: true,
+          clearError: true,
+          clearNutritionAdvice: true,
+        ),
+      );
 
       return conversation;
     } catch (error) {
-      emit(state.copyWith(
-        status: AiCoachStatus.failure,
-        errorMessage: error.toString(),
-      ));
+      emit(
+        state.copyWith(
+          status: AiCoachStatus.failure,
+          errorMessage: error.toString(),
+        ),
+      );
       return null;
     }
   }
@@ -122,20 +124,18 @@ class AiCoachCubit extends Cubit<AiCoachState> {
     required String userId,
     required CoachConversation conversation,
   }) async {
-    emit(state.copyWith(
-      status: AiCoachStatus.loading,
-      currentConversation: conversation,
-      messages: const [],
-      hasMoreMessages: true,
-      clearError: true,
-      clearNutritionAdvice: true,
-    ));
-
-    await loadHistory(
-      userId: userId,
-      conversationId: conversation.id,
-      page: 1,
+    emit(
+      state.copyWith(
+        status: AiCoachStatus.loading,
+        currentConversation: conversation,
+        messages: const [],
+        hasMoreMessages: true,
+        clearError: true,
+        clearNutritionAdvice: true,
+      ),
     );
+
+    await loadHistory(userId: userId, conversationId: conversation.id, page: 1);
   }
 
   Future<void> loadHistory({
@@ -146,11 +146,13 @@ class AiCoachCubit extends Cubit<AiCoachState> {
     if (state.isLoadingMore) return;
     if (page > 1 && !state.hasMoreMessages) return;
 
-    emit(state.copyWith(
-      isLoadingMore: page > 1,
-      status: page == 1 ? AiCoachStatus.loading : state.status,
-      clearError: true,
-    ));
+    emit(
+      state.copyWith(
+        isLoadingMore: page > 1,
+        status: page == 1 ? AiCoachStatus.loading : state.status,
+        clearError: true,
+      ),
+    );
 
     try {
       final result = await getConversationHistory(
@@ -160,22 +162,24 @@ class AiCoachCubit extends Cubit<AiCoachState> {
         pageSize: pageSize,
       );
 
-      final combined = page == 1
-          ? result
-          : [...result, ...state.messages];
+      final combined = page == 1 ? result : [...result, ...state.messages];
 
-      emit(state.copyWith(
-        status: AiCoachStatus.success,
-        messages: _sorted(combined),
-        isLoadingMore: false,
-        hasMoreMessages: result.length == pageSize,
-      ));
+      emit(
+        state.copyWith(
+          status: AiCoachStatus.success,
+          messages: _sorted(combined),
+          isLoadingMore: false,
+          hasMoreMessages: result.length == pageSize,
+        ),
+      );
     } catch (error) {
-      emit(state.copyWith(
-        status: page == 1 ? AiCoachStatus.failure : state.status,
-        isLoadingMore: false,
-        errorMessage: error.toString(),
-      ));
+      emit(
+        state.copyWith(
+          status: page == 1 ? AiCoachStatus.failure : state.status,
+          isLoadingMore: false,
+          errorMessage: error.toString(),
+        ),
+      );
     }
   }
 
@@ -216,11 +220,13 @@ class AiCoachCubit extends Cubit<AiCoachState> {
       createdAt: DateTime.now(),
     );
 
-    emit(state.copyWith(
-      isSending: true,
-      messages: [...state.messages, pending],
-      clearError: true,
-    ));
+    emit(
+      state.copyWith(
+        isSending: true,
+        messages: [...state.messages, pending],
+        clearError: true,
+      ),
+    );
 
     try {
       final response = await sendCoachMessage(
@@ -234,23 +240,27 @@ class AiCoachCubit extends Cubit<AiCoachState> {
         return;
       }
 
-      emit(state.copyWith(
-        status: AiCoachStatus.success,
-        messages: _sorted([...state.messages, response]),
-        isSending: false,
-      ));
+      emit(
+        state.copyWith(
+          status: AiCoachStatus.success,
+          messages: _sorted([...state.messages, response]),
+          isSending: false,
+        ),
+      );
 
       await _reconcileLatest(
         userId: userId,
         conversationId: conversation.id,
       );
     } catch (error) {
-      emit(state.copyWith(
-        isSending: false,
-        messages:
-            state.messages.where((item) => item.id != pending.id).toList(),
-        errorMessage: error.toString(),
-      ));
+      emit(
+        state.copyWith(
+          isSending: false,
+          messages:
+              state.messages.where((item) => item.id != pending.id).toList(),
+          errorMessage: error.toString(),
+        ),
+      );
     }
   }
 
@@ -298,24 +308,27 @@ class AiCoachCubit extends Cubit<AiCoachState> {
         conversationId: conversationId,
       );
 
-      final isCurrent =
-          state.currentConversation?.id == conversationId;
+      final isCurrent = state.currentConversation?.id == conversationId;
 
-      emit(state.copyWith(
-        status: AiCoachStatus.success,
-        conversations: state.conversations
-            .where((item) => item.id != conversationId)
-            .toList(),
-        messages: isCurrent ? const [] : state.messages,
-        clearCurrentConversation: isCurrent,
-        clearNutritionAdvice: isCurrent,
-        clearError: true,
-      ));
+      emit(
+        state.copyWith(
+          status: AiCoachStatus.success,
+          conversations: state.conversations
+              .where((item) => item.id != conversationId)
+              .toList(),
+          messages: isCurrent ? const [] : state.messages,
+          clearCurrentConversation: isCurrent,
+          clearNutritionAdvice: isCurrent,
+          clearError: true,
+        ),
+      );
     } catch (error) {
-      emit(state.copyWith(
-        status: AiCoachStatus.failure,
-        errorMessage: error.toString(),
-      ));
+      emit(
+        state.copyWith(
+          status: AiCoachStatus.failure,
+          errorMessage: error.toString(),
+        ),
+      );
     }
   }
 
@@ -335,15 +348,20 @@ class AiCoachCubit extends Cubit<AiCoachState> {
         goal: goal,
       );
 
-      emit(state.copyWith(
-        status: AiCoachStatus.success,
-        nutritionAdvice: advice,
-        clearError: true,
-      ));
+      emit(
+        state.copyWith(
+          status: AiCoachStatus.success,
+          nutritionAdvice: advice,
+          clearError: true,
+        ),
+      );
     } catch (error) {
-      emit(state.copyWith(
-        errorMessage: error.toString(),
-      ));
+      emit(
+        state.copyWith(
+          status: AiCoachStatus.failure,
+          errorMessage: error.toString(),
+        ),
+      );
     }
   }
 
@@ -352,13 +370,15 @@ class AiCoachCubit extends Cubit<AiCoachState> {
   }
 
   void resetConversation() {
-    emit(state.copyWith(
-      messages: const [],
-      clearCurrentConversation: true,
-      clearNutritionAdvice: true,
-      clearError: true,
-      hasMoreMessages: true,
-    ));
+    emit(
+      state.copyWith(
+        messages: const [],
+        clearCurrentConversation: true,
+        clearNutritionAdvice: true,
+        clearError: true,
+        hasMoreMessages: true,
+      ),
+    );
   }
 
   List<CoachMessage> _sorted(Iterable<CoachMessage> items) {

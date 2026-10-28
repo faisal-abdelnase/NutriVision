@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get_it/get_it.dart';
 
@@ -26,42 +25,26 @@ Future<void> initMealTrackingDependencies() async {
 
   // Data source
   sl.registerLazySingleton<MealRemoteDataSource>(
-    () => MealRemoteDataSourceImpl(
-      firestore: sl<FirebaseFirestore>(),
-    ),
+    () => MealRemoteDataSourceImpl(firestore: sl<FirebaseFirestore>()),
   );
 
   // Repository
   sl.registerLazySingleton<MealRepository>(
-    () => MealRepositoryImpl(
-      remoteDataSource: sl<MealRemoteDataSource>(),
-    ),
+    () => MealRepositoryImpl(remoteDataSource: sl<MealRemoteDataSource>()),
   );
 
   // Use cases
-  sl.registerLazySingleton(
-    () => AddMeal(sl<MealRepository>()),
-  );
+  sl.registerLazySingleton(() => AddMeal(sl<MealRepository>()));
 
-  sl.registerLazySingleton(
-    () => UpdateMeal(sl<MealRepository>()),
-  );
+  sl.registerLazySingleton(() => UpdateMeal(sl<MealRepository>()));
 
-  sl.registerLazySingleton(
-    () => DeleteMeal(sl<MealRepository>()),
-  );
+  sl.registerLazySingleton(() => DeleteMeal(sl<MealRepository>()));
 
-  sl.registerLazySingleton(
-    () => GetMealById(sl<MealRepository>()),
-  );
+  sl.registerLazySingleton(() => GetMealById(sl<MealRepository>()));
 
-  sl.registerLazySingleton(
-    () => GetMealHistory(sl<MealRepository>()),
-  );
+  sl.registerLazySingleton(() => GetMealHistory(sl<MealRepository>()));
 
-  sl.registerLazySingleton(
-    () => GetMealsByDate(sl<MealRepository>()),
-  );
+  sl.registerLazySingleton(() => GetMealsByDate(sl<MealRepository>()));
 
   // Cubit
   sl.registerFactory(

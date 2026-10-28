@@ -6,9 +6,7 @@ class GetUserProfile {
 
   GetUserProfile(this.repository);
 
-  Future<UserProfile?> call({
-    required String userId,
-  }) {
+  Future<UserProfile?> call({required String userId}) {
     return repository.getUserProfile(userId: userId);
   }
 }

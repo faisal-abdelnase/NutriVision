@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../domain/entities/coach_conversation.dart';
@@ -15,9 +14,7 @@ class CoachConversationModel extends CoachConversation {
     super.isArchived,
   });
 
-  factory CoachConversationModel.fromJson(
-    Map<String, dynamic> json,
-  ) {
+  factory CoachConversationModel.fromJson(Map<String, dynamic> json) {
     return CoachConversationModel(
       id: json['id'] as String,
       userId: json['userId'] as String,
@@ -42,24 +39,22 @@ class CoachConversationModel extends CoachConversation {
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'userId': userId,
-        'title': title,
-        'createdAt': createdAt.toIso8601String(),
-        'updatedAt': updatedAt.toIso8601String(),
-        'lastMessagePreview': lastMessagePreview,
-        'lastMessageAt': lastMessageAt == null
-            ? null
-            : Timestamp.fromDate(lastMessageAt!),
-        'isArchived': isArchived,
-      };
+    'id': id,
+    'userId': userId,
+    'title': title,
+    'createdAt': createdAt.toIso8601String(),
+    'updatedAt': updatedAt.toIso8601String(),
+    'lastMessagePreview': lastMessagePreview,
+    'lastMessageAt': lastMessageAt == null
+        ? null
+        : Timestamp.fromDate(lastMessageAt!),
+    'isArchived': isArchived,
+  };
 
-  
-Map<String, dynamic> toFirestore() => {
-  ...toJson(),
-  'createdAt': Timestamp.fromDate(createdAt),
-};
-
+  Map<String, dynamic> toFirestore() => {
+    ...toJson(),
+    'createdAt': Timestamp.fromDate(createdAt),
+  };
 
   static DateTime _date(dynamic value) {
     if (value is Timestamp) return value.toDate();

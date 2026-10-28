@@ -1,4 +1,3 @@
-
 import 'package:dio/dio.dart';
 
 import '../models/recipe_model.dart';
@@ -14,8 +13,7 @@ abstract interface class RecipeGeneratorDataSource {
   });
 }
 
-class RecipeGeneratorDataSourceImpl
-    implements RecipeGeneratorDataSource {
+class RecipeGeneratorDataSourceImpl implements RecipeGeneratorDataSource {
   RecipeGeneratorDataSourceImpl({
     required Dio dio,
     this.endpoint = '/recipes/generate',
@@ -42,9 +40,7 @@ class RecipeGeneratorDataSourceImpl
     }
 
     if (availableIngredients.isEmpty) {
-      throw ArgumentError(
-        'At least one available ingredient is required.',
-      );
+      throw ArgumentError('At least one available ingredient is required.');
     }
 
     final response = await _dio.post<Map<String, dynamic>>(
@@ -86,10 +82,7 @@ class RecipeGeneratorDataSourceImpl
     recipeJson['createdByUserId'] ??= userId;
     recipeJson['isAiGenerated'] = true;
     recipeJson['isSaved'] = false;
-    recipeJson.putIfAbsent(
-      'createdAt',
-      () => DateTime.now().toIso8601String(),
-    );
+    recipeJson.putIfAbsent('createdAt', () => DateTime.now().toIso8601String());
     recipeJson.putIfAbsent('updatedAt', () => null);
 
     final recipe = RecipeModel.fromJson(recipeJson);
