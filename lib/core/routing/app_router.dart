@@ -1,16 +1,10 @@
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
-
-// استيراد شاشة الـ Dashboard الخاصة بك (تأكد من مطابقة مسار الملف الفعلي في مشروعك)
-import '../../features/dashboard/presentation/screens/dashboard_screen.dart';
-
-import '../../features/meal_analysis/domain/entities/analyzed_food_item.dart';
-import '../../features/meal_analysis/domain/entities/meal_analysis_result.dart';
-import '../../features/authentication/presentation/screens/login_screen.dart';
+import '../../features/authentication/presentation/screens/sign_up_screen.dart';
 import '../../features/meal_analysis/presentation/pages/meal_analysis_page.dart';
 import '../../features/onboarding/presentation/pages/onboarding_page.dart';
 import '../../features/onboarding/presentation/pages/splash_screen.dart';
-import '../../features/authentication/presentation/pages/auth_placeholder_page.dart';
+
 import 'route_names.dart';
 
 class AppRouter {
@@ -18,12 +12,11 @@ class AppRouter {
 
   static Route<dynamic>? generateRoute(RouteSettings settings) {
     switch (settings.name) {
-    // 👇 جعلنا الـ Root والـ Splash يفتحان الـ Dashboard مباشرة
       case RouteNames.root:
       case RouteNames.splash:
         return MaterialPageRoute<void>(
           settings: settings,
-          builder: (_) => const DashboardScreen(),
+          builder: (_) => const SplashScreen(),
         );
       case RouteNames.onboarding:
         return PageRouteBuilder<void>(
@@ -50,10 +43,10 @@ class AppRouter {
       case RouteNames.authentication:
         return MaterialPageRoute<void>(
           settings: settings,
-          builder: (_) => const Placeholder(),
+          builder: (_) => const SignUpScreen(),
         );
 
-      case 'meal_analysis': // مسار خاص لو احتجت فتحه مستقبلاً
+      case 'meal_analysis':     
         final arguments = settings.arguments;
         if (arguments is! MealAnalysisRouteArguments) {
           return MaterialPageRoute<void>(

@@ -41,8 +41,9 @@ class NutriVision extends StatelessWidget {
           },
         ),
 
-        BlocProvider(
-          create: (_) => sl<OnboardingCubit>()..checkOnboardingStatus(),
+        BlocProvider<OnboardingCubit>(
+          lazy: false,
+          create: (_) => sl<OnboardingCubit>(),
         ),
 
         // ProfileCubit is only created when a user is already authenticated.

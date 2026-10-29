@@ -78,7 +78,7 @@ class OnboardingHeader extends StatelessWidget {
                   ),
                   const SizedBox(width: 10),
                   Text(
-                    context.tr('appName'),
+                    "NutriVision",
                     style: TextStyle(
                       fontFamily: ThemeTextStyles.headingFamilyFor(locale),
                       fontSize: 19,
@@ -90,31 +90,7 @@ class OnboardingHeader extends StatelessWidget {
                 ],
               ),
 
-              if (isWide)
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    _HeaderNavLink(
-                      label: context.tr('navOverview'),
-                      isActive: true,
-                    ),
-                    const SizedBox(width: 20),
-                    _HeaderNavLink(
-                      label: context.tr('navDietaryPlan'),
-                      isActive: false,
-                    ),
-                    const SizedBox(width: 20),
-                    _HeaderNavLink(
-                      label: context.tr('navTelemetryGoals'),
-                      isActive: false,
-                    ),
-                    const SizedBox(width: 20),
-                    _HeaderNavLink(
-                      label: context.tr('navPreferences'),
-                      isActive: false,
-                    ),
-                  ],
-                ),
+              
 
               Row(
                 mainAxisSize: MainAxisSize.min,

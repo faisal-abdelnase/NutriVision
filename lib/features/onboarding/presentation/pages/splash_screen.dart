@@ -1,3 +1,6 @@
+
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,32 +20,82 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  static const Duration _minimumSplashDuration =
+      Duration(seconds: 2);
+
   bool _navigated = false;
+  bool _minimumDurationElapsed = false;
+
+  OnboardingCubitState? _latestState;
+  Timer? _splashTimer;
 
   @override
   void initState() {
     super.initState();
+
+    _splashTimer = Timer(_minimumSplashDuration, () {
+      if (!mounted) return;
+
+      _minimumDurationElapsed = true;
+      _tryNavigate();
+    });
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
-      _handleState(context.read<OnboardingCubit>().state);
+
+      final cubit = context.read<OnboardingCubit>();
+      _latestState = cubit.state;
+
+      // Start checking only if the app has not started the check yet.
+      if (_latestState!.status == OnboardingStatus.initial) {
+        cubit.checkOnboardingStatus();
+      }
+
+      _tryNavigate();
     });
   }
 
   void _handleState(OnboardingCubitState state) {
-    if (_navigated || !mounted) return;
+    _latestState = state;
+    _tryNavigate();
+  }
 
-    switch (state.status) {
+  void _tryNavigate() {
+    if (!mounted ||
+        _navigated ||
+        !_minimumDurationElapsed ||
+        _latestState == null) {
+      return;
+    }
+
+    switch (_latestState!.status) {
       case OnboardingStatus.notCompleted:
-        _navigated = true;
-        Navigator.of(context).pushReplacementNamed(RouteNames.onboarding);
+        _navigateTo(RouteNames.onboarding);
+        return;
+
       case OnboardingStatus.completed:
-        _navigated = true;
-        Navigator.of(context).pushReplacementNamed(RouteNames.authentication);
+        _navigateTo(RouteNames.authentication);
+        return;
+
       case OnboardingStatus.initial:
       case OnboardingStatus.loading:
       case OnboardingStatus.error:
-        break;
+        return;
     }
+  }
+
+  void _navigateTo(String routeName) {
+    if (!mounted || _navigated) return;
+
+    _navigated = true;
+
+    Navigator.of(context).pushReplacementNamed(routeName);
+  }
+
+  @override
+  void dispose() {
+    _splashTimer?.cancel();
+    super.dispose();
   }
 
   @override
@@ -57,12 +110,15 @@ class _SplashScreenState extends State<SplashScreen> {
               child: Center(
                 child: state.status == OnboardingStatus.error
                     ? _ErrorView(
-                        message: state.errorMessage ?? context.tr('error'),
-                        onRetry: () => context
-                            .read<OnboardingCubit>()
-                            .checkOnboardingStatus(),
+                        message:
+                            state.errorMessage ?? context.tr('error'),
+                        onRetry: () {
+                          context
+                              .read<OnboardingCubit>()
+                              .checkOnboardingStatus();
+                        },
                       )
-                    : _SplashView(),
+                    : const _SplashView(),
               ),
             ),
           );
@@ -73,6 +129,8 @@ class _SplashScreenState extends State<SplashScreen> {
 }
 
 class _SplashView extends StatefulWidget {
+  const _SplashView();
+
   @override
   State<_SplashView> createState() => _SplashViewState();
 }
@@ -86,15 +144,27 @@ class _SplashViewState extends State<_SplashView>
   @override
   void initState() {
     super.initState();
+
     _ctrl = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 900),
     );
+
     _scale = Tween<double>(
       begin: 0.80,
       end: 1.0,
-    ).animate(CurvedAnimation(parent: _ctrl, curve: Curves.elasticOut));
-    _fade = CurvedAnimation(parent: _ctrl, curve: Curves.easeIn);
+    ).animate(
+      CurvedAnimation(
+        parent: _ctrl,
+        curve: Curves.elasticOut,
+      ),
+    );
+
+    _fade = CurvedAnimation(
+      parent: _ctrl,
+      curve: Curves.easeIn,
+    );
+
     _ctrl.forward();
   }
 
@@ -122,22 +192,29 @@ class _SplashViewState extends State<_SplashView>
                 gradient: const LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: [ThemeColors.primaryDarker, ThemeColors.primary],
+                  colors: [
+                    ThemeColors.primaryDarker,
+                    ThemeColors.primary,
+                  ],
                 ),
                 borderRadius: ThemeDimensions.borderRadiusCard,
                 boxShadow: ThemeDimensions.shadowDarkTier2,
               ),
               child: const Center(
-                child: Icon(Icons.biotech, color: Colors.white, size: 40),
+                child: Icon(
+                  Icons.biotech,
+                  color: Colors.white,
+                  size: 40,
+                ),
               ),
             ),
             const SizedBox(height: ThemeDimensions.spaceMd),
-
             Text(
-              context.tr('appName'),
+              'NutriVision',
               style: ThemeTextStyles.headlineLargeMobile.copyWith(
                 color: ThemeColors.darkTextPrimary,
-                fontFamily: ThemeTextStyles.headingFamilyFor(locale),
+                fontFamily:
+                    ThemeTextStyles.headingFamilyFor(locale),
               ),
             ),
             const SizedBox(height: ThemeDimensions.spaceXs),
@@ -149,13 +226,12 @@ class _SplashViewState extends State<_SplashView>
               ),
             ),
             const SizedBox(height: ThemeDimensions.space40),
-
-            SizedBox(
+            const SizedBox(
               width: 24,
               height: 24,
               child: CircularProgressIndicator(
                 strokeWidth: 2,
-                valueColor: const AlwaysStoppedAnimation<Color>(
+                valueColor: AlwaysStoppedAnimation<Color>(
                   ThemeColors.primary,
                 ),
               ),
@@ -168,7 +244,10 @@ class _SplashViewState extends State<_SplashView>
 }
 
 class _ErrorView extends StatelessWidget {
-  const _ErrorView({required this.message, required this.onRetry});
+  const _ErrorView({
+    required this.message,
+    required this.onRetry,
+  });
 
   final String message;
   final VoidCallback onRetry;
@@ -180,7 +259,11 @@ class _ErrorView extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.error_outline, size: 48, color: ThemeColors.criticalDark),
+          const Icon(
+            Icons.error_outline,
+            size: 48,
+            color: ThemeColors.criticalDark,
+          ),
           const SizedBox(height: ThemeDimensions.spaceMd),
           Text(
             message,
@@ -191,7 +274,11 @@ class _ErrorView extends StatelessWidget {
           ),
           const SizedBox(height: ThemeDimensions.spaceLg),
           ElevatedButton.icon(
-            onPressed: onRetry,
+            onPressed: () {
+              context
+                  .read<OnboardingCubit>()
+                  .checkOnboardingStatus();
+            },
             icon: const Icon(Icons.refresh),
             label: Text(context.tr('retry')),
           ),

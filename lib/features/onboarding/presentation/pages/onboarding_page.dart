@@ -26,6 +26,7 @@ class _OnboardingPageState extends State<OnboardingPage>
     with TickerProviderStateMixin {
   final PageController _pageController = PageController();
   int _currentPage = 0;
+  bool _isCompleting = false;
 
   late final AnimationController _pulseCtrl;
   late final Animation<double> _pulse;
@@ -77,8 +78,18 @@ class _OnboardingPageState extends State<OnboardingPage>
   void _onSkip() => _complete();
 
   Future<void> _complete() async {
+  if (_isCompleting) return;
+
+  setState(() => _isCompleting = true);
+
+  try {
     await context.read<OnboardingCubit>().complete();
+  } finally {
+    if (mounted) {
+      setState(() => _isCompleting = false);
+    }
   }
+}
 
   void _handleState(BuildContext context, OnboardingCubitState state) {
     if (state.status == OnboardingStatus.completed) {
