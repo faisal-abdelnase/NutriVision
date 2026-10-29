@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nutri_vision/core/extensions/context_extensions.dart';
 import 'package:nutri_vision/core/localization/locale_cubit.dart';
 import 'package:nutri_vision/core/theme/theme_colors.dart';
 import 'package:nutri_vision/core/theme/theme_cubit.dart';
@@ -17,7 +16,7 @@ class OnboardingHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final surfaces = context.surfaceColors;
     final locale = Localizations.localeOf(context);
-    final isWide = context.screenWidth >= 768;
+  
 
     return Container(
       height: 60,
@@ -208,25 +207,25 @@ class OnboardingHeader extends StatelessWidget {
   }
 }
 
-class _HeaderNavLink extends StatelessWidget {
-  const _HeaderNavLink({required this.label, required this.isActive});
-  final String label;
-  final bool isActive;
+// class _HeaderNavLink extends StatelessWidget {
+//   const _HeaderNavLink({required this.label, required this.isActive});
+//   final String label;
+//   final bool isActive;
 
-  @override
-  Widget build(BuildContext context) {
-    final locale = Localizations.localeOf(context);
+//   @override
+//   Widget build(BuildContext context) {
+//     final locale = Localizations.localeOf(context);
 
-    return Text(
-      label,
-      style: TextStyle(
-        fontFamily: ThemeTextStyles.fontFamilyFor(locale),
-        color: isActive
-            ? ThemeColors.stitchPrimary
-            : context.surfaceColors.textSecondary,
-        fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
-        fontSize: 13,
-      ),
-    );
-  }
-}
+//     return Text(
+//       label,
+//       style: TextStyle(
+//         fontFamily: ThemeTextStyles.fontFamilyFor(locale),
+//         color: isActive
+//             ? ThemeColors.stitchPrimary
+//             : context.surfaceColors.textSecondary,
+//         fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
+//         fontSize: 13,
+//       ),
+//     );
+//   }
+// }

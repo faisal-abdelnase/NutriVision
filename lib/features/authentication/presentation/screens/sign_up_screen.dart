@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nutri_vision/core/routing/route_names.dart';
 import 'package:nutri_vision/core/extensions/context_extensions.dart';
 import 'package:nutri_vision/core/responsive/responsive_text.dart';
 import 'package:nutri_vision/core/theme/theme_dimensions.dart';
 import 'package:nutri_vision/core/theme/theme_extensions.dart';
 import 'package:nutri_vision/core/responsive/breakpoints.dart';
+import '../../../../core/localization/locale_cubit.dart';
+import '../../../../core/theme/theme_cubit.dart';
+import '../widgets/auth_widgets.dart';
+import '../cubit/auth_cubit.dart';
+import '../cubit/auth_state.dart';
 
-/// Sign Up UI only. Validation / auth logic is wired later by the team.
+/// Account creation screen connected to the application's auth cubit.
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({
     super.key,
@@ -66,6 +73,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final s = context.surfaceColors;
     final bp = context.breakpoint;
     final primary = context.colorScheme.primary;
+    final authState = context.watch<AuthCubit>().state;
+    final isLoading = widget.isLoading || authState is AuthLoading;
 
     Color strengthColor() {
       if (_score <= 1) return context.statusColors.critical;
@@ -80,30 +89,64 @@ class _SignUpScreenState extends State<SignUpScreen> {
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 480),
             child: SingleChildScrollView(
-              padding: const EdgeInsetsDirectional.all(ThemeDimensions.margin),
+              padding: EdgeInsetsDirectional.all(
+                ThemeBreakpoints.marginFor(context.screenWidth),
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+
+                   // ── Top bar ──
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                        constraints: const BoxConstraints(
+                          minWidth: ThemeDimensions.touchTarget,
+                          minHeight: ThemeDimensions.touchTarget,
+                        ),
+                        onPressed: (){
+                          context.read<ThemeCubit>().toggleTheme();
+                        },
+                        icon: Icon(
+                          context.isDarkMode
+                              ? Icons.light_mode_outlined
+                              : Icons.dark_mode_outlined,
+                          color: primary,
+                        ),
+                      ),
+                      TextButton.icon(
+                        style: TextButton.styleFrom(
+                          minimumSize: const Size(
+                            ThemeDimensions.touchTarget,
+                            ThemeDimensions.touchTarget,
+                          ),
+                        ),
+                        onPressed: () { 
+                          String local = context.read<LocaleCubit>().state.languageCode == 'en' ? 'ar' : 'en';
+                          context.read<LocaleCubit>().changeLocale(Locale(local)); 
+                          },
+                        icon: Icon(Icons.translate, size: 18, color: primary),
+                        label: AppText(
+                          context.tr('splashLanguage'),
+                          baseFontSize: 14,
+                          breakpoint: bp,
+                          style: context.textTheme.labelLarge!.copyWith(
+                            color: primary,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  SizedBox(height: ThemeDimensions.spaceLg),
                   // ── Title + subtitle ──
-                  AppText(
-                    context.tr('authCreateAccountTitle'),
-                    baseFontSize: 28,
-                    breakpoint: bp,
-                    textAlign: TextAlign.center,
-                    style: context.textTheme.headlineMedium!.copyWith(
-                      color: s.textPrimary,
-                    ),
+                  AuthHeading(
+                    title: context.tr('authCreateAccountTitle'),
+                    subtitle: context.tr('authSignUpSubtitle'),
                   ),
-                  const SizedBox(height: ThemeDimensions.spaceSm),
-                  AppText(
-                    context.tr('authSignUpSubtitle'),
-                    baseFontSize: 14,
-                    breakpoint: bp,
-                    textAlign: TextAlign.center,
-                    style: context.textTheme.bodyMedium!.copyWith(
-                      color: s.textSecondary,
-                    ),
-                  ),
+                  if (authState is AuthError)
+                    AuthErrorMessage(message: authState.message),
                   const SizedBox(height: ThemeDimensions.spaceLg),
 
                   // ── Full name ──
@@ -253,52 +296,36 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   const SizedBox(height: ThemeDimensions.spaceMd),
 
                   // ── Sign up button ──
-                  ElevatedButton(
-                    onPressed: (widget.isLoading || !_acceptTerms)
+                  AuthSubmitButton(
+                    label: context.tr('authSignUp'),
+                    isLoading: isLoading,
+                    onPressed: !_acceptTerms
                         ? null
-                        : () => widget.onSignUpPressed?.call(
-                            _nameController.text.trim(),
-                            _emailController.text.trim(),
-                            _passwordController.text,
-                          ),
-                    child: widget.isLoading
-                        ? const SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : Text(context.tr('authSignUp')),
+                        : () {
+                            final name = _nameController.text.trim();
+                            final email = _emailController.text.trim();
+                            if (widget.onSignUpPressed != null) {
+                              widget.onSignUpPressed!(
+                                name,
+                                email,
+                                _passwordController.text,
+                              );
+                            } else {
+                              context.read<AuthCubit>().signUp(
+                                email: email,
+                                password: _passwordController.text,
+                              );
+                            }
+                          },
                   ),
                   const SizedBox(height: ThemeDimensions.spaceLg),
 
                   // ── Divider ──
-                  Row(
-                    children: [
-                      Expanded(child: Divider(color: s.border)),
-                      Padding(
-                        padding: const EdgeInsetsDirectional.symmetric(
-                          horizontal: ThemeDimensions.space12,
-                        ),
-                        child: AppText(
-                          context.tr('authOrContinueWith'),
-                          baseFontSize: 12,
-                          breakpoint: bp,
-                          style: context.textTheme.bodySmall!.copyWith(
-                            color: s.textMuted,
-                          ),
-                        ),
-                      ),
-                      Expanded(child: Divider(color: s.border)),
-                    ],
-                  ),
+                  const AuthDivider(),
                   const SizedBox(height: ThemeDimensions.spaceMd),
 
                   // ── Google ──
-                  OutlinedButton.icon(
-                    onPressed: widget.onGooglePressed,
-                    icon: const Icon(Icons.g_mobiledata, size: 28),
-                    label: Text(context.tr('authContinueWithGoogle')),
-                  ),
+                  AuthGoogleButton(onPressed: widget.onGooglePressed),
                   const SizedBox(height: ThemeDimensions.spaceLg),
 
                   // ── Login link ──
@@ -321,7 +348,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ThemeDimensions.touchTarget,
                           ),
                         ),
-                        onPressed: widget.onLoginPressed,
+                        onPressed:
+                            widget.onLoginPressed ??
+                            () => Navigator.of(
+                              context,
+                            ).pushReplacementNamed(RouteNames.login),
                         child: AppText(
                           context.tr('authSignInLink'),
                           baseFontSize: 14,

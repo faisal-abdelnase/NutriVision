@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nutri_vision/core/extensions/context_extensions.dart';
 import 'package:nutri_vision/core/responsive/responsive_text.dart';
 import 'package:nutri_vision/core/theme/theme_dimensions.dart';
 import 'package:nutri_vision/core/theme/theme_extensions.dart';
+import 'package:nutri_vision/core/routing/route_names.dart';
+import '../../../../core/localization/locale_cubit.dart';
+import '../../../../core/theme/theme_cubit.dart';
+import '../widgets/auth_widgets.dart';
+import '../cubit/auth_cubit.dart';
+import '../cubit/auth_state.dart';
+import 'forgot_password_screen.dart';
 
-/// Login UI only. Validation / auth logic is wired later by the team.
+/// Login screen connected to the application's Firebase authentication cubit.
 class LoginScreen extends StatefulWidget {
   const LoginScreen({
     super.key,
@@ -12,8 +20,6 @@ class LoginScreen extends StatefulWidget {
     this.onGooglePressed,
     this.onForgotPasswordPressed,
     this.onSignUpPressed,
-    this.onThemeTap,
-    this.onLanguageTap,
     this.isLoading = false,
   });
 
@@ -23,8 +29,6 @@ class LoginScreen extends StatefulWidget {
   final VoidCallback? onGooglePressed;
   final VoidCallback? onForgotPasswordPressed;
   final VoidCallback? onSignUpPressed;
-  final VoidCallback? onThemeTap;
-  final VoidCallback? onLanguageTap;
   final bool isLoading;
 
   @override
@@ -49,6 +53,8 @@ class _LoginScreenState extends State<LoginScreen> {
     final s = context.surfaceColors;
     final bp = context.breakpoint;
     final primary = context.colorScheme.primary;
+    final authState = context.watch<AuthCubit>().state;
+    final isLoading = widget.isLoading || authState is AuthLoading;
 
     return Scaffold(
       body: SafeArea(
@@ -56,7 +62,9 @@ class _LoginScreenState extends State<LoginScreen> {
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 480),
             child: SingleChildScrollView(
-              padding: const EdgeInsetsDirectional.all(ThemeDimensions.margin),
+              padding: EdgeInsetsDirectional.all(
+                ThemeBreakpoints.marginFor(context.screenWidth),
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -69,7 +77,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           minWidth: ThemeDimensions.touchTarget,
                           minHeight: ThemeDimensions.touchTarget,
                         ),
-                        onPressed: widget.onThemeTap,
+                        onPressed: (){
+                          context.read<ThemeCubit>().toggleTheme();
+                        },
                         icon: Icon(
                           context.isDarkMode
                               ? Icons.light_mode_outlined
@@ -84,7 +94,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             ThemeDimensions.touchTarget,
                           ),
                         ),
-                        onPressed: widget.onLanguageTap,
+                        onPressed: () { 
+                          String local = context.read<LocaleCubit>().state.languageCode == 'en' ? 'ar' : 'en';
+                          context.read<LocaleCubit>().changeLocale(Locale(local)); 
+                          },
                         icon: Icon(Icons.translate, size: 18, color: primary),
                         label: AppText(
                           context.tr('splashLanguage'),
@@ -120,25 +133,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: ThemeDimensions.spaceMd),
 
                   // ── Title + subtitle ──
-                  AppText(
-                    context.tr('authWelcomeBack'),
-                    baseFontSize: 28,
-                    breakpoint: bp,
-                    textAlign: TextAlign.center,
-                    style: context.textTheme.headlineMedium!.copyWith(
-                      color: s.textPrimary,
-                    ),
+                  AuthHeading(
+                    title: context.tr('authWelcomeBack'),
+                    subtitle: context.tr('authLoginSubtitle'),
                   ),
-                  const SizedBox(height: ThemeDimensions.spaceSm),
-                  AppText(
-                    context.tr('authLoginSubtitle'),
-                    baseFontSize: 14,
-                    breakpoint: bp,
-                    textAlign: TextAlign.center,
-                    style: context.textTheme.bodyMedium!.copyWith(
-                      color: s.textSecondary,
-                    ),
-                  ),
+                  if (authState is AuthError)
+                    AuthErrorMessage(message: authState.message),
                   const SizedBox(height: ThemeDimensions.spaceLg),
 
                   // ── Email ──
@@ -219,7 +219,13 @@ class _LoginScreenState extends State<LoginScreen> {
                             ThemeDimensions.touchTarget,
                           ),
                         ),
-                        onPressed: widget.onForgotPasswordPressed,
+                        onPressed:
+                            widget.onForgotPasswordPressed ??
+                            () => Navigator.of(context).push(
+                              MaterialPageRoute<void>(
+                                builder: (_) => const ForgotPasswordScreen(),
+                              ),
+                            ),
                         child: AppText(
                           context.tr('authForgotPassword'),
                           baseFontSize: 14,
@@ -234,52 +240,33 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: ThemeDimensions.spaceMd),
 
                   // ── Login button ──
-                  ElevatedButton(
-                    onPressed: widget.isLoading
-                        ? null
-                        : () => widget.onLoginPressed?.call(
-                            _emailController.text.trim(),
-                            _passwordController.text,
-                            _rememberMe,
-                          ),
-                    child: widget.isLoading
-                        ? const SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : Text(context.tr('authLogin')),
+                  AuthSubmitButton(
+                    label: context.tr('authLogin'),
+                    isLoading: isLoading,
+                    onPressed: () {
+                      final email = _emailController.text.trim();
+                      if (widget.onLoginPressed != null) {
+                        widget.onLoginPressed!(
+                          email,
+                          _passwordController.text,
+                          _rememberMe,
+                        );
+                      } else {
+                        context.read<AuthCubit>().signIn(
+                          email: email,
+                          password: _passwordController.text,
+                        );
+                      }
+                    },
                   ),
                   const SizedBox(height: ThemeDimensions.spaceLg),
 
                   // ── Divider ──
-                  Row(
-                    children: [
-                      Expanded(child: Divider(color: s.border)),
-                      Padding(
-                        padding: const EdgeInsetsDirectional.symmetric(
-                          horizontal: ThemeDimensions.space12,
-                        ),
-                        child: AppText(
-                          context.tr('authOrContinueWith'),
-                          baseFontSize: 12,
-                          breakpoint: bp,
-                          style: context.textTheme.bodySmall!.copyWith(
-                            color: s.textMuted,
-                          ),
-                        ),
-                      ),
-                      Expanded(child: Divider(color: s.border)),
-                    ],
-                  ),
+                  const AuthDivider(),
                   const SizedBox(height: ThemeDimensions.spaceMd),
 
                   // ── Google ──
-                  OutlinedButton.icon(
-                    onPressed: widget.onGooglePressed,
-                    icon: const Icon(Icons.g_mobiledata, size: 28),
-                    label: Text(context.tr('authContinueWithGoogle')),
-                  ),
+                  AuthGoogleButton(onPressed: widget.onGooglePressed),
                   const SizedBox(height: ThemeDimensions.spaceLg),
 
                   // ── Sign up link ──
@@ -302,7 +289,11 @@ class _LoginScreenState extends State<LoginScreen> {
                             ThemeDimensions.touchTarget,
                           ),
                         ),
-                        onPressed: widget.onSignUpPressed,
+                        onPressed:
+                            widget.onSignUpPressed ??
+                            () => Navigator.of(
+                              context,
+                            ).pushNamed(RouteNames.authentication),
                         child: AppText(
                           context.tr('authCreateAccount'),
                           baseFontSize: 14,

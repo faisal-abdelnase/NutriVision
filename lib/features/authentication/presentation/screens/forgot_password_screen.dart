@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nutri_vision/core/routing/route_names.dart';
 import 'package:nutri_vision/core/extensions/context_extensions.dart';
 import 'package:nutri_vision/core/responsive/breakpoints.dart';
 import 'package:nutri_vision/core/responsive/responsive_text.dart';
 import 'package:nutri_vision/core/theme/theme_dimensions.dart';
 import 'package:nutri_vision/core/theme/theme_extensions.dart';
+import '../../../../core/localization/locale_cubit.dart';
+import '../../../../core/theme/theme_cubit.dart';
+import '../widgets/auth_widgets.dart';
+import '../cubit/auth_cubit.dart';
+import '../cubit/auth_state.dart';
 
-/// Forgot Password UI only. Sending logic is wired later by the team.
+/// Password reset screen connected to the application's auth cubit.
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({
     super.key,
@@ -43,23 +50,82 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     final s = context.surfaceColors;
     final bp = context.breakpoint;
     final primary = context.colorScheme.primary;
+    final authState = context.watch<AuthCubit>().state;
+    final isLoading = widget.isLoading || authState is AuthLoading;
+    final emailSent = widget.emailSent || authState is AuthPasswordResetSent;
 
     return Scaffold(
-      appBar: AppBar(leading: BackButton(onPressed: widget.onBackPressed)),
+      appBar: AppBar(
+        leading: BackButton(
+          onPressed:
+              widget.onBackPressed ?? () => Navigator.of(context).maybePop(),
+        ),
+      ),
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 480),
             child: SingleChildScrollView(
-              padding: const EdgeInsetsDirectional.all(ThemeDimensions.margin),
-              child: widget.emailSent
+              padding: EdgeInsetsDirectional.all(
+                ThemeBreakpoints.marginFor(context.screenWidth),
+              ),
+              child: emailSent
                   ? _SentView(
                       bp: bp,
-                      onBackToLogin: widget.onBackToLoginPressed,
+                      onBackToLogin:
+                          widget.onBackToLoginPressed ??
+                          () => Navigator.of(
+                            context,
+                          ).pushReplacementNamed(RouteNames.login),
                     )
                   : Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
+
+                         // ── Top bar ──
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                        constraints: const BoxConstraints(
+                          minWidth: ThemeDimensions.touchTarget,
+                          minHeight: ThemeDimensions.touchTarget,
+                        ),
+                        onPressed: (){
+                          context.read<ThemeCubit>().toggleTheme();
+                        },
+                        icon: Icon(
+                          context.isDarkMode
+                              ? Icons.light_mode_outlined
+                              : Icons.dark_mode_outlined,
+                          color: primary,
+                        ),
+                      ),
+                      TextButton.icon(
+                        style: TextButton.styleFrom(
+                          minimumSize: const Size(
+                            ThemeDimensions.touchTarget,
+                            ThemeDimensions.touchTarget,
+                          ),
+                        ),
+                        onPressed: () { 
+                          String local = context.read<LocaleCubit>().state.languageCode == 'en' ? 'ar' : 'en';
+                          context.read<LocaleCubit>().changeLocale(Locale(local)); 
+                          },
+                        icon: Icon(Icons.translate, size: 18, color: primary),
+                        label: AppText(
+                          context.tr('splashLanguage'),
+                          baseFontSize: 14,
+                          breakpoint: bp,
+                          style: context.textTheme.labelLarge!.copyWith(
+                            color: primary,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  SizedBox(height: ThemeDimensions.spaceLg),
                         // ── Icon ──
                         Center(
                           child: Container(
@@ -80,25 +146,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         const SizedBox(height: ThemeDimensions.spaceLg),
 
                         // ── Title + subtitle ──
-                        AppText(
-                          context.tr('authForgotTitle'),
-                          baseFontSize: 28,
-                          breakpoint: bp,
-                          textAlign: TextAlign.center,
-                          style: context.textTheme.headlineMedium!.copyWith(
-                            color: s.textPrimary,
-                          ),
+                        AuthHeading(
+                          title: context.tr('authForgotTitle'),
+                          subtitle: context.tr('authForgotSubtitle'),
                         ),
-                        const SizedBox(height: ThemeDimensions.spaceSm),
-                        AppText(
-                          context.tr('authForgotSubtitle'),
-                          baseFontSize: 14,
-                          breakpoint: bp,
-                          textAlign: TextAlign.center,
-                          style: context.textTheme.bodyMedium!.copyWith(
-                            color: s.textSecondary,
-                          ),
-                        ),
+                        if (authState is AuthError)
+                          AuthErrorMessage(message: authState.message),
                         const SizedBox(height: ThemeDimensions.spaceLg),
 
                         // ── Email ──
@@ -116,21 +169,19 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         const SizedBox(height: ThemeDimensions.spaceLg),
 
                         // ── Send button ──
-                        ElevatedButton(
-                          onPressed: widget.isLoading
-                              ? null
-                              : () => widget.onSendPressed?.call(
-                                  _emailController.text.trim(),
-                                ),
-                          child: widget.isLoading
-                              ? const SizedBox(
-                                  width: 20,
-                                  height: 20,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                  ),
-                                )
-                              : Text(context.tr('authSendResetLink')),
+                        AuthSubmitButton(
+                          label: context.tr('authSendResetLink'),
+                          isLoading: isLoading,
+                          onPressed: () {
+                            final email = _emailController.text.trim();
+                            if (widget.onSendPressed != null) {
+                              widget.onSendPressed!(email);
+                            } else {
+                              context.read<AuthCubit>().sendPasswordResetEmail(
+                                email: email,
+                              );
+                            }
+                          },
                         ),
                         const SizedBox(height: ThemeDimensions.spaceMd),
 
@@ -143,7 +194,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                 ThemeDimensions.touchTarget,
                               ),
                             ),
-                            onPressed: widget.onBackToLoginPressed,
+                            onPressed:
+                                widget.onBackToLoginPressed ??
+                                () => Navigator.of(
+                                  context,
+                                ).pushReplacementNamed(RouteNames.login),
                             icon: Icon(
                               Icons.arrow_back,
                               size: 18,

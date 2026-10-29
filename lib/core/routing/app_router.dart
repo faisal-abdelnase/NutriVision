@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import '../../features/authentication/presentation/screens/sign_up_screen.dart';
+import '../../features/authentication/presentation/screens/login_screen.dart';
 import '../../features/meal_analysis/presentation/pages/meal_analysis_page.dart';
 import '../../features/onboarding/presentation/pages/onboarding_page.dart';
 import '../../features/onboarding/presentation/pages/splash_screen.dart';
@@ -44,6 +45,11 @@ class AppRouter {
         return MaterialPageRoute<void>(
           settings: settings,
           builder: (_) => const SignUpScreen(),
+        );
+      case RouteNames.login:
+        return MaterialPageRoute<void>(
+          settings: settings,
+          builder: (_) => const LoginScreen(),
         );
 
       case 'meal_analysis':     
