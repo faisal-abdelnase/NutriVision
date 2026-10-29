@@ -8,4 +8,5 @@ class RouteNames {
   static const String authentication = '/authentication';
   static const String mealAnalysis = '/meal-analysis';
   static const String dashboard = '/dashboard';
+  static const String infoCompletion = '/infoCompletion';
 }

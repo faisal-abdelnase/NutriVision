@@ -339,6 +339,9 @@ class AiCoachCubit extends Cubit<AiCoachState> {
     required List<String> referencedMealIds,
     required String? goal,
   }) async {
+    if (state.isLoadingAdvice) return;
+    emit(state.copyWith(isLoadingAdvice: true, clearError: true));
+
     try {
       final advice = await getNutritionAdvice(
         userId: userId,

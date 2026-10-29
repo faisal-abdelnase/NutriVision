@@ -25,7 +25,6 @@ class AppRouter {
           settings: settings,
           builder: (_) => const DashboardScreen(),
         );
-
       case RouteNames.onboarding:
         return PageRouteBuilder<void>(
           settings: settings,
@@ -51,7 +50,7 @@ class AppRouter {
       case RouteNames.authentication:
         return MaterialPageRoute<void>(
           settings: settings,
-          builder: (_) => const AuthPlaceholderPage(),
+          builder: (_) => const Placeholder(),
         );
 
       case 'meal_analysis': // مسار خاص لو احتجت فتحه مستقبلاً

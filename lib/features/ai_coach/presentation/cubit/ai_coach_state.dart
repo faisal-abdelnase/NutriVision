@@ -11,6 +11,7 @@ class AiCoachState {
   final CoachConversation? currentConversation;
   final NutritionAdvice? nutritionAdvice;
   final bool isSending;
+  final bool isLoadingAdvice;
   final bool isLoadingMore;
   final bool hasMoreMessages;
   final String? errorMessage;
@@ -22,6 +23,7 @@ class AiCoachState {
     this.currentConversation,
     this.nutritionAdvice,
     this.isSending = false,
+    this.isLoadingAdvice = false,
     this.isLoadingMore = false,
     this.hasMoreMessages = true,
     this.errorMessage,
@@ -34,6 +36,7 @@ class AiCoachState {
     CoachConversation? currentConversation,
     NutritionAdvice? nutritionAdvice,
     bool? isSending,
+    bool? isLoadingAdvice,
     bool? isLoadingMore,
     bool? hasMoreMessages,
     String? errorMessage,
@@ -52,6 +55,7 @@ class AiCoachState {
           ? null
           : nutritionAdvice ?? this.nutritionAdvice,
       isSending: isSending ?? this.isSending,
+      isLoadingAdvice: isLoadingAdvice ?? this.isLoadingAdvice,
       isLoadingMore: isLoadingMore ?? this.isLoadingMore,
       hasMoreMessages: hasMoreMessages ?? this.hasMoreMessages,
       errorMessage: clearError ? null : errorMessage ?? this.errorMessage,
