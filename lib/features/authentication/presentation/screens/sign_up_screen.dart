@@ -299,27 +299,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   AuthSubmitButton(
                     label: context.tr('authSignUp'),
                     isLoading: isLoading,
-                    onPressed: () {
-                      Navigator.popAndPushNamed(context, RouteNames.infoCompletion);
-                    },
-                    // onPressed: !_acceptTerms
-                    //     ? null
-                    //     : () {
-                    //         final name = _nameController.text.trim();
-                    //         final email = _emailController.text.trim();
-                    //         if (widget.onSignUpPressed != null) {
-                    //           widget.onSignUpPressed!(
-                    //             name,
-                    //             email,
-                    //             _passwordController.text,
-                    //           );
-                    //         } else {
-                    //           context.read<AuthCubit>().signUp(
-                    //             email: email,
-                    //             password: _passwordController.text,
-                    //           );
-                    //         }
-                    //       },
+                    
+                    onPressed: !_acceptTerms
+                        ? null
+                        : () {
+                            final name = _nameController.text.trim();
+                            final email = _emailController.text.trim();
+                            if (widget.onSignUpPressed != null) {
+                              widget.onSignUpPressed!(
+                                name,
+                                email,
+                                _passwordController.text,
+                              );
+                            } else {
+                              context.read<AuthCubit>().signUp(
+                                email: email,
+                                password: _passwordController.text,
+                              );
+                              _emailController.clear();
+                              _passwordController.clear();
+                              _nameController.clear();
+                              Navigator.pushReplacementNamed(context, RouteNames.infoCompletion);
+                            }
+                          },
                   ),
                   const SizedBox(height: ThemeDimensions.spaceLg),
 

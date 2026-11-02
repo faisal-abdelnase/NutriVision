@@ -256,6 +256,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           email: email,
                           password: _passwordController.text,
                         );
+
+                        _emailController.clear();
+                        _passwordController.clear();
+                        Navigator.pushReplacementNamed(context, RouteNames.infoCompletion);
                       }
                     },
                   ),

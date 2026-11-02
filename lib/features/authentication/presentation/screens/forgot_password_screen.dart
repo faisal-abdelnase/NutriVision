@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nutri_vision/core/routing/app_router.dart';
 import 'package:nutri_vision/core/routing/route_names.dart';
 import 'package:nutri_vision/core/extensions/context_extensions.dart';
 import 'package:nutri_vision/core/responsive/breakpoints.dart';
@@ -180,6 +181,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                               context.read<AuthCubit>().sendPasswordResetEmail(
                                 email: email,
                               );
+
+                              _emailController.clear();
+                              Navigator.pushReplacementNamed(context, RouteNames.login);
                             }
                           },
                         ),

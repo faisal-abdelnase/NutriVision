@@ -43,6 +43,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   get_it: null
+  google_sign_in: ^7.2.0
   hive_ce: ^2.22.0
   hive_ce_flutter: ^2.5.0
   shared_preferences: ^2.5.3
