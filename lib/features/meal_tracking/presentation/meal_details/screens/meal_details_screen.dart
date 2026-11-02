@@ -29,10 +29,10 @@ class MealDetailsScreen extends StatelessWidget {
               ),
             )
           : null,
-      drawer: !isDesktop ? const Drawer(child: SidebarWidget()) : null,
+      // drawer: !isDesktop ? const Drawer(child: SidebarWidget()) : null,
       body: Row(
         children: [
-          if (isDesktop) const SidebarWidget(),
+          // if (isDesktop) const SidebarWidget(),
 
           Expanded(
             child: SingleChildScrollView(

@@ -47,7 +47,7 @@ class DashboardView extends StatelessWidget {
         title: const Text('NutriVision Clinical', style: TextStyle(color: AppColors.darkText, fontSize: 16)),
       )
           : null,
-      drawer: !isDesktop ? const Drawer(child: SidebarWidget()) : null,
+      // drawer: !isDesktop ? const Drawer(child: SidebarWidget()) : null,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // يمكن هنا تنفيذ إعادة تحميل البيانات أو إضافة وجبة
@@ -58,7 +58,7 @@ class DashboardView extends StatelessWidget {
       ),
       body: Row(
         children: [
-          if (isDesktop) const SidebarWidget(),
+          // if (isDesktop) const SidebarWidget(),
           Expanded(
             child: BlocConsumer<DashboardCubit, DashboardState>(
               listener: (context, state) {

@@ -299,24 +299,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   AuthSubmitButton(
                     label: context.tr('authSignUp'),
                     isLoading: isLoading,
-                    onPressed: !_acceptTerms
-                        ? null
-                        : () {
-                            final name = _nameController.text.trim();
-                            final email = _emailController.text.trim();
-                            if (widget.onSignUpPressed != null) {
-                              widget.onSignUpPressed!(
-                                name,
-                                email,
-                                _passwordController.text,
-                              );
-                            } else {
-                              context.read<AuthCubit>().signUp(
-                                email: email,
-                                password: _passwordController.text,
-                              );
-                            }
-                          },
+                    onPressed: () {
+                      Navigator.popAndPushNamed(context, RouteNames.infoCompletion);
+                    },
+                    // onPressed: !_acceptTerms
+                    //     ? null
+                    //     : () {
+                    //         final name = _nameController.text.trim();
+                    //         final email = _emailController.text.trim();
+                    //         if (widget.onSignUpPressed != null) {
+                    //           widget.onSignUpPressed!(
+                    //             name,
+                    //             email,
+                    //             _passwordController.text,
+                    //           );
+                    //         } else {
+                    //           context.read<AuthCubit>().signUp(
+                    //             email: email,
+                    //             password: _passwordController.text,
+                    //           );
+                    //         }
+                    //       },
                   ),
                   const SizedBox(height: ThemeDimensions.spaceLg),
 

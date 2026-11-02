@@ -28,11 +28,11 @@ class AddMealScreen extends StatelessWidget {
               ),
             )
           : null,
-      drawer: !isDesktop ? const Drawer(child: SidebarWidget()) : null,
+      // drawer: !isDesktop ? const Drawer(child: SidebarWidget()) : null,
       body: Row(
         children: [
           // 1. Sidebar Left (فقط للشاشات الكبيرة)
-          if (isDesktop) const SidebarWidget(),
+          // if (isDesktop) const SidebarWidget(),
 
           // 2. Main Dashboard Content Right
           Expanded(

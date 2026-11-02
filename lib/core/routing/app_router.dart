@@ -2,7 +2,9 @@
 import 'package:flutter/material.dart';
 import '../../features/authentication/presentation/screens/sign_up_screen.dart';
 import '../../features/authentication/presentation/screens/login_screen.dart';
+import '../../features/home/presentation/screens/app_shell.dart';
 import '../../features/meal_analysis/presentation/pages/meal_analysis_page.dart';
+import '../../features/nutrition_profile/presentation/pages/info_completion_page.dart';
 import '../../features/onboarding/presentation/pages/onboarding_page.dart';
 import '../../features/onboarding/presentation/pages/splash_screen.dart';
 
@@ -52,7 +54,18 @@ class AppRouter {
           builder: (_) => const LoginScreen(),
         );
 
-      case 'meal_analysis':     
+        case RouteNames.infoCompletion:
+        return MaterialPageRoute<void>(
+          settings: settings,
+          builder: (_) => const InfoCompletionPage(),
+        );
+        case RouteNames.home:
+        return MaterialPageRoute<void>(
+          settings: settings,
+          builder: (_) => const AppShell(),
+        );
+
+      case RouteNames.mealAnalysis:     
         final arguments = settings.arguments;
         if (arguments is! MealAnalysisRouteArguments) {
           return MaterialPageRoute<void>(
