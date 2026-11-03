@@ -1,500 +1,119 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../../core/theme/app_colors.dart';
-import '../../../nutrition_profile/domain/entities/nutrition_profile.dart';
-import '../../../nutrition_profile/presentation/cubit/nutrition_profile_cubit.dart';
+import '../../domain/entities/daily_nutrition_summary.dart';
+import '../../domain/entities/recent_meal_summary.dart';
+import '../cubit/dashboard_cubit.dart';
 import '../../../meal_tracking/presentation/addmeal/screens/add_meal_screen.dart';
 import '../../../meal_tracking/presentation/meal_details/screens/meal_details_screen.dart';
 
 class TodaysMealsCard extends StatelessWidget {
-  const TodaysMealsCard({super.key});
+  const TodaysMealsCard({
+    super.key,
+    required this.summary,
+    required this.meals,
+    required this.userId,
+  });
 
-  void _navigateToAddMeal(BuildContext context) {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (context) => const AddMealScreen(),
-        settings: const RouteSettings(name: '/add-meal'),
-      ),
-    );
-  }
-
-  void _navigateToMealDetails(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const MealDetailsScreen(),
-        settings: const RouteSettings(name: '/meal-details'),
-      ),
-    );
-  }
+  final DailyNutritionSummary summary;
+  final List<RecentMealSummary> meals;
+  final String userId;
 
   @override
-  Widget build(BuildContext context) {
-    final profile = context.watch<NutritionProfileCubit?>()?.currentProfile;
-    final int targetCalories = profile?.dailyCalorieTarget?.round() ?? 2200;
-    final int targetProtein = profile?.proteinTargetGrams?.round() ?? 140;
-
-    // Dynamic allergen verification
-    final hasEggAllergy = profile?.containsAllergen('egg') ?? false;
-    final hasGlutenAllergy = profile?.containsAllergen('gluten') ?? false;
-    final hasSeafoodAllergy = profile?.containsAllergen('seafood') ?? false;
-    final hasDairyAllergy = profile?.containsAllergen('dairy') ?? false;
-
-    final String? breakfastAlert = hasEggAllergy
-        ? 'Egg Alert'
-        : (hasGlutenAllergy ? 'Gluten Alert' : null);
-    final String? lunchAlert = hasSeafoodAllergy ? 'Seafood Alert' : null;
-    final String? snackAlert = hasDairyAllergy ? 'Dairy Alert' : null;
-
-    final int plannedDinnerKcal = (targetCalories - 1220).clamp(350, 1500);
-    final int neededProtein = (targetProtein - 88).clamp(15, 120);
-
-    final isVegan = profile?.regimenName == 'vegan' || profile?.regimenName == 'vegetarian';
-    final dinnerSuggestion = isVegan
-        ? 'Suggested: Crispy Tofu Stir-fry with Sprouted Edamame & Brown Rice.'
-        : (hasSeafoodAllergy
-            ? 'Suggested: Herb-Roasted Turkey Tenderloin with Quinoa & Steamed Greens.'
-            : 'Suggested: Lean Herb Chicken Breast or Garlic Edamame Stir-fry.');
-
-    return Container(
+  Widget build(BuildContext context) => Card(
+    color: AppColors.cardBg,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(16),
+      side: const BorderSide(color: AppColors.border),
+    ),
+    child: Padding(
       padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppColors.cardBg,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border),
-      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  const Text(
-                    "Today's Meals",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-                  ),
-                  const SizedBox(width: 8),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 6,
-                      vertical: 2,
-                    ),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFDCFCE7),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: const Text(
-                      '3 of 4 logged',
-                      style: TextStyle(
-                        fontSize: 9,
-                        color: Color(0xFF166534),
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
+              const Expanded(
+                child: Text(
+                  'Recent Meals',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                ),
+              ),
+              Text(
+                '${summary.mealCount} today',
+                style: const TextStyle(
+                  fontSize: 10,
+                  color: AppColors.mutedText,
+                ),
               ),
               TextButton.icon(
-                onPressed: () => _navigateToAddMeal(context),
-                icon: const Icon(
-                  Icons.add,
-                  size: 14,
-                  color: AppColors.primaryTeal,
-                ),
-                label: const Text(
-                  'Add Meal',
-                  style: TextStyle(
-                    fontSize: 11,
-                    color: AppColors.primaryTeal,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                onPressed: () => _add(context),
+                icon: const Icon(Icons.add, size: 14),
+                label: const Text('Add Meal'),
               ),
             ],
           ),
-          const SizedBox(height: 12),
-
-          // Meal 1: Breakfast
-          _buildMealItem(
-            context,
-            'BREAKFAST • 08:30 AM',
-            'Avocado & Poached Egg Sourdough Toast',
-            'Multiseed rustic bread, organic Hass avocado, cage-free poached eggs.',
-            '420 kcal',
-            'P: 22g • C: 34g • F: 18g',
-            'High Choline & Potassium',
-            'https://images.unsplash.com/photo-1525351484163-7529414344d8',
-            allergenWarning: breakfastAlert,
-            hasProfileSafeguards: profile != null && profile.allergies.isNotEmpty,
-          ),
-          const SizedBox(height: 12),
-
-          // Meal 2: Lunch
-          _buildMealItem(
-            context,
-            'LUNCH • 01:15 PM',
-            'Grilled Herb Salmon & Quinoa Bowl',
-            'Wild Alaskan salmon, sprouted quinoa, steamed tenderstem broccoli.',
-            '620 kcal',
-            'P: 48g • C: 52g • F: 22g',
-            'Omega-3 EPA/DHA Rich',
-            'https://images.unsplash.com/photo-1546069901-ba9599a7e63c',
-            allergenWarning: lunchAlert,
-            hasProfileSafeguards: profile != null && profile.allergies.isNotEmpty,
-          ),
-          const SizedBox(height: 12),
-
-          // Meal 3: Snack
-          _buildMealItem(
-            context,
-            'SNACK • 04:45 PM',
-            'Greek Yogurt with Berries & Chia',
-            '2% Grass-fed yogurt, antioxidant berry blend, black chia seeds.',
-            '180 kcal',
-            'P: 18g • C: 14g • F: 4g',
-            'Probiotic Active Microflora',
-            'https://images.unsplash.com/photo-1488477181946-6428a0291777',
-            allergenWarning: snackAlert,
-            hasProfileSafeguards: profile != null && profile.allergies.isNotEmpty,
-          ),
-          const SizedBox(height: 12),
-
-          // Meal 4: Dinner (Not logged yet)
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: const Color(0xFFF8FAFC),
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: AppColors.border,
-                style: BorderStyle.solid,
+          if (meals.isEmpty) ...[
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 20),
+              child: Center(
+                child: Text(
+                  'No meals logged yet today.',
+                  style: TextStyle(color: AppColors.mutedText),
+                ),
               ),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: const [
-                        Icon(
-                          Icons.restaurant,
-                          size: 14,
-                          color: AppColors.mutedText,
-                        ),
-                        SizedBox(width: 6),
-                        Text(
-                          'DINNER • PLANNED SLOT',
-                          style: TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.mutedText,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Text(
-                      '~$plannedDinnerKcal target kcal',
-                      style: const TextStyle(
-                        fontSize: 10,
-                        color: AppColors.mutedText,
-                      ),
-                    ),
-                  ],
+            Center(
+              child: OutlinedButton.icon(
+                onPressed: () => _add(context),
+                icon: const Icon(Icons.add),
+                label: const Text('Add your first meal'),
+              ),
+            ),
+          ] else ...[
+            for (final meal in meals)
+              ListTile(
+                contentPadding: EdgeInsets.zero,
+                leading: const CircleAvatar(
+                  backgroundColor: Color(0xFFE0F2FE),
+                  child: Icon(Icons.restaurant, color: AppColors.primaryTeal),
                 ),
-                const SizedBox(height: 6),
-                const Text(
-                  'Dinner not logged yet',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 13,
-                    color: AppColors.darkText,
+                title: Text(
+                  meal.name,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                subtitle: Text(_time(meal.eatenAt)),
+                trailing: Text('${meal.calories.round()} kcal'),
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                    builder: (_) => MealDetailsScreen(
+                      mealName: meal.name,
+                      calories: meal.calories,
+                      eatenAt: meal.eatenAt,
+                    ),
                   ),
                 ),
-                Text(
-                  dinnerSuggestion,
-                  style: const TextStyle(fontSize: 10, color: AppColors.mutedText),
-                ),
-                const SizedBox(height: 10),
-                LayoutBuilder(
-                  builder: (context, constraints) {
-                    if (constraints.maxWidth < 350) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '+${neededProtein}g Protein required to hit today\'s target',
-                            style: const TextStyle(
-                              fontSize: 9,
-                              color: Color(0xFFC2410C),
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton.icon(
-                              onPressed: () => _navigateToAddMeal(context),
-                              icon: const Icon(Icons.crop_free, size: 12),
-                              label: const Text(
-                                'Scan with Vision AI',
-                                style: TextStyle(fontSize: 10),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.primaryTeal,
-                                foregroundColor: Colors.white,
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 8,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      );
-                    }
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Text(
-                            '+${neededProtein}g Protein required to hit today\'s target',
-                            style: const TextStyle(
-                              fontSize: 9,
-                              color: Color(0xFFC2410C),
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        ElevatedButton.icon(
-                          onPressed: () => _navigateToAddMeal(context),
-                          icon: const Icon(Icons.crop_free, size: 12),
-                          label: const Text(
-                            'Scan with Vision AI',
-                            style: TextStyle(fontSize: 10),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primaryTeal,
-                            foregroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 6,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                ),
-              ],
-            ),
-          ),
+              ),
+          ],
         ],
       ),
+    ),
+  );
+
+  Future<void> _add(BuildContext context) async {
+    await Navigator.of(context).push<void>(
+      MaterialPageRoute<void>(builder: (_) => const AddMealScreen()),
     );
+    if (context.mounted)
+      await context.read<DashboardCubit>().refreshDashboard(userId: userId);
   }
 
-  Widget _buildMealItem(
-    BuildContext context,
-    String slot,
-    String title,
-    String description,
-    String calories,
-    String macros,
-    String tag,
-    String imageUrl, {
-    String? allergenWarning,
-    bool hasProfileSafeguards = false,
-  }) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        borderRadius: BorderRadius.circular(12),
-        onTap: () => _navigateToMealDetails(context),
-        child: Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: const Color(0xFFF8FAFC),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: Image.network(
-                  imageUrl,
-                  width: 50,
-                  height: 50,
-                  fit: BoxFit.cover,
-                  errorBuilder: (c, e, s) => Container(
-                    width: 50,
-                    height: 50,
-                    color: Colors.grey.shade300,
-                    child: const Icon(Icons.fastfood, size: 20),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Row(
-                            children: [
-                              Flexible(
-                                child: Text(
-                                  slot,
-                                  style: const TextStyle(
-                                    fontSize: 9,
-                                    fontWeight: FontWeight.bold,
-                                    color: AppColors.mutedText,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                              if (allergenWarning != null) ...[
-                                const SizedBox(width: 4),
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 4,
-                                    vertical: 1,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFFFEE2E2),
-                                    borderRadius: BorderRadius.circular(4),
-                                    border: Border.all(
-                                      color: const Color(0xFFFCA5A5),
-                                    ),
-                                  ),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      const Icon(
-                                        Icons.warning_amber_rounded,
-                                        size: 8,
-                                        color: Color(0xFFDC2626),
-                                      ),
-                                      const SizedBox(width: 2),
-                                      Text(
-                                        allergenWarning,
-                                        style: const TextStyle(
-                                          fontSize: 7,
-                                          color: Color(0xFFDC2626),
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ] else if (hasProfileSafeguards) ...[
-                                const SizedBox(width: 4),
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 4,
-                                    vertical: 1,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFFDCFCE7),
-                                    borderRadius: BorderRadius.circular(4),
-                                  ),
-                                  child: const Text(
-                                    '✓ Safe',
-                                    style: TextStyle(
-                                      fontSize: 7,
-                                      color: Color(0xFF166534),
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ],
-                          ),
-                        ),
-                        const SizedBox(width: 4),
-                        Text(
-                          calories,
-                          style: const TextStyle(
-                            fontSize: 11,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.darkText,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Text(
-                      title,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 12,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    Text(
-                      description,
-                      style: const TextStyle(
-                        fontSize: 9,
-                        color: AppColors.mutedText,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 6),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Text(
-                            macros,
-                            style: const TextStyle(
-                              fontSize: 9,
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.darkText,
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        const SizedBox(width: 4),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 6,
-                            vertical: 2,
-                          ),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFE0F2FE),
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: Text(
-                            tag,
-                            style: const TextStyle(
-                              fontSize: 8,
-                              color: Color(0xFF0369A1),
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+  String _time(DateTime date) {
+    final local = date.toLocal();
+    final hour = local.hour % 12 == 0 ? 12 : local.hour % 12;
+    final minute = local.minute.toString().padLeft(2, '0');
+    return '${local.year}-${local.month.toString().padLeft(2, '0')}-${local.day.toString().padLeft(2, '0')}  $hour:$minute ${local.hour < 12 ? 'AM' : 'PM'}';
   }
 }

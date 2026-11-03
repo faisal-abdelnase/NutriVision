@@ -8,7 +8,6 @@ import '../../../../core/adaptive/adaptive_scaffold.dart';
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/widgets/state_views.dart';
 import '../../../ai_coach/presentation/pages/ai_coach_page.dart';
-import '../../../dashboard/presentation/cubit/dashboard_cubit.dart';
 import '../../../dashboard/presentation/screens/dashboard_screen.dart';
 import '../../../meal_analysis/domain/entities/analyzed_food_item.dart';
 import '../../../meal_analysis/domain/entities/meal_analysis_result.dart';
@@ -28,43 +27,20 @@ class AppShell extends StatefulWidget {
 }
 
 class _AppShellState extends State<AppShell> {
-  // final String? _userId = FirebaseAuth.instance.currentUser?.uid;
-  late final DashboardCubit _dashboard = GetIt.instance<DashboardCubit>();
   late final ProgressCubit _progress = GetIt.instance<ProgressCubit>();
   late final MealCubit _meal = GetIt.instance<MealCubit>();
   int _index = 0;
 
   @override
-  void initState() {
-    super.initState();
-    final uid = "hhhjhgjhg";
-    if (uid != null) _dashboard.loadDashboard(userId: uid);
-  }
-
-  @override
   void dispose() {
-    _dashboard.close();
     _progress.close();
     _meal.close();
     super.dispose();
   }
 
-  Future<void> _openMeal(String mealId) async {
-    final uid = "_userId";
-    if (uid == null) return;
-    final deleted = await Navigator.of(context).push<bool>(
-      MaterialPageRoute(
-        builder: (_) => MealDetailsScreen(),
-      ),
-    );
-    if (deleted == true && mounted) {
-      _dashboard.refreshDashboard(userId: uid);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    final uid = "_userId";
+    final uid = FirebaseAuth.instance.currentUser?.uid;
     if (uid == null) {
       return Scaffold(body: AppErrorView(message: context.tr('authRequired')));
     }
@@ -80,7 +56,7 @@ class _AppShellState extends State<AppShell> {
         selectedIcon: Icons.insights,
         label: context.tr('navProgress'),
       ),
-      
+
       AdaptiveNavItem(
         icon: Icons.add_circle_outline,
         selectedIcon: Icons.add_circle,
@@ -106,7 +82,6 @@ class _AppShellState extends State<AppShell> {
 
     return MultiBlocProvider(
       providers: [
-        BlocProvider.value(value: _dashboard),
         BlocProvider.value(value: _progress),
         BlocProvider.value(value: _meal),
       ],
@@ -118,31 +93,18 @@ class _AppShellState extends State<AppShell> {
         body: IndexedStack(
           index: _index,
           children: [
-            DashboardScreen(
-              userId: uid,
-            ),
+            DashboardScreen(userId: uid),
             ProgressScreen(),
             AddMealScreen(),
             MealDetailsScreen(),
             MealAnalysisPage(initialResult: MealAnalysisDummyData.result),
-            AiCoachPage(userId: "ffff",),
-
-
+            AiCoachPage(userId: uid),
           ],
         ),
       ),
     );
   }
 }
-
-
-
-
-
-
-
-
-
 
 class MealAnalysisDummyData {
   static final MealAnalysisResult result = MealAnalysisResult(
@@ -193,9 +155,7 @@ class MealAnalysisDummyData {
       'Broccoli provides fiber and essential vitamins.',
       'Rice provides carbohydrates for daily energy.',
     ],
-    warnings: const [
-      'Consider whole-grain rice for additional fiber.',
-    ],
+    warnings: const ['Consider whole-grain rice for additional fiber.'],
     confidenceScore: 0.97,
     analyzedAt: DateTime(2026, 10, 29, 12, 30),
   );

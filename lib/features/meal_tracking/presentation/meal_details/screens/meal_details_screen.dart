@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../../../../core/theme/app_colors.dart';
-import '../../addmeal/widgets/sidebar_widget.dart';
 import '../../addmeal/widgets/top_header_bar.dart';
 import '../../addmeal/widgets/architecture_cards.dart';
 import '../widgets/ai_clinical_intelligence_card.dart';
@@ -10,10 +9,45 @@ import '../widgets/meal_hero_card.dart';
 import '../widgets/smart_swaps_card.dart';
 
 class MealDetailsScreen extends StatelessWidget {
-  const MealDetailsScreen({super.key});
+  const MealDetailsScreen({
+    super.key,
+    this.mealName,
+    this.calories,
+    this.eatenAt,
+  });
+
+  final String? mealName;
+  final double? calories;
+  final DateTime? eatenAt;
 
   @override
   Widget build(BuildContext context) {
+    if (mealName != null) {
+      final mealTime = eatenAt?.toLocal();
+      return Scaffold(
+        backgroundColor: AppColors.background,
+        appBar: AppBar(title: const Text('Meal Details')),
+        body: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Card(
+            color: AppColors.cardBg,
+            child: ListTile(
+              leading: const CircleAvatar(
+                child: Icon(Icons.restaurant),
+              ),
+              title: Text(mealName!),
+              subtitle: mealTime == null
+                  ? null
+                  : Text(
+                      '${mealTime.year}-${mealTime.month.toString().padLeft(2, '0')}-${mealTime.day.toString().padLeft(2, '0')} ${mealTime.hour.toString().padLeft(2, '0')}:${mealTime.minute.toString().padLeft(2, '0')}',
+                    ),
+              trailing: calories == null ? null : Text('${calories!.round()} kcal'),
+            ),
+          ),
+        ),
+      );
+    }
+
     final bool isDesktop = MediaQuery.of(context).size.width >= 900;
 
     return Scaffold(

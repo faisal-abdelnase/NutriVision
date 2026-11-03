@@ -46,16 +46,23 @@ class DashboardRemoteDataSourceImpl implements DashboardRemoteDataSource {
     }
 
     // قراءة هدف السعرات من مستند المستخدم.
-    final userSnapshot = await firestore.collection('users').doc(userId).get();
+    final profileSnapshot = await firestore
+        .collection('nutrition_profiles')
+        .doc(userId)
+        .get();
+    final profileData = profileSnapshot.data() ?? {};
 
-    final userData = userSnapshot.data() ?? {};
-
-    final calorieTarget = _toDouble(userData['dailyCalorieTarget']);
+    final calorieTarget = _toDouble(profileData['dailyCalorieTarget']);
 
     return DailyNutritionSummaryModel(
       date: startOfDay,
       consumedCalories: consumedCalories,
       calorieTarget: calorieTarget,
+      proteinTargetGrams: _toDouble(profileData['proteinTargetGrams']),
+      carbohydrateTargetGrams: _toDouble(
+        profileData['carbohydrateTargetGrams'],
+      ),
+      fatTargetGrams: _toDouble(profileData['fatTargetGrams']),
       consumedProteinGrams: consumedProtein,
       consumedCarbohydrateGrams: consumedCarbohydrates,
       consumedFatGrams: consumedFat,

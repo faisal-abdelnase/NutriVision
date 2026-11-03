@@ -22,6 +22,7 @@ class DashboardCubit extends Cubit<DashboardState> {
     DateTime? date,
     int recentMealsLimit = 5,
   }) async {
+    if (isClosed) return;
     if (userId.trim().isEmpty) {
       emit(const DashboardError('User ID is required.'));
       return;
@@ -42,6 +43,7 @@ class DashboardCubit extends Cubit<DashboardState> {
         _getDailyNutritionSummary(userId: userId, date: selectedDate),
         _getRecentMealsSummary(userId: userId, limit: recentMealsLimit),
       ]);
+      if (isClosed) return;
 
       final dailySummary = results[0] as DailyNutritionSummary;
       final recentMeals = results[1] as List<RecentMealSummary>;
@@ -50,7 +52,7 @@ class DashboardCubit extends Cubit<DashboardState> {
         DashboardLoaded(dailySummary: dailySummary, recentMeals: recentMeals),
       );
     } catch (error) {
-      emit(DashboardError(_mapError(error)));
+      if (!isClosed) emit(DashboardError(_mapError(error)));
     }
   }
 
