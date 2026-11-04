@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import '../../../../../core/theme/app_colors.dart';
 
 class DescribeMealCard extends StatelessWidget {
-  const DescribeMealCard({super.key});
+  const DescribeMealCard({super.key, this.controller, this.validator});
+
+  final TextEditingController? controller;
+  final String? Function(String?)? validator;
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +80,9 @@ class DescribeMealCard extends StatelessWidget {
           // Input Box with Voice Mic Button
           Stack(
             children: [
-              TextField(
+              TextFormField(
+                controller: controller,
+                validator: validator,
                 maxLines: 4,
                 decoration: InputDecoration(
                   hintText:

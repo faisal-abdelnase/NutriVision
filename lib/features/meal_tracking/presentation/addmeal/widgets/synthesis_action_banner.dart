@@ -2,7 +2,14 @@ import 'package:flutter/material.dart';
 import '../../../../../core/theme/app_colors.dart';
 
 class SynthesisActionBanner extends StatelessWidget {
-  const SynthesisActionBanner({super.key});
+  const SynthesisActionBanner({
+    super.key,
+    this.onAnalyze,
+    this.isLoading = false,
+  });
+
+  final VoidCallback? onAnalyze;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -80,10 +87,21 @@ class SynthesisActionBanner extends StatelessWidget {
                         ),
                         const SizedBox(width: 8),
                         ElevatedButton.icon(
-                          onPressed: () {},
-                          icon: const Icon(Icons.auto_awesome, size: 14),
-                          label: const Text(
-                            'Analyze Meal with AI',
+                          onPressed: isLoading ? null : onAnalyze,
+                          icon: isLoading
+                              ? const SizedBox(
+                                  width: 14,
+                                  height: 14,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    color: Colors.white,
+                                  ),
+                                )
+                              : const Icon(Icons.auto_awesome, size: 14),
+                          label: Text(
+                            isLoading
+                                ? 'Analyzing meal…'
+                                : 'Analyze Meal with AI',
                             style: TextStyle(fontSize: 12),
                           ),
                           style: ElevatedButton.styleFrom(
@@ -156,10 +174,19 @@ class SynthesisActionBanner extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   ElevatedButton.icon(
-                    onPressed: () {},
-                    icon: const Icon(Icons.auto_awesome, size: 14),
-                    label: const Text(
-                      'Analyze Meal with AI',
+                    onPressed: isLoading ? null : onAnalyze,
+                    icon: isLoading
+                        ? const SizedBox(
+                            width: 14,
+                            height: 14,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: Colors.white,
+                            ),
+                          )
+                        : const Icon(Icons.auto_awesome, size: 14),
+                    label: Text(
+                      isLoading ? 'Analyzing meal…' : 'Analyze Meal with AI',
                       style: TextStyle(fontSize: 12),
                     ),
                     style: ElevatedButton.styleFrom(

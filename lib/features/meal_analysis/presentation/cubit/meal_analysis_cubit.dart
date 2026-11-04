@@ -29,6 +29,16 @@ class MealAnalysisCubit extends Cubit<MealAnalysisState> {
   }
 
   Future<void> analyzeText({required MealAnalysisRequest request}) async {
+    if (state is MealAnalysisLoading) return;
+    if (request.userId.trim().isEmpty ||
+        (request.description?.trim().isEmpty ?? true)) {
+      emit(
+        const MealAnalysisFailure(
+          'A signed-in user and meal description are required.',
+        ),
+      );
+      return;
+    }
     emit(const MealAnalysisLoading());
 
     try {
@@ -40,6 +50,16 @@ class MealAnalysisCubit extends Cubit<MealAnalysisState> {
   }
 
   Future<void> analyzeImage({required MealAnalysisRequest request}) async {
+    if (state is MealAnalysisLoading) return;
+    if (request.userId.trim().isEmpty ||
+        (request.imagePath?.trim().isEmpty ?? true)) {
+      emit(
+        const MealAnalysisFailure(
+          'A signed-in user and meal image are required.',
+        ),
+      );
+      return;
+    }
     emit(const MealAnalysisLoading());
 
     try {
@@ -94,21 +114,14 @@ class MealAnalysisCubit extends Cubit<MealAnalysisState> {
     }
   }
 
-  Future<void> saveResult({
-    required MealAnalysisResult result,
-  }) async {
+  Future<void> saveResult({required MealAnalysisResult result}) async {
     emit(MealAnalysisSaveLoading(result));
 
     try {
       final saved = await saveMealAnalysis(result: result);
       emit(MealAnalysisSaveSuccess(saved));
     } catch (error) {
-      emit(
-        MealAnalysisSaveFailure(
-          _errorMessage(error),
-          result: result,
-        ),
-      );
+      emit(MealAnalysisSaveFailure(_errorMessage(error), result: result));
     }
   }
 }

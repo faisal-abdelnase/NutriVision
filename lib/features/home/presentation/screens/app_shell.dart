@@ -9,9 +9,6 @@ import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/widgets/state_views.dart';
 import '../../../ai_coach/presentation/pages/ai_coach_page.dart';
 import '../../../dashboard/presentation/screens/dashboard_screen.dart';
-import '../../../meal_analysis/domain/entities/analyzed_food_item.dart';
-import '../../../meal_analysis/domain/entities/meal_analysis_result.dart';
-import '../../../meal_analysis/presentation/pages/meal_analysis_page.dart';
 import '../../../meal_tracking/presentation/addmeal/screens/add_meal_screen.dart';
 import '../../../meal_tracking/presentation/cubit/meal_cubit.dart';
 import '../../../meal_tracking/presentation/meal_details/screens/meal_details_screen.dart';
@@ -69,11 +66,6 @@ class _AppShellState extends State<AppShell> {
         label: context.tr('navDetails'),
       ),
       AdaptiveNavItem(
-        icon: Icons.analytics,
-        selectedIcon: Icons.analytics_outlined,
-        label: context.tr('navMaleAnalaysis'),
-      ),
-      AdaptiveNavItem(
         icon: Icons.smart_toy_outlined,
         selectedIcon: Icons.smart_button_sharp,
         label: context.tr('navMaleAnalaysis'),
@@ -95,68 +87,12 @@ class _AppShellState extends State<AppShell> {
           children: [
             DashboardScreen(userId: uid),
             ProgressScreen(),
-            AddMealScreen(),
+            AddMealScreen(onBack: () => setState(() => _index = 0)),
             MealDetailsScreen(),
-            MealAnalysisPage(initialResult: MealAnalysisDummyData.result),
             AiCoachPage(userId: uid),
           ],
         ),
       ),
     );
   }
-}
-
-class MealAnalysisDummyData {
-  static final MealAnalysisResult result = MealAnalysisResult(
-    id: 'dummy_analysis_001',
-    userId: 'dummy_user_001',
-    sourceDescription: 'Grilled chicken with rice, broccoli and avocado',
-    foodItems: const [
-      AnalyzedFoodItem(
-        name: 'Grilled Chicken Breast',
-        estimatedQuantity: 150,
-        quantityUnit: 'g',
-        calories: 248,
-        proteinGrams: 46.5,
-        carbohydrateGrams: 0,
-        fatGrams: 5.4,
-        confidenceScore: 0.98,
-      ),
-      AnalyzedFoodItem(
-        name: 'White Rice',
-        estimatedQuantity: 150,
-        quantityUnit: 'g',
-        calories: 195,
-        proteinGrams: 4,
-        carbohydrateGrams: 42.5,
-        fatGrams: 0.4,
-        confidenceScore: 0.96,
-      ),
-      AnalyzedFoodItem(
-        name: 'Broccoli',
-        estimatedQuantity: 100,
-        quantityUnit: 'g',
-        calories: 34,
-        proteinGrams: 2.8,
-        carbohydrateGrams: 6.6,
-        fatGrams: 0.4,
-        confidenceScore: 0.97,
-      ),
-    ],
-    totalCalories: 477,
-    totalProteinGrams: 53.3,
-    totalCarbohydrateGrams: 49.1,
-    totalFatGrams: 6.2,
-    analysisSummary:
-        'A balanced meal rich in protein, with carbohydrates for energy '
-        'and vegetables that provide essential nutrients.',
-    nutritionInsights: const [
-      'High protein content supports muscle recovery.',
-      'Broccoli provides fiber and essential vitamins.',
-      'Rice provides carbohydrates for daily energy.',
-    ],
-    warnings: const ['Consider whole-grain rice for additional fiber.'],
-    confidenceScore: 0.97,
-    analyzedAt: DateTime(2026, 10, 29, 12, 30),
-  );
 }

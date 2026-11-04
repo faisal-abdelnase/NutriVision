@@ -1,219 +1,198 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+
 import '../../../../../core/theme/app_colors.dart';
-import '../widgets/sidebar_widget.dart';
-import '../widgets/top_header_bar.dart';
+import '../../../../meal_analysis/domain/entities/meal_analysis_request.dart';
+import '../../../../meal_analysis/presentation/cubit/meal_analysis_cubit.dart';
+import '../../../../meal_analysis/presentation/cubit/meal_analysis_state.dart';
+import '../../../../meal_analysis/presentation/pages/meal_analysis_page.dart';
 import '../widgets/describe_meal_card.dart';
 import '../widgets/vision_ai_card.dart';
 import '../widgets/search_database_card.dart';
 import '../widgets/synthesis_action_banner.dart';
 import '../widgets/architecture_cards.dart';
+import '../widgets/top_header_bar.dart';
 
 class AddMealScreen extends StatelessWidget {
-  const AddMealScreen({super.key});
+  const AddMealScreen({super.key, this.onBack});
+
+  final VoidCallback? onBack;
+
+  @override
+  Widget build(BuildContext context) => BlocProvider(
+    create: (_) => GetIt.instance<MealAnalysisCubit>(),
+    child: _AddMealForm(onBack: onBack),
+  );
+}
+
+class _AddMealForm extends StatefulWidget {
+  const _AddMealForm({this.onBack});
+
+  final VoidCallback? onBack;
+
+  @override
+  State<_AddMealForm> createState() => _AddMealFormState();
+}
+
+class _AddMealFormState extends State<_AddMealForm> {
+  final _formKey = GlobalKey<FormState>();
+  final _descriptionController = TextEditingController();
+
+  @override
+  void dispose() {
+    _descriptionController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _analyze() async {
+    if (!(_formKey.currentState?.validate() ?? false)) return;
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Sign in to analyze and save a meal.')),
+      );
+      return;
+    }
+    await context.read<MealAnalysisCubit>().analyzeText(
+      request: MealAnalysisRequest(
+        userId: user.uid,
+        description: _descriptionController.text.trim(),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    final bool isDesktop = MediaQuery.of(context).size.width >= 900;
-
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      appBar: !isDesktop
-          ? AppBar(
-              backgroundColor: Colors.white,
-              elevation: 0,
-              iconTheme: const IconThemeData(color: AppColors.darkText),
-              title: const Text(
-                'NutriVision Clinical',
-                style: TextStyle(color: AppColors.darkText, fontSize: 16),
-              ),
-            )
-          : null,
-      // drawer: !isDesktop ? const Drawer(child: SidebarWidget()) : null,
-      body: Row(
-        children: [
-          // 1. Sidebar Left (فقط للشاشات الكبيرة)
-          // if (isDesktop) const SidebarWidget(),
-
-          // 2. Main Dashboard Content Right
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(16.0),
+    final desktop = MediaQuery.sizeOf(context).width >= 900;
+    return BlocListener<MealAnalysisCubit, MealAnalysisState>(
+      listenWhen: (_, state) =>
+          state is MealAnalysisSuccess || state is MealAnalysisFailure,
+      listener: (context, state) {
+        if (state is MealAnalysisSuccess) {
+          Navigator.of(context).push<void>(
+            MaterialPageRoute<void>(
+              builder: (_) => MealAnalysisPage(initialResult: state.result),
+            ),
+          );
+        } else if (state is MealAnalysisFailure) {
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(SnackBar(content: Text(state.message)));
+        }
+      },
+      child: Scaffold(
+        backgroundColor: AppColors.background,
+        appBar: !desktop
+            ? AppBar(
+                backgroundColor: Theme.of(context).colorScheme.surface,
+                elevation: 0,
+                automaticallyImplyLeading: widget.onBack == null,
+                leading: widget.onBack == null
+                    ? null
+                    : IconButton(
+                        onPressed: widget.onBack,
+                        icon: const Icon(Icons.arrow_back, color: AppColors.darkText),
+                      ),
+                iconTheme: const IconThemeData(color: AppColors.darkText),
+                title: const Text(
+                  'NutriVision Clinical',
+                  style: TextStyle(color: AppColors.darkText, fontSize: 16),
+                ),
+              )
+            : null,
+        body: BlocBuilder<MealAnalysisCubit, MealAnalysisState>(
+          builder: (context, state) {
+            final isLoading = state is MealAnalysisLoading;
+            return SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Top Header
                   const TopHeaderBar(),
                   const SizedBox(height: 20),
-
-                  // Back Button & Engine Specs Row
-                  LayoutBuilder(
-                    builder: (context, constraints) {
-                      if (constraints.maxWidth < 700) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            TextButton.icon(
-                              onPressed: () {},
-                              icon: const Icon(
-                                Icons.arrow_back,
-                                size: 14,
-                                color: AppColors.primaryTeal,
-                              ),
-                              label: const Text(
-                                'Back to Dashboard',
-                                style: TextStyle(
-                                  color: AppColors.primaryTeal,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              style: TextButton.styleFrom(
-                                padding: EdgeInsets.zero,
-                              ),
-                            ),
-                            const Text(
-                              'Add a Meal',
-                              style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.darkText,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            const Text(
-                              'How would you like to add your meal today? Choose multimodal AI input or clinical database lookup.',
-                              style: TextStyle(
-                                color: AppColors.mutedText,
-                                fontSize: 12,
-                              ),
-                            ),
-                          ],
-                        );
-                      }
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              TextButton.icon(
-                                onPressed: () {},
-                                icon: const Icon(
-                                  Icons.arrow_back,
-                                  size: 14,
-                                  color: AppColors.primaryTeal,
-                                ),
-                                label: const Text(
-                                  'Back to Dashboard',
-                                  style: TextStyle(
-                                    color: AppColors.primaryTeal,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                style: TextButton.styleFrom(
-                                  padding: EdgeInsets.zero,
-                                ),
-                              ),
-                              const Text(
-                                'Add a Meal',
-                                style: TextStyle(
-                                  fontSize: 26,
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColors.darkText,
-                                ),
-                              ),
-                              const SizedBox(height: 4),
-                              const Text(
-                                'How would you like to add your meal today? Choose multimodal AI input or clinical database lookup.',
-                                style: TextStyle(
-                                  color: AppColors.mutedText,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFF8FAFC),
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: AppColors.border),
-                            ),
-                            child: Row(
-                              children: [
-                                const Icon(
-                                  Icons.hub_outlined,
-                                  color: AppColors.primaryTeal,
-                                  size: 20,
-                                ),
-                                const SizedBox(width: 8),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: const [
-                                    Text(
-                                      'CLINICAL ENGINE',
-                                      style: TextStyle(
-                                        fontSize: 9,
-                                        fontWeight: FontWeight.bold,
-                                        color: AppColors.mutedText,
-                                      ),
-                                    ),
-                                    Text(
-                                      'Gemini Multimodal 2.5 + USDA Rev 28',
-                                      style: TextStyle(
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      );
-                    },
+                  TextButton.icon(
+                    onPressed: widget.onBack ?? () => Navigator.of(context).maybePop(),
+                    icon: const Icon(
+                      Icons.arrow_back,
+                      size: 14,
+                      color: AppColors.primaryTeal,
+                    ),
+                    label: const Text(
+                      'Back to Dashboard',
+                      style: TextStyle(
+                        color: AppColors.primaryTeal,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
-
+                  const Text(
+                    'Add a Meal',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.darkText,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  const Text(
+                    'Describe your meal to receive a nutrition analysis.',
+                    style: TextStyle(color: AppColors.mutedText, fontSize: 12),
+                  ),
                   const SizedBox(height: 20),
-
-                  // Inputs Section (تتحول إلى عمود رأسي على الهاتف، وبجانب بعضها على الشاشات الكبيرة)
-                  isDesktop
-                      ? Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Expanded(child: DescribeMealCard()),
-                            SizedBox(width: 16),
-                            Expanded(child: VisionAiCard()),
-                            SizedBox(width: 16),
-                            Expanded(child: SearchDatabaseCard()),
-                          ],
-                        )
-                      : Column(
-                          children: const [
-                            DescribeMealCard(),
-                            SizedBox(height: 16),
-                            VisionAiCard(),
-                            SizedBox(height: 16),
-                            SearchDatabaseCard(),
-                          ],
-                        ),
-
+                  Form(
+                    key: _formKey,
+                    child: DescribeMealCard(
+                      controller: _descriptionController,
+                      validator: (value) =>
+                          value == null || value.trim().isEmpty
+                          ? 'Enter a meal description.'
+                          : value.trim().length < 3
+                          ? 'Add a little more detail about your meal.'
+                          : null,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  if (desktop)
+                    const Row(
+                      children: [
+                        Expanded(child: VisionAiCard()),
+                        SizedBox(width: 16),
+                        Expanded(child: SearchDatabaseCard()),
+                      ],
+                    )
+                  else
+                    const Column(
+                      children: [
+                        VisionAiCard(),
+                        SizedBox(height: 16),
+                        SearchDatabaseCard(),
+                      ],
+                    ),
                   const SizedBox(height: 20),
-
-                  // Synthesis Banner
-                  const SynthesisActionBanner(),
-
+                  SynthesisActionBanner(
+                    onAnalyze: _analyze,
+                    isLoading: isLoading,
+                  ),
+                  if (state is MealAnalysisFailure) ...[
+                    const SizedBox(height: 8),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                        onPressed: _analyze,
+                        child: const Text('Retry analysis'),
+                      ),
+                    ),
+                  ],
                   const SizedBox(height: 20),
-
-                  // Flutter Architecture Spec Section
                   const ArchitectureCards(),
                 ],
               ),
-            ),
-          ),
-        ],
+            );
+          },
+        ),
       ),
     );
   }

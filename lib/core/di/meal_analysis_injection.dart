@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dio/dio.dart';
+import 'package:firebase_ai/firebase_ai.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:get_it/get_it.dart';
@@ -24,7 +24,7 @@ Future<void> initMealAnalysisInjection() async {
 
   getIt.registerLazySingleton<MealAnalysisRemoteDataSource>(
     () => MealAnalysisRemoteDataSourceImpl(
-      dio: getIt<Dio>(),
+      model: getIt<GenerativeModel>(),
       firestore: getIt<FirebaseFirestore>(),
     ),
   );
