@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_ai/firebase_ai.dart';
+import 'package:nutri_vision/core/logging/ai_coach_diagnostics.dart';
 
 import '../../domain/entities/coach_message.dart';
 import '../models/coach_conversation_model.dart';
@@ -52,8 +53,22 @@ class AiCoachRemoteDataSourceImpl implements AiCoachRemoteDataSource {
     required String message,
     required List<CoachMessageModel> conversationContext,
   }) async {
+    AiCoachDiagnostics.info(
+      'Remote send started; model request has not been sent yet.',
+    );
     final conversationRef = _conversations(userId).doc(conversationId);
-    final conversationSnapshot = await conversationRef.get();
+    final DocumentSnapshot<Map<String, dynamic>> conversationSnapshot;
+    try {
+      conversationSnapshot = await conversationRef.get();
+    } catch (error, stackTrace) {
+      AiCoachDiagnostics.failure(
+        'Load conversation before AI request',
+        error,
+        stackTrace,
+        details: 'Firebase AI Logic request was not started.',
+      );
+      rethrow;
+    }
 
     if (!conversationSnapshot.exists) {
       throw StateError('Conversation not found.');
@@ -75,8 +90,6 @@ class AiCoachRemoteDataSourceImpl implements AiCoachRemoteDataSource {
       content: text,
       createdAt: DateTime.now(),
     );
-
-    await userMessageRef.set(userMessage.toFirestore());
 
     final context =
         conversationContext
@@ -116,13 +129,32 @@ $text
 Provide a clear, friendly, personalized response.
 ''';
 
-    final response = await model.generateContent([Content.text(prompt)]);
-
-    final answer = response.text?.trim();
-    if (answer == null || answer.isEmpty) {
-      throw StateError('Gemini returned an empty response.');
+    AiCoachDiagnostics.info('Request reached Firebase AI Logic.');
+    final GenerateContentResponse response;
+    try {
+      response = await model.generateContent([Content.text(prompt)]);
+    } catch (error, stackTrace) {
+      AiCoachDiagnostics.failure(
+        'Firebase AI Logic generateContent',
+        error,
+        stackTrace,
+        details: 'Request reached Firebase AI Logic; no response was received.',
+      );
+      rethrow;
     }
 
+    AiCoachDiagnostics.info('Firebase AI Logic response received.');
+    final answer = response.text?.trim();
+    if (answer == null || answer.isEmpty) {
+      final error = StateError('Gemini returned an empty response.');
+      AiCoachDiagnostics.failure(
+        'Validate Firebase AI Logic response',
+        error,
+        StackTrace.current,
+        details: 'Firebase AI Logic returned a response with no text.',
+      );
+      throw error;
+    }
     final assistantRef = messagesRef.doc();
 
     final assistantMessage = CoachMessageModel(
@@ -132,10 +164,10 @@ Provide a clear, friendly, personalized response.
       role: CoachMessageRole.assistant,
       content: answer,
       createdAt: DateTime.now(),
-      modelName: 'gemini-2.5-flash',
     );
 
     final batch = firestore.batch();
+    batch.set(userMessageRef, userMessage.toFirestore());
     batch.set(assistantRef, assistantMessage.toFirestore());
     batch.update(conversationRef, {
       'lastMessagePreview': answer.length > 120
@@ -144,7 +176,17 @@ Provide a clear, friendly, personalized response.
       'lastMessageAt': Timestamp.now(),
       'updatedAt': Timestamp.now(),
     });
-    await batch.commit();
+    try {
+      await batch.commit();
+    } catch (error, stackTrace) {
+      AiCoachDiagnostics.failure(
+        'Persist AI Coach messages to Firestore',
+        error,
+        stackTrace,
+        details: 'AI response was received; Firestore batch commit failed.',
+      );
+      rethrow;
+    }
 
     return assistantMessage;
   }

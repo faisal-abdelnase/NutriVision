@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nutri_vision/core/logging/ai_coach_diagnostics.dart';
 
 import '../../domain/entities/coach_conversation.dart';
 import '../../domain/entities/coach_message.dart';
@@ -252,7 +253,14 @@ class AiCoachCubit extends Cubit<AiCoachState> {
         userId: userId,
         conversationId: conversation.id,
       );
-    } catch (error) {
+    } catch (error, stackTrace) {
+      AiCoachDiagnostics.failure(
+        'AiCoachCubit.sendMessage',
+        error,
+        stackTrace,
+        details:
+            'The UI will show its localized generic error; original error retained in logs.',
+      );
       emit(
         state.copyWith(
           isSending: false,

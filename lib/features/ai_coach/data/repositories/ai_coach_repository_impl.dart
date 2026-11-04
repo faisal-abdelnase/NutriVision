@@ -2,8 +2,10 @@ import '../../domain/entities/coach_conversation.dart';
 import '../../domain/entities/coach_message.dart';
 import '../../domain/entities/nutrition_advice.dart';
 import '../../domain/repositories/ai_coach_repository.dart';
+import '../../../../core/logging/ai_coach_diagnostics.dart';
 import '../datasources/ai_coach_local_data_source.dart';
 import '../datasources/ai_coach_remote_data_source.dart';
+import '../models/coach_message_model.dart';
 
 class AiCoachRepositoryImpl implements AiCoachRepository {
   final AiCoachRemoteDataSource remoteDataSource;
@@ -20,16 +22,75 @@ class AiCoachRepositoryImpl implements AiCoachRepository {
     required String conversationId,
     required String message,
   }) async {
-    final context = await localDataSource.getCachedConversationMessages(
+    final List<CoachMessageModel> context;
+    try {
+      context = await localDataSource.getCachedConversationMessages(
+        conversationId: conversationId,
+      );
+    } catch (error, stackTrace) {
+      AiCoachDiagnostics.failure(
+        'Read conversation context from Hive',
+        error,
+        stackTrace,
+        details: 'Firebase AI Logic request was not started.',
+      );
+      rethrow;
+    }
+
+    final CoachMessage response;
+    try {
+      response = await remoteDataSource.sendMessage(
+        userId: userId,
+        conversationId: conversationId,
+        message: message,
+        conversationContext: context,
+      );
+    } catch (error, stackTrace) {
+      AiCoachDiagnostics.failure(
+        'AI Coach remote data source sendMessage',
+        error,
+        stackTrace,
+        details: 'Remote send failed; see data source diagnostics for stage.',
+      );
+      rethrow;
+    }
+
+    final userMessage = CoachMessageModel(
+      id: 'local-${DateTime.now().microsecondsSinceEpoch}',
       conversationId: conversationId,
+      userId: userId,
+      role: CoachMessageRole.user,
+      content: message.trim(),
+      createdAt: DateTime.now(),
+    );
+    final assistantMessage = CoachMessageModel(
+      id: response.id,
+      conversationId: response.conversationId,
+      userId: response.userId,
+      role: response.role,
+      content: response.content,
+      createdAt: response.createdAt,
+      isNutritionAdvice: response.isNutritionAdvice,
+      referencedMealIds: response.referencedMealIds,
+      modelName: response.modelName,
+      promptTokens: response.promptTokens,
+      completionTokens: response.completionTokens,
     );
 
-    final response = await remoteDataSource.sendMessage(
-      userId: userId,
-      conversationId: conversationId,
-      message: message,
-      conversationContext: context,
-    );
+    try {
+      await localDataSource.cacheConversationMessages(
+        conversationId: conversationId,
+        messages: [...context, userMessage, assistantMessage]
+          ..sort((a, b) => a.createdAt.compareTo(b.createdAt)),
+      );
+    } catch (error, stackTrace) {
+      AiCoachDiagnostics.failure(
+        'Cache sent conversation messages in Hive',
+        error,
+        stackTrace,
+        details: 'Remote AI response was received; local cache write failed.',
+      );
+    }
 
     // The remote source already persists both messages in Firestore.
     // Refresh the local page so that Firestore-generated IDs are retained.
@@ -45,9 +106,13 @@ class AiCoachRepositoryImpl implements AiCoachRepository {
         conversationId: conversationId,
         messages: latest,
       );
-    } catch (_) {
-      // Keep the previous cache if refreshing it fails.
-      // Do not turn a successful remote send into a failed send.
+    } catch (error, stackTrace) {
+      AiCoachDiagnostics.failure(
+        'Refresh sent conversation cache',
+        error,
+        stackTrace,
+        details: 'Remote AI response was received; fallback cache is retained.',
+      );
     }
 
     return response;

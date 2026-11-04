@@ -18,40 +18,50 @@ import 'core/di/onboarding_injection.dart';
 import 'core/di/profile_injection.dart';
 import 'core/di/progress_di.dart';
 import 'core/di/recipes_di.dart';
+import 'core/logging/ai_coach_diagnostics.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  // Firebase App Check must be activated before Firebase requests.
+  await Firebase.initializeApp(
+  options: DefaultFirebaseOptions.currentPlatform,
+);
 
-  //90FCC593-50ED-48D8-ACB5-F6F3D4BCB7F6
-  //fcffd63d-56b7-491b-9b59-35aaa4f6f4ed
-  if (kIsWeb) {
-    if (kDebugMode) {
-      await FirebaseAppCheck.instance.activate(providerWeb: WebDebugProvider());
-    } else {
-      const siteKey = String.fromEnvironment(
-        '6Le-2PstAAAAAFyKTvNr-kwSUKJ-lbeO6gCl1I4P',
-      );
+if (kIsWeb) {
+  if (kDebugMode) {
+    await FirebaseAppCheck.instance.activate(
+      providerWeb: WebDebugProvider(),
+    );
 
-      if (siteKey.isEmpty) {
-        throw StateError('Missing FIREBASE_APP_CHECK_RECAPTCHA_SITE_KEY.');
-      }
+    
 
-      await FirebaseAppCheck.instance.activate(
-        providerWeb: ReCaptchaV3Provider(siteKey),
+    AiCoachDiagnostics.info(
+      'App Check activated using Web Debug Provider.',
+    );
+  } else {
+    const siteKey = String.fromEnvironment(
+      'FIREBASE_APP_CHECK_RECAPTCHA_SITE_KEY',
+    );
+
+    if (siteKey.isEmpty) {
+      throw StateError(
+        'Missing FIREBASE_APP_CHECK_RECAPTCHA_SITE_KEY.',
       );
     }
-  } else {
+
     await FirebaseAppCheck.instance.activate(
-      providerAndroid: kDebugMode
-          ? AndroidDebugProvider()
-          : AndroidPlayIntegrityProvider(),
-      providerApple: kDebugMode
-          ? AppleDebugProvider()
-          : AppleDeviceCheckProvider(),
+      providerWeb: ReCaptchaV3Provider(siteKey),
     );
   }
+} else {
+  await FirebaseAppCheck.instance.activate(
+    providerAndroid: kDebugMode
+        ? AndroidDebugProvider()
+        : AndroidPlayIntegrityProvider(),
+    providerApple: kDebugMode
+        ? AppleDebugProvider()
+        : AppleDeviceCheckProvider(),
+  );
+}
 
   await Hive.initFlutter();
 

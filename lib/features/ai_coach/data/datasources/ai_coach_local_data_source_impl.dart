@@ -38,12 +38,8 @@ class AiCoachLocalDataSourceImpl implements AiCoachLocalDataSource {
     final raw = messagesBox.get(_messagesKey(conversationId));
     if (raw is! List) return [];
 
-    return raw
-        .whereType<Map>()
-        .map(
-          (item) => CoachMessageModel.fromJson(Map<String, dynamic>.from(item)),
-        )
-        .toList();
+    return _readModels(raw, CoachMessageModel.fromJson)
+      ..sort((a, b) => a.createdAt.compareTo(b.createdAt));
   }
 
   @override
@@ -64,13 +60,8 @@ class AiCoachLocalDataSourceImpl implements AiCoachLocalDataSource {
     final raw = conversationsBox.get(_conversationsKey(userId));
     if (raw is! List) return [];
 
-    return raw
-        .whereType<Map>()
-        .map(
-          (item) =>
-              CoachConversationModel.fromJson(Map<String, dynamic>.from(item)),
-        )
-        .toList();
+    return _readModels(raw, CoachConversationModel.fromJson)
+      ..sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
   }
 
   @override
@@ -87,9 +78,13 @@ class AiCoachLocalDataSourceImpl implements AiCoachLocalDataSource {
     final raw = adviceBox.get(_adviceKey(userId));
     if (raw is! Map) return null;
 
-    final advice = NutritionAdviceModel.fromJson(
-      Map<String, dynamic>.from(raw),
-    );
+    final NutritionAdviceModel advice;
+    try {
+      advice = NutritionAdviceModel.fromJson(Map<String, dynamic>.from(raw));
+    } catch (_) {
+      await adviceBox.delete(_adviceKey(userId));
+      return null;
+    }
 
     if (advice.expiresAt != null &&
         advice.expiresAt!.isBefore(DateTime.now())) {
@@ -109,5 +104,21 @@ class AiCoachLocalDataSourceImpl implements AiCoachLocalDataSource {
   Future<void> clearUserCoachCache({required String userId}) async {
     await conversationsBox.delete(_conversationsKey(userId));
     await adviceBox.delete(_adviceKey(userId));
+  }
+
+  List<T> _readModels<T>(
+    List<dynamic> raw,
+    T Function(Map<String, dynamic>) parse,
+  ) {
+    final models = <T>[];
+    for (final item in raw) {
+      if (item is! Map) continue;
+      try {
+        models.add(parse(Map<String, dynamic>.from(item)));
+      } catch (_) {
+        // A malformed row should not make the rest of the cached chat unusable.
+      }
+    }
+    return models;
   }
 }
