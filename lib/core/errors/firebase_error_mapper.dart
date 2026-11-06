@@ -21,7 +21,19 @@ class FirebaseErrorMapper {
         return 'You have made too many requests in a short period. Please try again later.';
 
       case 'network-request-failed':
+      case 'networkError':
         return 'There was a network error. Please check your internet connection and try again.';
+
+      case 'account-exists-with-different-credential':
+        return 'An account already exists with this email using a different sign-in method.';
+
+      case 'popup-closed-by-user':
+      case 'cancelled-popup-request':
+        return 'Sign-in was cancelled.';
+
+      case 'google-clientConfigurationError':
+      case 'google-providerConfigurationError':
+        return 'Google Sign-In is not configured correctly. Please contact support.';
 
       case 'operation-not-allowed':
         return 'This operation is not allowed. Please contact support for assistance.';

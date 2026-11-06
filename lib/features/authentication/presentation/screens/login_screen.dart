@@ -61,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (state is AuthAuthenticated) {
       Navigator.pushReplacementNamed(
         context,
-        RouteNames.home,
+        RouteNames.infoCompletion,
       );
     }
   },
@@ -292,7 +292,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(height: ThemeDimensions.spaceMd),
 
                     // ── Google ──
-                    AuthGoogleButton(onPressed: widget.onGooglePressed),
+                    AuthGoogleButton(
+                      onPressed: widget.onGooglePressed ??
+                          () => context.read<AuthCubit>().signInWithGoogle(),
+                    ),
                     const SizedBox(height: ThemeDimensions.spaceLg),
 
                     // ── Sign up link ──

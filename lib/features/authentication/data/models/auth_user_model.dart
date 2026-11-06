@@ -8,6 +8,8 @@ class AuthUserModel extends AuthUser {
     required super.email,
     required super.emailVerified,
     super.createdAt,
+    super.displayName,
+    super.photoUrl,
   });
 
   factory AuthUserModel.fromFirebaseUser(User user) {
@@ -16,6 +18,8 @@ class AuthUserModel extends AuthUser {
       email: user.email ?? '',
       emailVerified: user.emailVerified,
       createdAt: user.metadata.creationTime,
+      displayName: user.displayName,
+      photoUrl: user.photoURL,
     );
   }
 }

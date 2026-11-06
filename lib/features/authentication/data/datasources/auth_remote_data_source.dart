@@ -6,6 +6,8 @@ abstract class AuthRemoteDataSource {
     required String password,
   });
 
+  Future<AuthUserModel?> signInWithGoogle();
+
   Future<AuthUserModel> createUserWithEmailAndPassword({
     required String email,
     required String password,

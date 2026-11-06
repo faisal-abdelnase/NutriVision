@@ -7,6 +7,7 @@ import '../../features/authentication/domain/usecases/sign_in.dart';
 import '../../features/authentication/domain/usecases/sign_up.dart';
 import '../../features/authentication/domain/usecases/sign_out.dart';
 import '../../features/authentication/domain/usecases/send_password_reset_email.dart';
+import '../../features/authentication/domain/usecases/sign_in_with_google.dart';
 
 class AuthDependencies {
   AuthDependencies() {
@@ -22,10 +23,12 @@ class AuthDependencies {
     signUp = SignUp(repository);
     signOut = SignOut(repository);
     sendPasswordResetEmail = SendPasswordResetEmail(repository);
+    signInWithGoogle = SignInWithGoogle(repository);
   }
 
   late final SignIn signIn;
   late final SignUp signUp;
   late final SignOut signOut;
   late final SendPasswordResetEmail sendPasswordResetEmail;
+  late final SignInWithGoogle signInWithGoogle;
 }

@@ -8,6 +8,9 @@ class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl({required this.remoteDataSource});
 
   @override
+  Future<AuthUser?> signInWithGoogle() => remoteDataSource.signInWithGoogle();
+
+  @override
   Future<AuthUser> signIn({
     required String email,
     required String password,

@@ -38,6 +38,7 @@ class NutriVision extends StatelessWidget {
               signOutUseCase: authDependencies.signOut,
               sendPasswordResetEmailUseCase:
                   authDependencies.sendPasswordResetEmail,
+              signInWithGoogleUseCase: authDependencies.signInWithGoogle,
             );
           },
         ),
