@@ -4,7 +4,7 @@ import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/theme/theme_dimensions.dart';
 import '../../../../core/theme/theme_extensions.dart';
 
-/// Ready-made questions that are sent to the coach when tapped.
+
 class CoachSuggestedCard extends StatelessWidget {
   const CoachSuggestedCard({super.key, required this.onPrompt});
 

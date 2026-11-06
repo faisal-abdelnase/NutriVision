@@ -2,10 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-
 import '../../../../core/adaptive/adaptive_navigation.dart';
 import '../../../../core/adaptive/adaptive_scaffold.dart';
 import '../../../../core/extensions/context_extensions.dart';
+import '../../../../core/responsive/responsive_text.dart';
+import '../../../../core/widgets/app_bar_actions.dart';
 import '../../../../core/widgets/state_views.dart';
 import '../../../ai_coach/presentation/pages/ai_coach_page.dart';
 import '../../../dashboard/presentation/screens/dashboard_screen.dart';
@@ -27,6 +28,8 @@ class _AppShellState extends State<AppShell> {
   late final ProgressCubit _progress = GetIt.instance<ProgressCubit>();
   late final MealCubit _meal = GetIt.instance<MealCubit>();
   int _index = 0;
+  
+
 
   @override
   void dispose() {
@@ -37,6 +40,8 @@ class _AppShellState extends State<AppShell> {
 
   @override
   Widget build(BuildContext context) {
+    final primary = context.colorScheme.primary;
+    final bp = context.breakpoint;
     final uid = FirebaseAuth.instance.currentUser?.uid;
     if (uid == null) {
       return Scaffold(body: AppErrorView(message: context.tr('authRequired')));
@@ -99,7 +104,14 @@ class _AppShellState extends State<AppShell> {
             );
           }
         },
-        appBar: AppBar(title: Text(destinations[_index].label)),
+
+
+        appBar: AppBar(
+          title: AppText("NutriVision", baseFontSize: 20, breakpoint: bp),
+          actions: [
+              AppBarActions(primary: primary, bp: bp),
+          ],
+          ),
         body: IndexedStack(
           index: _index,
           children: [
@@ -114,3 +126,4 @@ class _AppShellState extends State<AppShell> {
     );
   }
 }
+

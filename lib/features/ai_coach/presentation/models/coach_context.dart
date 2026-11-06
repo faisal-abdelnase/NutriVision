@@ -6,8 +6,7 @@ import '../../../nutrition_profile/domain/entities/nutrition_profile.dart';
 
 enum CoachContextStatus { loading, ready, error }
 
-/// Read-only snapshot of the user's day shown next to the chat. It is built
-/// from the existing Dashboard and NutritionProfile features.
+
 @immutable
 class CoachContext {
   const CoachContext({
@@ -31,8 +30,6 @@ class CoachContext {
   double get consumedCarbs => summary?.consumedCarbohydrateGrams ?? 0;
   double get consumedFat => summary?.consumedFatGrams ?? 0;
 
-  /// The daily target stored with the user wins; the nutrition profile is the
-  /// fallback. `null` means the user has not set one.
   double? get calorieTarget =>
       _positive(summary?.calorieTarget) ??
       _positive(profile?.dailyCalorieTarget);

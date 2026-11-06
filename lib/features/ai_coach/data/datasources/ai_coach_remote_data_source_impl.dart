@@ -264,8 +264,6 @@ Provide a clear, friendly, personalized response.
   }) async {
     final conversationRef = _conversations(userId).doc(conversationId);
 
-    // Firestore لا يحذف subcollections تلقائيًا.
-    // حذف رسائل المحادثة على دفعات لتفادي تجاوز حد الـ batch.
     while (true) {
       final snapshot = await conversationRef
           .collection('messages')

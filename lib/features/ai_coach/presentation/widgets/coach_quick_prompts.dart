@@ -6,8 +6,6 @@ import '../../../../core/theme/theme_extensions.dart';
 import 'coach_metric_tile.dart';
 import 'coach_pill.dart';
 
-/// Horizontally scrollable shortcuts above the input field. The first chip
-/// requests personalized advice from the backend; the others send a message.
 class CoachQuickPrompts extends StatelessWidget {
   const CoachQuickPrompts({
     super.key,

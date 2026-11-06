@@ -7,8 +7,7 @@ import '../../../../core/utils/formatters.dart';
 import '../../domain/entities/nutrition_advice.dart';
 import 'coach_pill.dart';
 
-/// Rich card shown in the chat stream with the personalized advice returned
-/// by the coach backend. It is indented to line up with assistant bubbles.
+
 class CoachAdviceCard extends StatelessWidget {
   const CoachAdviceCard({super.key, required this.advice});
 

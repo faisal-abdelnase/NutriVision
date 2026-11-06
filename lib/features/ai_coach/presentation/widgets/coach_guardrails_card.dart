@@ -6,8 +6,6 @@ import '../../../../core/theme/theme_extensions.dart';
 import '../models/coach_context.dart';
 import '../models/coach_format.dart';
 
-/// Allergies, preferences and goals from the user's nutrition profile that
-/// the coach is told to respect.
 class CoachGuardrailsCard extends StatelessWidget {
   const CoachGuardrailsCard({super.key, required this.coachContext});
 

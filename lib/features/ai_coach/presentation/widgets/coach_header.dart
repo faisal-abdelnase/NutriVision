@@ -8,7 +8,7 @@ import '../../../../core/theme/theme_extensions.dart';
 import '../cubit/ai_coach_cubit.dart';
 import 'coach_pill.dart';
 
-/// Page title with badge, subtitle and the reset-session action.
+
 class CoachHeader extends StatelessWidget {
   const CoachHeader({
     super.key,
@@ -18,7 +18,6 @@ class CoachHeader extends StatelessWidget {
 
   final VoidCallback onNewSession;
 
-  /// Opens the insights sheet; only provided on screens without the sidebar.
   final VoidCallback? onInsights;
 
   @override

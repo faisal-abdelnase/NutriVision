@@ -4,7 +4,7 @@ import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/theme/theme_dimensions.dart';
 import '../../../../core/theme/theme_extensions.dart';
 
-/// Shown when the conversation has no messages yet.
+
 class CoachEmptyState extends StatelessWidget {
   const CoachEmptyState({super.key});
 

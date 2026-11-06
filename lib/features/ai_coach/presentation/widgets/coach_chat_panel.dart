@@ -13,7 +13,6 @@ import 'coach_input_dock.dart';
 import 'coach_message_list.dart';
 import 'coach_quick_prompts.dart';
 
-/// The conversation card: messages, quick prompts and the input dock.
 class CoachChatPanel extends StatelessWidget {
   const CoachChatPanel({
     super.key,

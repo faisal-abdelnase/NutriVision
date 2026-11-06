@@ -27,7 +27,7 @@ class DashboardView extends StatelessWidget {
     final desktop = _isDesktop(context);
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      
       appBar: desktop ? null : const DashboardAppBar(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

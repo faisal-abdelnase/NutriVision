@@ -6,7 +6,7 @@ import '../../../../core/theme/theme_extensions.dart';
 import '../../../../core/theme/theme_text_styles.dart';
 import '../models/coach_format.dart';
 
-/// Metric number style: heading family with tabular figures.
+
 TextStyle coachMetricStyle(BuildContext context, {Color? color}) {
   final locale = Localizations.localeOf(context);
   return ThemeTextStyles.tabularFigures(ThemeTextStyles.metricNum).copyWith(
@@ -15,8 +15,7 @@ TextStyle coachMetricStyle(BuildContext context, {Color? color}) {
   );
 }
 
-/// Colors shared by the energy tiles and the macro dial: green for energy
-/// and protein, blue for carbohydrates, orange for fats.
+
 class CoachMacroColors {
   const CoachMacroColors({
     required this.calories,

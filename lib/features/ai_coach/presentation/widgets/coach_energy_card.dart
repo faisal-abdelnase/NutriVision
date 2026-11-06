@@ -9,7 +9,7 @@ import '../models/coach_format.dart';
 import 'coach_metric_tile.dart';
 import 'coach_pill.dart';
 
-/// "Today's progress & remaining energy" summary with four metric tiles.
+
 class CoachEnergyCard extends StatelessWidget {
   const CoachEnergyCard({super.key, required this.coachContext});
 

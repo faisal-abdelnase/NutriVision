@@ -13,7 +13,7 @@ import '../models/coach_format.dart';
 import 'coach_metric_tile.dart';
 import 'coach_pill.dart';
 
-/// Macro split dial plus the meals logged today.
+
 class CoachNutritionCard extends StatelessWidget {
   const CoachNutritionCard({super.key, required this.coachContext});
 

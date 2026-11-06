@@ -36,8 +36,6 @@ class CoachAvatar extends StatelessWidget {
   }
 }
 
-/// One chat message. The tail corner and avatar side follow the text
-/// direction, so the layout mirrors automatically in Arabic.
 class CoachMessageBubble extends StatelessWidget {
   const CoachMessageBubble({super.key, required this.message});
 

@@ -187,7 +187,7 @@ class _AddMealFormState extends State<_AddMealForm> {
                     ),
                   ],
                   const SizedBox(height: 20),
-                  const ArchitectureCards(),
+                  // const ArchitectureCards(),
                 ],
               ),
             );

@@ -4,7 +4,7 @@ import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/theme/theme_dimensions.dart';
 import '../../../../core/theme/theme_extensions.dart';
 
-/// Pill-shaped label or action chip used across the coach screen.
+
 class CoachPill extends StatelessWidget {
   const CoachPill({
     super.key,
@@ -26,7 +26,7 @@ class CoachPill extends StatelessWidget {
   final Color? borderColor;
   final VoidCallback? onTap;
 
-  /// Static badges use the compact height; tappable pills keep a 44px target.
+
   final bool compact;
 
   @override

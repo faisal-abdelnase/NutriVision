@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../../../meal_tracking/presentation/addmeal/widgets/architecture_cards.dart';
 import '../../../meal_tracking/presentation/addmeal/widgets/top_header_bar.dart';
 import '../widgets/caloric_equilibrium_card.dart';
 import '../widgets/macronutrient_trajectories_card.dart';
@@ -131,9 +130,7 @@ class ProgressScreen extends StatelessWidget {
                     const SizedBox(height: 16),
 
                     const MicroAndPaddingsCard(),
-                    const SizedBox(height: 20),
 
-                    const ArchitectureCards(),
                   ],
                 ),
               ),

@@ -1,4 +1,4 @@
-/// Formats a number with thousands separators, e.g. `1520` -> `1,520`.
+// 1520 -> 1,520
 String formatCoachNumber(num value) {
   final text = value.round().abs().toString();
   final buffer = StringBuffer(value < 0 ? '-' : '');

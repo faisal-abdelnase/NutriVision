@@ -116,7 +116,7 @@ class AiCoachLocalDataSourceImpl implements AiCoachLocalDataSource {
       try {
         models.add(parse(Map<String, dynamic>.from(item)));
       } catch (_) {
-        // A malformed row should not make the rest of the cached chat unusable.
+        
       }
     }
     return models;

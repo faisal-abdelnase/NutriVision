@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nutri_vision/core/extensions/context_extensions.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../domain/entities/daily_nutrition_summary.dart';
@@ -15,7 +16,7 @@ class EnergyBalanceCard extends StatelessWidget {
     final progress = target > 0 ? (consumed / target).clamp(0.0, 1.0) : 0.0;
     final remaining = (target - consumed).clamp(0.0, double.infinity);
     return Card(
-      color: AppColors.cardBg,
+      
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
         side: const BorderSide(color: AppColors.border),
@@ -89,10 +90,10 @@ class EnergyBalanceCard extends StatelessWidget {
               children: [
                 _metric(
                   'Daily Target',
-                  target > 0 ? '${target.round()} kcal' : 'No target',
+                  target > 0 ? '${target.round()} kcal' : 'No target', context,
                 ),
-                _metric('Consumed', '${(progress * 100).round()}%'),
-                _metric('Meals', '${summary.mealCount}'),
+                _metric('Consumed', '${(progress * 100).round()}%', context),
+                _metric('Meals', '${summary.mealCount}', context),
               ],
             ),
           ],
@@ -101,19 +102,19 @@ class EnergyBalanceCard extends StatelessWidget {
     );
   }
 
-  Widget _metric(String label, String value) => Column(
+  Widget _metric(String label, String value, BuildContext context) => Column(
     children: [
       Text(
         label,
-        style: const TextStyle(fontSize: 9, color: AppColors.mutedText),
+        style: TextStyle(fontSize: 9, color: context.isDarkMode ? Colors.white: AppColors.mutedText),
       ),
       const SizedBox(height: 2),
       Text(
         value,
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 11,
           fontWeight: FontWeight.bold,
-          color: AppColors.darkText,
+          color: context.isDarkMode ? Colors.white: AppColors.darkText,
         ),
       ),
     ],

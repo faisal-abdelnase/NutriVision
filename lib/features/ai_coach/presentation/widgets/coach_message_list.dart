@@ -8,8 +8,7 @@ import 'coach_advice_card.dart';
 import 'coach_message_bubble.dart';
 import 'coach_typing_indicator.dart';
 
-/// Scrollable conversation. Order: earlier-messages button, messages, the
-/// advice card (when requested), then the typing indicator.
+
 class CoachMessageList extends StatefulWidget {
   const CoachMessageList({
     super.key,

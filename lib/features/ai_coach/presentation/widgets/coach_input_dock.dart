@@ -17,7 +17,7 @@ class CoachInputDock extends StatelessWidget {
 
   final TextEditingController controller;
 
-  /// False until a conversation is open.
+
   final bool enabled;
   final bool isSending;
   final ValueChanged<String> onSend;

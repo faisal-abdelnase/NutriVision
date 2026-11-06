@@ -8,7 +8,7 @@ import '../../../nutrition_profile/presentation/cubit/nutrition_profile_cubit.da
 import '../../../nutrition_profile/presentation/cubit/nutrition_profile_state.dart';
 import '../models/coach_context.dart';
 
-/// Combines the Dashboard and NutritionProfile cubits into a [CoachContext].
+
 class CoachContextBuilder extends StatelessWidget {
   const CoachContextBuilder({
     super.key,

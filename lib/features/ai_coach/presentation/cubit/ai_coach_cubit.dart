@@ -30,15 +30,13 @@ class AiCoachCubit extends Cubit<AiCoachState> {
 
   static const int pageSize = 20;
 
-  /// Prefix of ids given to messages that exist only on the device until the
-  /// server copy is fetched.
+  
   static const String localMessagePrefix = 'local-';
 
   static bool isLocalMessage(CoachMessage message) =>
       message.id.startsWith(localMessagePrefix);
 
-  /// Opens the most recent conversation, or creates the first one when the
-  /// user has none yet.
+ 
   Future<void> startSession({
     required String userId,
     required String newConversationTitle,
@@ -184,7 +182,7 @@ class AiCoachCubit extends Cubit<AiCoachState> {
     }
   }
 
-  /// Loads the page of messages that precedes the ones already on screen.
+  
   Future<void> loadEarlierMessages({required String userId}) async {
     final conversation = state.currentConversation;
     if (conversation == null) return;
@@ -210,8 +208,7 @@ class AiCoachCubit extends Cubit<AiCoachState> {
       return;
     }
 
-    // Show the user's own message immediately; the repository only returns
-    // the assistant reply.
+    
     final pending = CoachMessage(
       id: '$localMessagePrefix${DateTime.now().microsecondsSinceEpoch}',
       conversationId: conversation.id,
@@ -272,8 +269,7 @@ class AiCoachCubit extends Cubit<AiCoachState> {
     }
   }
 
-  /// Replaces the optimistic local message with the stored one. Failures are
-  /// ignored: the reply was already delivered.
+  
   Future<void> _reconcileLatest({
     required String userId,
     required String conversationId,
@@ -302,7 +298,7 @@ class AiCoachCubit extends Cubit<AiCoachState> {
 
       emit(state.copyWith(messages: _sorted([...older, ...latest])));
     } catch (_) {
-      // Keep what is already on screen.
+    
     }
   }
 

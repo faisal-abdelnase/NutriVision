@@ -6,7 +6,7 @@ import 'coach_guardrails_card.dart';
 import 'coach_nutrition_card.dart';
 import 'coach_suggested_card.dart';
 
-/// Right-hand column on desktop; shown in a sheet/dialog on smaller screens.
+
 class CoachContextSidebar extends StatelessWidget {
   const CoachContextSidebar({
     super.key,

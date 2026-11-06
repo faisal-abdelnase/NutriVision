@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import '../../../meal_tracking/presentation/addmeal/widgets/architecture_cards.dart';
 import '../../../meal_tracking/presentation/addmeal/widgets/top_header_bar.dart';
 import '../cubit/dashboard_state.dart';
 import 'dashboard_desktop_layout.dart';
@@ -35,8 +34,7 @@ class DashboardContentLayout extends StatelessWidget {
             state: state,
             userId: userId,
           ),
-        const SizedBox(height: 20),
-        const ArchitectureCards(),
+
       ],
     );
   }

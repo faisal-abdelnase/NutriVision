@@ -19,11 +19,6 @@ import '../widgets/coach_context_sidebar.dart';
 import '../widgets/coach_energy_card.dart';
 import '../widgets/coach_header.dart';
 
-/// AI nutrition coach screen.
-///
-/// Real data: conversations, messages and advice come from [AiCoachCubit];
-/// today's totals and meals from [DashboardCubit]; targets, allergies and
-/// preferences from [NutritionProfileCubit]. No mock data is used.
 class AiCoachPage extends StatelessWidget {
   const AiCoachPage({super.key, this.userId});
 

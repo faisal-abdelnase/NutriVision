@@ -8,7 +8,6 @@ import '../../cubit/meal_state.dart';
 import '../../../../progress/presentation/cubit/progress_cubit.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../addmeal/widgets/top_header_bar.dart';
-import '../../addmeal/widgets/architecture_cards.dart';
 import '../widgets/ai_clinical_intelligence_card.dart';
 import '../widgets/analyzed_ingredients_card.dart';
 import '../widgets/macronutrient_architecture_card.dart';
@@ -439,8 +438,7 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
                           ],
                         ),
 
-                  const SizedBox(height: 20),
-                  const ArchitectureCards(),
+
                 ],
               ),
             ),
