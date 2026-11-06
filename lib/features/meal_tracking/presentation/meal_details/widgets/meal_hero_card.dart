@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import '../../../domain/entities/meal.dart';
 import '../../../../../core/theme/app_colors.dart';
 
 class MealHeroCard extends StatelessWidget {
-  const MealHeroCard({super.key});
+  const MealHeroCard({super.key, required this.meal});
+  final Meal meal;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,7 @@ class MealHeroCard extends StatelessWidget {
                   ),
                   SizedBox(width: 4),
                   Text(
-                    'Photogrammetry: 380g Net',
+                    'Saved meal',
                     style: TextStyle(
                       fontSize: 10,
                       fontWeight: FontWeight.bold,
@@ -45,7 +47,7 @@ class MealHeroCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: const Text(
-                  '99.4% Confidence',
+                  'Logged',
                   style: TextStyle(
                     fontSize: 9,
                     color: Color(0xFF166534),
@@ -62,16 +64,11 @@ class MealHeroCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
             child: Stack(
               children: [
-                Image.network(
-                  'https://images.unsplash.com/photo-1546069901-ba9599a7e63c',
+                Container(
                   height: 180,
                   width: double.infinity,
-                  fit: BoxFit.cover,
-                  errorBuilder: (c, e, s) => Container(
-                    height: 180,
-                    color: Colors.grey.shade300,
-                    child: const Icon(Icons.fastfood, size: 40),
-                  ),
+                  color: Colors.grey.shade300,
+                  child: const Icon(Icons.fastfood, size: 40),
                 ),
                 Container(
                   height: 180,
@@ -92,9 +89,9 @@ class MealHeroCard extends StatelessWidget {
                   right: 12,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
+                    children: [
                       Text(
-                        'LUNCH • 01:15 PM',
+                        '${meal.mealType.toUpperCase()} • ${meal.eatenAt.toLocal()}',
                         style: TextStyle(
                           color: AppColors.primaryTeal,
                           fontSize: 10,
@@ -103,7 +100,7 @@ class MealHeroCard extends StatelessWidget {
                       ),
                       SizedBox(height: 2),
                       Text(
-                        'Grilled Herb Salmon &\nQuinoa Bowl',
+                        meal.name,
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 18,
@@ -113,7 +110,7 @@ class MealHeroCard extends StatelessWidget {
                       ),
                       SizedBox(height: 4),
                       Text(
-                        'سالمون مشوي بالأعشاب مع سلطة الكينوا المغذية',
+                        meal.description ?? '',
                         style: TextStyle(color: Colors.white70, fontSize: 10),
                       ),
                     ],
@@ -130,22 +127,22 @@ class MealHeroCard extends StatelessWidget {
             runSpacing: 6,
             children: [
               _buildTag(
-                'Lunch • غداء',
+                meal.mealType,
                 const Color(0xFFE0F2FE),
                 const Color(0xFF0369A1),
               ),
               _buildTag(
-                'High Omega-3 (EPA/DHA)',
+                meal.name,
                 const Color(0xFFEFF6FF),
                 const Color(0xFF1E40AF),
               ),
               _buildTag(
-                'Gluten-Free',
+                '${meal.ingredients.length} ingredients',
                 const Color(0xFFF1F5F9),
                 AppColors.darkText,
               ),
               _buildTag(
-                'Low Glycemic (GI: 38)',
+                '${meal.calories.round()} kcal',
                 const Color(0xFFDCFCE7),
                 const Color(0xFF166534),
               ),
@@ -174,7 +171,7 @@ class MealHeroCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
                       Text(
-                        '88',
+                        '—',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 14,
@@ -201,7 +198,7 @@ class MealHeroCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: const [
                           Text(
-                            'Satiety Index 84 / 100',
+                            'Nutrition score unavailable',
                             style: TextStyle(
                               fontSize: 10,
                               fontWeight: FontWeight.bold,
@@ -209,7 +206,7 @@ class MealHeroCard extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            '(High)',
+                            '—',
                             style: TextStyle(
                               fontSize: 10,
                               color: AppColors.primaryTeal,
@@ -222,7 +219,7 @@ class MealHeroCard extends StatelessWidget {
                       Row(
                         children: const [
                           Text(
-                            'Lipid Profile:\nCardioprotective',
+                            'Not provided by saved meal',
                             style: TextStyle(
                               fontSize: 8,
                               color: AppColors.mutedText,
@@ -230,7 +227,7 @@ class MealHeroCard extends StatelessWidget {
                           ),
                           Spacer(),
                           Text(
-                            'Metabolic\nBurn:\nClean Energy',
+                            'Not provided by saved meal',
                             style: TextStyle(
                               fontSize: 8,
                               color: AppColors.primaryTeal,
@@ -265,7 +262,7 @@ class MealHeroCard extends StatelessWidget {
                 SizedBox(width: 6),
                 Expanded(
                   child: Text(
-                    'Clinical Notice: Estimated nutritional telemetry calibrated via dual-lens bio-photogrammetry cross-referenced with USDA FoodData Central Node SR-Legacy. Not intended as direct autonomous medical prescription.',
+                    'Details and nutrition values shown here are from the saved meal record.',
                     style: TextStyle(
                       fontSize: 8,
                       color: Color(0xFF0369A1),

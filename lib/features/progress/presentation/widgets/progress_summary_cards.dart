@@ -1,20 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../../../nutrition_profile/domain/entities/nutrition_profile.dart';
-import '../../../nutrition_profile/presentation/cubit/nutrition_profile_cubit.dart';
+import '../cubit/progress_cubit.dart';
+import '../cubit/progress_state.dart';
+import '../../domain/entities/nutrition_trend_point.dart';
 
 class ProgressSummaryCards extends StatelessWidget {
   const ProgressSummaryCards({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final profile = context.watch<NutritionProfileCubit?>()?.currentProfile;
-    final int targetCalories = profile?.dailyCalorieTarget?.round() ?? 1950;
-    final int targetProtein = profile?.proteinTargetGrams?.round() ?? 140;
-    final int avgDailyCalories = (targetCalories * 0.966).round();
-    final int avgDailyProtein = (targetProtein * 0.886).round();
-    final String goalTag = profile != null ? profile.goalLabelEn : 'Optimal Synth';
+    final state = context.watch<ProgressCubit>().state;
+    final hasData = state is ProgressSuccess;
+    final List<NutritionTrendPoint> trends = state is ProgressSuccess
+        ? state.nutritionTrends
+        : const [];
+    final days = trends.isEmpty ? 1 : trends.length;
+    final avgDailyCalories =
+        trends.fold<double>(0, (sum, point) => sum + point.calories) / days;
+    final avgDailyProtein =
+        trends.fold<double>(0, (sum, point) => sum + point.proteinGrams) / days;
+    final targetCalories = trends.isEmpty ? null : trends.first.calorieTarget;
+    final targetProtein = trends.isEmpty
+        ? null
+        : trends.first.proteinTargetGrams;
+    final totalMeals = trends.fold<int>(
+      0,
+      (sum, point) => sum + point.mealCount,
+    );
+    final calorieCompletion = targetCalories == null || targetCalories == 0
+        ? null
+        : avgDailyCalories / targetCalories * 100;
+    final proteinCompletion = targetProtein == null || targetProtein == 0
+        ? null
+        : avgDailyProtein / targetProtein * 100;
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -29,39 +48,49 @@ class ProgressSummaryCards extends StatelessWidget {
           children: [
             _buildStatCard(
               'AVG DAILY CALORIES',
-              '$avgDailyCalories',
+              hasData ? avgDailyCalories.toStringAsFixed(0) : '—',
               'kcal / day',
-              'Target: $targetCalories',
-              '+35 kcal vs last week',
-              '96.6% Met',
+              targetCalories == null
+                  ? 'Target unavailable'
+                  : 'Target: ${targetCalories.round()}',
+              'Last 7 days',
+              calorieCompletion == null
+                  ? 'Target unavailable'
+                  : '${calorieCompletion.toStringAsFixed(0)}% of target',
               itemWidth,
             ),
             _buildStatCard(
               'AVG DAILY PROTEIN',
-              '$avgDailyProtein',
+              hasData ? avgDailyProtein.toStringAsFixed(1) : '—',
               'g / day',
-              'Target: ${targetProtein}g',
-              goalTag,
-              '88.6% Goal',
+              targetProtein == null
+                  ? 'Target unavailable'
+                  : 'Target: ${targetProtein.toStringAsFixed(0)}g',
+              'Last 7 days',
+              proteinCompletion == null
+                  ? 'Target unavailable'
+                  : '${proteinCompletion.toStringAsFixed(0)}% of target',
               itemWidth,
             ),
             _buildStatCard(
               'GOAL ACHIEVEMENT',
-              '85.7%',
-              '6 of 7 Days Adherent',
-              'High Euglycemic',
-              '6/7',
+              calorieCompletion == null
+                  ? '—'
+                  : '${calorieCompletion.toStringAsFixed(0)}%',
+              'Average calorie target',
+              'Last 7 days',
+              '${trends.length}',
               'Days',
               itemWidth,
               showGauge: true,
             ),
             _buildStatCard(
-              'STABILITY SCORE',
-              '92',
-              '/ 100',
-              'Tier 1 Elite',
-              'Minimal Glycemic Drift',
-              'SD: ±11 mg/dL',
+              'MEALS LOGGED',
+              hasData ? '$totalMeals' : '—',
+              'meals / 7 days',
+              'From saved meals',
+              'Last 7 days',
+              '$totalMeals meals',
               itemWidth,
             ),
           ],

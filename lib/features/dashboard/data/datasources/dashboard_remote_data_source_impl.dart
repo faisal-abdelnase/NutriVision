@@ -107,7 +107,7 @@ class DashboardRemoteDataSourceImpl implements DashboardRemoteDataSource {
     if (value is num) {
       return value.toDouble();
     }
-
-    return 0.0;
+    if (value == null) return 0.0;
+    throw FormatException('Invalid nutrition value: $value');
   }
 }

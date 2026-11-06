@@ -21,7 +21,7 @@ class MicroAndPaddingsCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                'Micro-Nutrient & Hydration Compliance',
+                'Micro-Nutrient & Hydration Data',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
               ),
               const SizedBox(height: 10),
@@ -30,21 +30,21 @@ class MicroAndPaddingsCard extends StatelessWidget {
                 children: [
                   _buildMicroItem(
                     'Dietary Fiber',
-                    '29g',
-                    '/ 38g goal',
-                    'Optimal Microbiome',
+                    '—',
+                    'Not tracked',
+                    'No source data',
                   ),
                   _buildMicroItem(
                     'Sodium Intake',
-                    '1,820 mg',
-                    '(<2,300)',
-                    'Blood Pressure Norm',
+                    '—',
+                    'Not tracked',
+                    'No source data',
                   ),
                   _buildMicroItem(
                     'Hydration Vol',
-                    '2.4L',
-                    '/ 2.8L goal',
-                    '98% Cellular Target',
+                    '—',
+                    'Not tracked',
+                    'No source data',
                   ),
                 ],
               ),
@@ -61,7 +61,7 @@ class MicroAndPaddingsCard extends StatelessWidget {
                     SizedBox(width: 6),
                     Expanded(
                       child: Text(
-                        'Plant Diversity Index: 28 distinct botanical species logged this week.',
+                        'Micronutrient and hydration values are not stored for these meals.',
                         style: TextStyle(
                           fontSize: 8,
                           color: Color(0xFF166534),
@@ -88,24 +88,24 @@ class MicroAndPaddingsCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                'Top Nutritional Pillar Foods',
+                'Meal Ingredient Insights',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
               ),
               const SizedBox(height: 8),
               _buildFoodTile(
-                'Wild Sockeye Salmon',
-                'EPA/DHA • 34g Bioavailable P.',
-                '5 Logs',
+                'No ingredient analytics',
+                'Not available from logged meal records',
+                '—',
               ),
               _buildFoodTile(
-                'Fermented Sourdough',
-                'Probiotics • Low Glycemic Ind.',
-                '4 Logs',
+                'No ingredient analytics',
+                'Not available from logged meal records',
+                '—',
               ),
               _buildFoodTile(
-                'Greek Probiotic Yogurt',
-                'Casein • Active Live Cultures',
-                '4 Logs',
+                'No ingredient analytics',
+                'Not available from logged meal records',
+                '—',
               ),
             ],
           ),

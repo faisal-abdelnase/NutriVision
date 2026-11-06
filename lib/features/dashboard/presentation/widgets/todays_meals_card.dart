@@ -86,15 +86,21 @@ class TodaysMealsCard extends StatelessWidget {
                 ),
                 subtitle: Text(_time(meal.eatenAt)),
                 trailing: Text('${meal.calories.round()} kcal'),
-                onTap: () => Navigator.of(context).push(
-                  MaterialPageRoute<void>(
-                    builder: (_) => MealDetailsScreen(
-                      mealName: meal.name,
-                      calories: meal.calories,
-                      eatenAt: meal.eatenAt,
+                onTap: () async {
+                  await Navigator.of(context).push<bool>(
+                    MaterialPageRoute<bool>(
+                      builder: (_) => MealDetailsScreen(
+                        mealId: meal.mealId,
+                        userId: userId,
+                      ),
                     ),
-                  ),
-                ),
+                  );
+                  if (context.mounted) {
+                    await context.read<DashboardCubit>().refreshDashboard(
+                      userId: userId,
+                    );
+                  }
+                },
               ),
           ],
         ],

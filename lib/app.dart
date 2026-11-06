@@ -14,6 +14,7 @@ import 'core/routing/route_names.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/theme_cubit.dart';
 import 'features/authentication/presentation/cubit/auth_cubit.dart';
+import 'features/meal_tracking/presentation/cubit/meal_cubit.dart';
 import 'features/nutrition_profile/presentation/cubit/nutrition_profile_cubit.dart';
 import 'features/profile/presentation/cubit/profile_cubit.dart';
 
@@ -62,6 +63,9 @@ class NutriVision extends StatelessWidget {
 
         BlocProvider<MealAnalysisCubit>(
           create: (_) => sl<MealAnalysisCubit>(),
+        ),
+        BlocProvider<MealCubit>(
+          create: (_) => sl<MealCubit>(),
         ),
         BlocProvider(
           create: (_) {

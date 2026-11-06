@@ -1,11 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../domain/entities/nutrition_trend_point.dart';
+import '../cubit/progress_cubit.dart';
+import '../cubit/progress_state.dart';
 
 class MacronutrientTrajectoriesCard extends StatelessWidget {
   const MacronutrientTrajectoriesCard({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final state = context.watch<ProgressCubit>().state;
+    final hasData = state is ProgressSuccess;
+    final List<NutritionTrendPoint> trends = state is ProgressSuccess
+        ? state.nutritionTrends
+        : const [];
+    final days = trends.isEmpty ? 1 : trends.length;
+    double average(double Function(NutritionTrendPoint) value) =>
+        trends.fold<double>(0, (sum, point) => sum + value(point)) / days;
+    final protein = average((point) => point.proteinGrams);
+    final carbohydrates = average((point) => point.carbohydrateGrams);
+    final fat = average((point) => point.fatGrams);
+    final proteinTarget = trends.isEmpty
+        ? null
+        : trends.first.proteinTargetGrams;
+    final carbohydrateTarget = trends.isEmpty
+        ? null
+        : trends.first.carbohydrateTargetGrams;
+    final fatTarget = trends.isEmpty ? null : trends.first.fatTargetGrams;
     return LayoutBuilder(
       builder: (context, constraints) {
         bool isSmall = constraints.maxWidth < 650;
@@ -19,31 +41,37 @@ class MacronutrientTrajectoriesCard extends StatelessWidget {
           children: [
             _buildTrajectoryTile(
               'Protein Trajectory',
-              'Target: 140g',
-              '124g',
+              proteinTarget == null
+                  ? 'Target unavailable'
+                  : 'Target: ${proteinTarget.toStringAsFixed(0)}g',
+              hasData ? '${protein.toStringAsFixed(1)}g' : '—',
               'Daily Mean',
-              'Muscle Retention Band',
-              '+8g vs prior week',
+              'Saved meal records',
+              'Seven day mean',
               AppColors.primaryTeal,
               itemWidth,
             ),
             _buildTrajectoryTile(
-              'Carbs & Glycemic Load',
-              'Ceiling: 220g',
-              '188g',
-              'Daily Mean (eGL: 44)',
-              'Fiber Ratio: 1:6.4',
-              'Low Glycemic Drift',
+              'Carbohydrates',
+              carbohydrateTarget == null
+                  ? 'Target unavailable'
+                  : 'Target: ${carbohydrateTarget.toStringAsFixed(0)}g',
+              hasData ? '${carbohydrates.toStringAsFixed(1)}g' : '—',
+              'Daily mean',
+              'Seven day mean',
+              'Saved meals',
               const Color(0xFF0284C7),
               itemWidth,
             ),
             _buildTrajectoryTile(
               'Healthy Fats & Lipids',
-              'Target: 65g',
-              '62g',
-              'Daily Mean (MUFA 56%)',
-              'Omega-3 Index: 8.2%',
-              'Cardioprotective',
+              fatTarget == null
+                  ? 'Target unavailable'
+                  : 'Target: ${fatTarget.toStringAsFixed(0)}g',
+              hasData ? '${fat.toStringAsFixed(1)}g' : '—',
+              'Daily mean',
+              'Seven day mean',
+              'Saved meals',
               const Color(0xFFEA580C),
               itemWidth,
             ),

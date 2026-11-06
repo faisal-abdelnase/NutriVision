@@ -1,16 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../domain/entities/meal.dart';
 import '../../../../../core/theme/app_colors.dart';
-import '../../../../nutrition_profile/domain/entities/nutrition_profile.dart';
 import '../../../../nutrition_profile/presentation/cubit/nutrition_profile_cubit.dart';
 
 class AnalyzedIngredientsCard extends StatelessWidget {
-  const AnalyzedIngredientsCard({super.key});
+  const AnalyzedIngredientsCard({super.key, required this.meal});
+  final Meal meal;
 
   @override
   Widget build(BuildContext context) {
     final profile = context.watch<NutritionProfileCubit?>()?.currentProfile;
-    final bool hasSeafoodAlert = profile?.containsAllergen('seafood') ?? false;
+    final matchingAllergens =
+        profile?.allergies
+            .where(
+              (allergen) => meal.ingredients.any(
+                (item) =>
+                    item.name.toLowerCase().contains(allergen.toLowerCase()),
+              ),
+            )
+            .toList() ??
+        const <String>[];
+    final hasSeafoodAlert = matchingAllergens.isNotEmpty;
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -53,7 +64,7 @@ class AnalyzedIngredientsCard extends StatelessWidget {
                 child: Text(
                   hasSeafoodAlert
                       ? '⚠️ Allergen Detected'
-                      : '4 Verified Components',
+                      : '${meal.ingredients.length} Logged Ingredients',
                   style: TextStyle(
                     fontSize: 8,
                     color: hasSeafoodAlert
@@ -86,7 +97,7 @@ class AnalyzedIngredientsCard extends StatelessWidget {
                   SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      'AI Clinical Warning: Sockeye Salmon conflicts with your registered Seafood Allergy! Consider using Smart Swaps below.',
+                      'Possible allergen match: {matchingAllergens.join(", ")}.',
                       style: TextStyle(
                         fontSize: 9,
                         color: Color(0xFF991B1B),
@@ -116,7 +127,7 @@ class AnalyzedIngredientsCard extends StatelessWidget {
                   const SizedBox(width: 6),
                   Expanded(
                     child: Text(
-                      'Allergen Safeguards Passed: Verified free from ${profile.allergies.join(", ")}.',
+                      'No direct ingredient-name match for: ${profile.allergies.join(", ")}.',
                       style: const TextStyle(
                         fontSize: 9,
                         color: Color(0xFF166534),
@@ -129,44 +140,16 @@ class AnalyzedIngredientsCard extends StatelessWidget {
             ),
           ],
 
-          _buildIngredientTile(
-            Icons.set_meal,
-            hasSeafoodAlert
-                ? 'Wild Alaskan Sockeye Salmon (⚠️ ALLERGEN)'
-                : 'Wild Alaskan Sockeye Salmon',
-            'Rich EPA/DHA Omega-3 • 36g Protein',
-            '180g',
-            '370 kcal',
-            hasSeafoodAlert ? const Color(0xFFFEE2E2) : Colors.green.shade100,
-            hasSeafoodAlert ? const Color(0xFFDC2626) : AppColors.primaryTeal,
-          ),
-          _buildIngredientTile(
-            Icons.grain,
-            'Tri-Color Organic Quinoa',
-            'Cooked • Complete 9 Essential Amino Acids',
-            '120g',
-            '144 kcal',
-            Colors.blue.shade100,
-            const Color(0xFF0284C7),
-          ),
-          _buildIngredientTile(
-            Icons.grass,
-            'Steamed Tenderstem Broccoli',
-            'Sulforaphane, Vitamin K1 & Active Fiber',
-            '60g',
-            '21 kcal',
-            Colors.green.shade100,
-            AppColors.primaryTeal,
-          ),
-          _buildIngredientTile(
-            Icons.water_drop,
-            'Extra Virgin Olive Oil (EVOO)',
-            'High Phenolic Oleocanthal & Oleic Acid',
-            '10g',
-            '85 kcal',
-            Colors.orange.shade100,
-            const Color(0xFFEA580C),
-          ),
+          for (final ingredient in meal.ingredients)
+            _buildIngredientTile(
+              Icons.restaurant,
+              ingredient.name,
+              ingredient.foodId ?? 'Logged meal ingredient',
+              '${ingredient.quantity} ${ingredient.unit}',
+              'Nutrition included in meal totals',
+              Colors.green.shade100,
+              AppColors.primaryTeal,
+            ),
 
           const SizedBox(height: 8),
           OutlinedButton.icon(

@@ -10,6 +10,10 @@ class NutritionTrendPointModel extends NutritionTrendPoint {
     required super.carbohydrateGrams,
     required super.fatGrams,
     super.calorieTarget,
+    super.proteinTargetGrams,
+    super.carbohydrateTargetGrams,
+    super.fatTargetGrams,
+    super.mealCount,
   });
 
   factory NutritionTrendPointModel.fromJson(Map<String, dynamic> json) {
@@ -32,6 +36,16 @@ class NutritionTrendPointModel extends NutritionTrendPoint {
       calorieTarget: json['calorieTarget'] == null
           ? null
           : parseDouble(json['calorieTarget']),
+      proteinTargetGrams: json['proteinTargetGrams'] == null
+          ? null
+          : parseDouble(json['proteinTargetGrams']),
+      carbohydrateTargetGrams: json['carbohydrateTargetGrams'] == null
+          ? null
+          : parseDouble(json['carbohydrateTargetGrams']),
+      fatTargetGrams: json['fatTargetGrams'] == null
+          ? null
+          : parseDouble(json['fatTargetGrams']),
+      mealCount: (json['mealCount'] as num?)?.toInt() ?? 0,
     );
   }
 
@@ -43,6 +57,10 @@ class NutritionTrendPointModel extends NutritionTrendPoint {
       'carbohydrateGrams': carbohydrateGrams,
       'fatGrams': fatGrams,
       'calorieTarget': calorieTarget,
+      'proteinTargetGrams': proteinTargetGrams,
+      'carbohydrateTargetGrams': carbohydrateTargetGrams,
+      'fatTargetGrams': fatTargetGrams,
+      'mealCount': mealCount,
     };
   }
 }

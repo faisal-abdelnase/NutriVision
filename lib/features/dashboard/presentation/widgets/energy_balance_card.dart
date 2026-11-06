@@ -68,7 +68,9 @@ class EnergyBalanceCard extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '${remaining.round()} KCAL Remaining',
+                          target > 0
+                              ? '${remaining.round()} KCAL Remaining'
+                              : 'Daily target unavailable',
                           style: const TextStyle(
                             fontSize: 9,
                             color: AppColors.primaryTeal,
@@ -85,7 +87,10 @@ class EnergyBalanceCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _metric('Daily Target', '${target.round()} kcal'),
+                _metric(
+                  'Daily Target',
+                  target > 0 ? '${target.round()} kcal' : 'No target',
+                ),
                 _metric('Consumed', '${(progress * 100).round()}%'),
                 _metric('Meals', '${summary.mealCount}'),
               ],

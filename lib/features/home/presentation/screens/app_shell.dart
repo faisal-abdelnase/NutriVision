@@ -80,7 +80,25 @@ class _AppShellState extends State<AppShell> {
       child: AdaptiveScaffold(
         destinations: destinations,
         selectedIndex: _index,
-        onDestinationSelected: (i) => setState(() => _index = i),
+        onDestinationSelected: (i) {
+          setState(() => _index = i);
+          if (i == 1) {
+            final now = DateTime.now();
+            _progress.loadProgress(
+              userId: uid,
+              startDate: DateTime(
+                now.year,
+                now.month,
+                now.day,
+              ).subtract(const Duration(days: 6)),
+              endDate: DateTime(
+                now.year,
+                now.month,
+                now.day,
+              ).add(const Duration(days: 1)),
+            );
+          }
+        },
         appBar: AppBar(title: Text(destinations[_index].label)),
         body: IndexedStack(
           index: _index,

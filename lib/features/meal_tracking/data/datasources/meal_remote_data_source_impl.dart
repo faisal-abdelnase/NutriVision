@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 
 import '../../domain/entities/meal_ingredient.dart';
 import '../models/meal_ingredient_model.dart';
@@ -112,13 +113,21 @@ class MealRemoteDataSourceImpl implements MealRemoteDataSource {
     required String mealId,
     required String userId,
   }) async {
+    debugPrint(
+      '[MEAL_DETAILS] Firestore path: users/<authenticated-user>/meals/$mealId',
+    );
     final snapshot = await _meals(userId).doc(mealId).get();
+    debugPrint('[MEAL_DETAILS] Document exists: ${snapshot.exists}');
 
     if (!snapshot.exists || snapshot.data() == null) {
       return null;
     }
 
-    return MealModel.fromJson(snapshot.data()!, id: snapshot.id);
+    final meal = MealModel.fromJson(snapshot.data()!, id: snapshot.id);
+    debugPrint(
+      '[MEAL_DETAILS] Parsed document ID matches request: ${meal.id == mealId}',
+    );
+    return meal;
   }
 
   @override

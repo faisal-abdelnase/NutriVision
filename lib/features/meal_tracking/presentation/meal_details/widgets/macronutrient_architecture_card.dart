@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../domain/entities/meal.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../nutrition_profile/presentation/cubit/nutrition_profile_cubit.dart';
 
 class MacronutrientArchitectureCard extends StatelessWidget {
-  const MacronutrientArchitectureCard({super.key});
+  const MacronutrientArchitectureCard({super.key, required this.meal});
+  final Meal meal;
 
   @override
   Widget build(BuildContext context) {
     final profile = context.watch<NutritionProfileCubit?>()?.currentProfile;
-    final int targetCalories = profile?.dailyCalorieTarget?.round() ?? 2200;
-    final int targetProtein = profile?.proteinTargetGrams?.round() ?? 140;
-    final int caloriePercentage = ((620 / targetCalories) * 100).round();
-    final int proteinPercentage = ((48 / targetProtein) * 100).round();
+    final int? targetCalories = profile?.dailyCalorieTarget?.round();
+    final int? targetProtein = profile?.proteinTargetGrams?.round();
+    final int? targetCarbohydrates = profile?.carbohydrateTargetGrams?.round();
+    final int? targetFat = profile?.fatTargetGrams?.round();
+    final int caloriePercentage = targetCalories == null || targetCalories == 0
+        ? 0
+        : ((meal.calories / targetCalories) * 100).round();
+    final int proteinPercentage = targetProtein == null || targetProtein == 0
+        ? 0
+        : ((meal.proteinGrams / targetProtein) * 100).round();
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -47,8 +55,8 @@ class MacronutrientArchitectureCard extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  const Text(
-                    '620 KCAL',
+                  Text(
+                    '${meal.calories.round()} KCAL',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -56,8 +64,13 @@ class MacronutrientArchitectureCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '$caloriePercentage% of $targetCalories goal',
-                    style: const TextStyle(fontSize: 8, color: AppColors.mutedText),
+                    targetCalories == null
+                        ? 'Daily target unavailable'
+                        : '$caloriePercentage% of $targetCalories goal',
+                    style: const TextStyle(
+                      fontSize: 8,
+                      color: AppColors.mutedText,
+                    ),
                   ),
                 ],
               ),
@@ -75,8 +88,10 @@ class MacronutrientArchitectureCard extends StatelessWidget {
                 children: [
                   _buildMacroBox(
                     'Protein',
-                    '$proteinPercentage% of daily ($targetProtein g)',
-                    '48 grams',
+                    targetProtein == null
+                        ? 'Daily target unavailable'
+                        : '$proteinPercentage% of daily ($targetProtein g)',
+                    '${meal.proteinGrams.toStringAsFixed(1)} grams',
                     'Stimulates Muscle Protein Synthesis (MPS)',
                     const Color(0xFF0284C7),
                     isSmall
@@ -85,9 +100,11 @@ class MacronutrientArchitectureCard extends StatelessWidget {
                   ),
                   _buildMacroBox(
                     'Carbohydrates',
-                    '31% of energy',
-                    '52 grams',
-                    'Complex slow-burning glycemic load',
+                    targetCarbohydrates == null || targetCarbohydrates == 0
+                        ? 'Target unavailable'
+                        : '${((meal.carbohydrateGrams / targetCarbohydrates) * 100).round()}% of daily target',
+                    '${meal.carbohydrateGrams.toStringAsFixed(1)} grams',
+                    'Logged meal amount',
                     const Color(0xFF0284C7),
                     isSmall
                         ? constraints.maxWidth
@@ -95,9 +112,11 @@ class MacronutrientArchitectureCard extends StatelessWidget {
                   ),
                   _buildMacroBox(
                     'Healthy Fats',
-                    '28% of energy',
-                    '22 grams',
-                    '82% MUFA & PUFA heart-protective',
+                    targetFat == null || targetFat == 0
+                        ? 'Target unavailable'
+                        : '${((meal.fatGrams / targetFat) * 100).round()}% of daily target',
+                    '${meal.fatGrams.toStringAsFixed(1)} grams',
+                    'Logged meal amount',
                     const Color(0xFFEA580C),
                     isSmall
                         ? constraints.maxWidth
@@ -105,9 +124,9 @@ class MacronutrientArchitectureCard extends StatelessWidget {
                   ),
                   _buildMacroBox(
                     'Dietary Fiber',
-                    '31% daily target',
-                    '8.5 grams',
-                    'Optimal microbiome probiotic motility',
+                    'Not provided by meal data',
+                    '—',
+                    'This meal does not include fiber data.',
                     AppColors.primaryTeal,
                     isSmall
                         ? constraints.maxWidth
@@ -150,10 +169,10 @@ class MacronutrientArchitectureCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    _buildMicroMetric('Potassium', '820 mg', 'Optimal 24%'),
-                    _buildMicroMetric('Sodium', '380 mg', 'Controlled Low'),
-                    _buildMicroMetric('Magnesium', '92 mg', '22% RDA'),
-                    _buildMicroMetric('Bio-Iron', '2.8 mg', '16% RDA'),
+                    _buildMicroMetric('Potassium', '—', 'Not in saved meal'),
+                    _buildMicroMetric('Sodium', '—', 'Not in saved meal'),
+                    _buildMicroMetric('Magnesium', '—', 'Not in saved meal'),
+                    _buildMicroMetric('Iron', '—', 'Not in saved meal'),
                   ],
                 ),
               ],

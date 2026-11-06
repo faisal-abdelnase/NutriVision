@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 
 import '../models/nutrition_trend_point_model.dart';
 import '../models/progress_entry_model.dart';
@@ -18,7 +19,7 @@ class ProgressRemoteDataSourceImpl implements ProgressRemoteDataSource {
   }
 
   CollectionReference<Map<String, dynamic>> _mealLogs(String userId) {
-    return firestore.collection('users').doc(userId).collection('meal_logs');
+    return firestore.collection('users').doc(userId).collection('meals');
   }
 
   @override
@@ -190,19 +191,21 @@ class ProgressRemoteDataSourceImpl implements ProgressRemoteDataSource {
     _validateDateRange(startDate, endDate);
 
     final snapshot = await _mealLogs(userId)
-        .where(
-          'recordedAt',
-          isGreaterThanOrEqualTo: Timestamp.fromDate(startDate),
-        )
-        .where('recordedAt', isLessThanOrEqualTo: Timestamp.fromDate(endDate))
-        .orderBy('recordedAt')
+        .where('eatenAt', isGreaterThanOrEqualTo: Timestamp.fromDate(startDate))
+        .where('eatenAt', isLessThan: Timestamp.fromDate(endDate))
+        .orderBy('eatenAt')
         .get();
+    debugPrint('[PROGRESS] Collection: users/<authenticated-user>/meals');
+    debugPrint('[PROGRESS] Retrieved meal documents: ${snapshot.docs.length}');
+    debugPrint(
+      '[PROGRESS] Range: ${startDate.toLocal()} to ${endDate.toLocal()} (end exclusive)',
+    );
 
     final dailyTotals = <DateTime, Map<String, double>>{};
 
     for (final doc in snapshot.docs) {
       final data = doc.data();
-      final recordedAt = _parseDate(data['recordedAt']);
+      final recordedAt = _parseDate(data['eatenAt']).toLocal();
       final day = DateTime(recordedAt.year, recordedAt.month, recordedAt.day);
 
       final totals = dailyTotals.putIfAbsent(
@@ -212,6 +215,7 @@ class ProgressRemoteDataSourceImpl implements ProgressRemoteDataSource {
           'proteinGrams': 0,
           'carbohydrateGrams': 0,
           'fatGrams': 0,
+          'mealCount': 0,
         },
       );
 
@@ -221,9 +225,46 @@ class ProgressRemoteDataSourceImpl implements ProgressRemoteDataSource {
       totals['carbohydrateGrams'] =
           totals['carbohydrateGrams']! + _number(data['carbohydrateGrams']);
       totals['fatGrams'] = totals['fatGrams']! + _number(data['fatGrams']);
+      totals['mealCount'] = totals['mealCount']! + 1;
+    }
+
+    final profile = await firestore
+        .collection('nutrition_profiles')
+        .doc(userId)
+        .get();
+    final profileData = profile.data() ?? const <String, dynamic>{};
+    final target = _nullableNumber(profileData['dailyCalorieTarget']);
+    final proteinTarget = _nullableNumber(profileData['proteinTargetGrams']);
+    final carbohydrateTarget = _nullableNumber(
+      profileData['carbohydrateTargetGrams'],
+    );
+    final fatTarget = _nullableNumber(profileData['fatTargetGrams']);
+    debugPrint(
+      '[PROGRESS] Nutrition targets loaded: ${target != null || proteinTarget != null || carbohydrateTarget != null || fatTarget != null}',
+    );
+    final firstDay = DateTime(startDate.year, startDate.month, startDate.day);
+    final lastDay = DateTime(endDate.year, endDate.month, endDate.day);
+    for (
+      var day = firstDay;
+      day.isBefore(lastDay);
+      day = day.add(const Duration(days: 1))
+    ) {
+      dailyTotals.putIfAbsent(
+        day,
+        () => {
+          'calories': 0,
+          'proteinGrams': 0,
+          'carbohydrateGrams': 0,
+          'fatGrams': 0,
+          'mealCount': 0,
+        },
+      );
     }
 
     final dates = dailyTotals.keys.toList()..sort();
+    debugPrint(
+      '[PROGRESS] Daily totals calculated for ${dates.length} local dates',
+    );
 
     return dates.map((date) {
       final totals = dailyTotals[date]!;
@@ -234,6 +275,11 @@ class ProgressRemoteDataSourceImpl implements ProgressRemoteDataSource {
         proteinGrams: totals['proteinGrams']!,
         carbohydrateGrams: totals['carbohydrateGrams']!,
         fatGrams: totals['fatGrams']!,
+        calorieTarget: target,
+        proteinTargetGrams: proteinTarget,
+        carbohydrateTargetGrams: carbohydrateTarget,
+        fatTargetGrams: fatTarget,
+        mealCount: totals['mealCount']!.toInt(),
       );
     }).toList();
   }
@@ -246,7 +292,14 @@ class ProgressRemoteDataSourceImpl implements ProgressRemoteDataSource {
 
   double _number(dynamic value) {
     if (value is num) return value.toDouble();
-    return 0;
+    if (value == null) return 0;
+    throw FormatException('Invalid nutrition value: $value');
+  }
+
+  double? _nullableNumber(dynamic value) {
+    if (value == null) return null;
+    if (value is num) return value.toDouble();
+    throw FormatException('Invalid nutrition target: $value');
   }
 
   DateTime _parseDate(dynamic value) {

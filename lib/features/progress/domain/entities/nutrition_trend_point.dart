@@ -7,6 +7,10 @@ class NutritionTrendPoint {
   final double fatGrams;
 
   final double? calorieTarget;
+  final double? proteinTargetGrams;
+  final double? carbohydrateTargetGrams;
+  final double? fatTargetGrams;
+  final int mealCount;
 
   const NutritionTrendPoint({
     required this.date,
@@ -15,5 +19,9 @@ class NutritionTrendPoint {
     required this.carbohydrateGrams,
     required this.fatGrams,
     this.calorieTarget,
+    this.proteinTargetGrams,
+    this.carbohydrateTargetGrams,
+    this.fatTargetGrams,
+    this.mealCount = 0,
   });
 }
