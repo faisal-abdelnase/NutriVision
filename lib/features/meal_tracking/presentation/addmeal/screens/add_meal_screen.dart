@@ -12,7 +12,6 @@ import '../widgets/describe_meal_card.dart';
 import '../widgets/vision_ai_card.dart';
 import '../widgets/search_database_card.dart';
 import '../widgets/synthesis_action_banner.dart';
-import '../widgets/architecture_cards.dart';
 import '../widgets/top_header_bar.dart';
 
 class AddMealScreen extends StatelessWidget {
@@ -186,8 +185,7 @@ class _AddMealFormState extends State<_AddMealForm> {
                       ),
                     ),
                   ],
-                  const SizedBox(height: 20),
-                  // const ArchitectureCards(),
+
                 ],
               ),
             );

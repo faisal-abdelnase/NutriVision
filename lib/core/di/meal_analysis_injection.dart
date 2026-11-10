@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_ai/firebase_ai.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import '../nutrition_context/nutrition_context_provider.dart';
 
 import 'package:get_it/get_it.dart';
 
@@ -26,6 +28,8 @@ Future<void> initMealAnalysisInjection() async {
     () => MealAnalysisRemoteDataSourceImpl(
       model: getIt<GenerativeModel>(),
       firestore: getIt<FirebaseFirestore>(),
+      auth: getIt<FirebaseAuth>(),
+      nutritionContext: getIt<NutritionContextProvider>(),
     ),
   );
 

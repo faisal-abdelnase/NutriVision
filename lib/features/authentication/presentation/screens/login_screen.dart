@@ -61,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (state is AuthAuthenticated) {
       Navigator.pushReplacementNamed(
         context,
-        RouteNames.infoCompletion,
+        RouteNames.home,
       );
     }
   },

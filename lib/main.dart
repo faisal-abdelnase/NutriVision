@@ -14,6 +14,7 @@ import 'core/di/dashboard_injection.dart';
 import 'core/di/meal_analysis_injection.dart';
 import 'core/di/meal_tracking_injection.dart';
 import 'core/di/nutrition_profile_injection.dart';
+import 'core/di/nutrition_context_di.dart';
 import 'core/di/onboarding_injection.dart';
 import 'core/di/profile_injection.dart';
 import 'core/di/progress_di.dart';
@@ -22,46 +23,36 @@ import 'core/logging/ai_coach_diagnostics.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-  options: DefaultFirebaseOptions.currentPlatform,
-);
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-if (kIsWeb) {
-  if (kDebugMode) {
-    await FirebaseAppCheck.instance.activate(
-      providerWeb: WebDebugProvider(),
-    );
+  if (kIsWeb) {
+    if (kDebugMode) {
+      await FirebaseAppCheck.instance.activate(providerWeb: WebDebugProvider());
 
-    
+      AiCoachDiagnostics.info('App Check activated using Web Debug Provider.');
+    } else {
+      const siteKey = String.fromEnvironment(
+        'FIREBASE_APP_CHECK_RECAPTCHA_SITE_KEY',
+      );
 
-    AiCoachDiagnostics.info(
-      'App Check activated using Web Debug Provider.',
-    );
-  } else {
-    const siteKey = String.fromEnvironment(
-      'FIREBASE_APP_CHECK_RECAPTCHA_SITE_KEY',
-    );
+      if (siteKey.isEmpty) {
+        throw StateError('Missing FIREBASE_APP_CHECK_RECAPTCHA_SITE_KEY.');
+      }
 
-    if (siteKey.isEmpty) {
-      throw StateError(
-        'Missing FIREBASE_APP_CHECK_RECAPTCHA_SITE_KEY.',
+      await FirebaseAppCheck.instance.activate(
+        providerWeb: ReCaptchaV3Provider(siteKey),
       );
     }
-
+  } else {
     await FirebaseAppCheck.instance.activate(
-      providerWeb: ReCaptchaV3Provider(siteKey),
+      providerAndroid: kDebugMode
+          ? AndroidDebugProvider()
+          : AndroidPlayIntegrityProvider(),
+      providerApple: kDebugMode
+          ? AppleDebugProvider()
+          : AppleDeviceCheckProvider(),
     );
   }
-} else {
-  await FirebaseAppCheck.instance.activate(
-    providerAndroid: kDebugMode
-        ? AndroidDebugProvider()
-        : AndroidPlayIntegrityProvider(),
-    providerApple: kDebugMode
-        ? AppleDebugProvider()
-        : AppleDeviceCheckProvider(),
-  );
-}
 
   await Hive.initFlutter();
 
@@ -86,6 +77,7 @@ if (kIsWeb) {
   registerProgressDependencies();
   await registerRecipesDependencies();
   await initMealTrackingDependencies();
+  await registerNutritionContextDependencies();
   await initMealAnalysisInjection();
   await registerAiCoachDependencies();
   await setupServiceLocator();

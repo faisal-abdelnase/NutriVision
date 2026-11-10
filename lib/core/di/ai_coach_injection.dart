@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_ai/firebase_ai.dart';
 import 'package:get_it/get_it.dart';
@@ -18,6 +17,7 @@ import '../../features/ai_coach/domain/usecases/get_user_conversations.dart';
 import '../../features/ai_coach/domain/usecases/send_coach_message.dart';
 import '../../features/ai_coach/presentation/cubit/ai_coach_cubit.dart';
 import '../logging/ai_coach_diagnostics.dart';
+import '../nutrition_context/nutrition_context_provider.dart';
 
 final sl = GetIt.instance;
 
@@ -59,17 +59,11 @@ Future<void> registerAiCoachDependencies() async {
   // --------------------------------------------------
 
   if (!sl.isRegistered<GenerativeModel>()) {
-    sl.registerLazySingleton<GenerativeModel>(
-      () {
-        AiCoachDiagnostics.info(
-          'Configuring AI Coach model: $aiCoachModelName.',
-        );
+    sl.registerLazySingleton<GenerativeModel>(() {
+      AiCoachDiagnostics.info('Configuring AI Coach model: $aiCoachModelName.');
 
-        return sl<FirebaseAI>().generativeModel(
-          model: aiCoachModelName,
-        );
-      },
-    );
+      return sl<FirebaseAI>().generativeModel(model: aiCoachModelName);
+    });
   }
 
   // --------------------------------------------------
@@ -81,6 +75,7 @@ Future<void> registerAiCoachDependencies() async {
       () => AiCoachRemoteDataSourceImpl(
         firestore: sl<FirebaseFirestore>(),
         model: sl<GenerativeModel>(),
+        nutritionContext: sl<NutritionContextProvider>(),
       ),
     );
   }
@@ -119,9 +114,7 @@ Future<void> registerAiCoachDependencies() async {
   // --------------------------------------------------
 
   if (!sl.isRegistered<SendCoachMessage>()) {
-    sl.registerLazySingleton(
-      () => SendCoachMessage(sl<AiCoachRepository>()),
-    );
+    sl.registerLazySingleton(() => SendCoachMessage(sl<AiCoachRepository>()));
   }
 
   if (!sl.isRegistered<GetConversationHistory>()) {
@@ -171,7 +164,5 @@ Future<void> registerAiCoachDependencies() async {
     );
   }
 
-  AiCoachDiagnostics.info(
-    'AI Coach dependencies registered successfully.',
-  );
+  AiCoachDiagnostics.info('AI Coach dependencies registered successfully.');
 }
