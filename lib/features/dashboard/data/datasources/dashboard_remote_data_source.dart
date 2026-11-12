@@ -9,6 +9,7 @@ abstract class DashboardRemoteDataSource {
 
   Future<List<RecentMealSummaryModel>> fetchRecentMealsSummary({
     required String userId,
+    required DateTime date,
     required int limit,
   });
 }

@@ -9,6 +9,7 @@ abstract class DashboardRepository {
 
   Future<List<RecentMealSummary>> getRecentMealsSummary({
     required String userId,
+    required DateTime date,
     required int limit,
   });
 }

@@ -36,12 +36,22 @@ class DashboardCubit extends Cubit<DashboardState> {
     emit(const DashboardLoading());
 
     try {
-      final selectedDate = date ?? DateTime.now();
+      final now = DateTime.now();
+      final requestedDate = date ?? now;
+      final selectedDate = DateTime(
+        requestedDate.year,
+        requestedDate.month,
+        requestedDate.day,
+      );
 
       // ✅ Cast للنوع الصح بدل dynamic
       final results = await Future.wait<Object>([
         _getDailyNutritionSummary(userId: userId, date: selectedDate),
-        _getRecentMealsSummary(userId: userId, limit: recentMealsLimit),
+        _getRecentMealsSummary(
+          userId: userId,
+          date: selectedDate,
+          limit: recentMealsLimit,
+        ),
       ]);
       if (isClosed) return;
 

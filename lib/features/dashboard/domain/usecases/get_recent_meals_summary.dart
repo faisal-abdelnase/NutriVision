@@ -8,8 +8,13 @@ class GetRecentMealsSummary {
 
   Future<List<RecentMealSummary>> call({
     required String userId,
+    required DateTime date,
     required int limit,
   }) {
-    return repository.getRecentMealsSummary(userId: userId, limit: limit);
+    return repository.getRecentMealsSummary(
+      userId: userId,
+      date: date,
+      limit: limit,
+    );
   }
 }

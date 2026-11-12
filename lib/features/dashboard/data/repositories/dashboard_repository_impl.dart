@@ -22,10 +22,12 @@ class DashboardRepositoryImpl implements DashboardRepository {
   @override
   Future<List<RecentMealSummary>> getRecentMealsSummary({
     required String userId,
+    required DateTime date,
     required int limit,
   }) async {
     return remoteDataSource.fetchRecentMealsSummary(
       userId: userId,
+      date: date,
       limit: limit,
     );
   }

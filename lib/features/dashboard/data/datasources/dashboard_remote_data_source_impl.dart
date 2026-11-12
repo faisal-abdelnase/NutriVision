@@ -73,15 +73,24 @@ class DashboardRemoteDataSourceImpl implements DashboardRemoteDataSource {
   @override
   Future<List<RecentMealSummaryModel>> fetchRecentMealsSummary({
     required String userId,
+    required DateTime date,
     required int limit,
   }) async {
     if (limit <= 0) {
       return [];
     }
 
-    final snapshot = await _mealsCollection(
-      userId,
-    ).orderBy('eatenAt', descending: true).limit(limit).get();
+    final startOfDay = DateTime(date.year, date.month, date.day);
+    final startOfNextDay = DateTime(date.year, date.month, date.day + 1);
+    final snapshot = await _mealsCollection(userId)
+        .where(
+          'eatenAt',
+          isGreaterThanOrEqualTo: Timestamp.fromDate(startOfDay),
+        )
+        .where('eatenAt', isLessThan: Timestamp.fromDate(startOfNextDay))
+        .orderBy('eatenAt', descending: true)
+        .limit(limit)
+        .get();
 
     return snapshot.docs.map((document) {
       final meal = document.data();

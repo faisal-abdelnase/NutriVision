@@ -28,8 +28,7 @@ class _AppShellState extends State<AppShell> {
   late final ProgressCubit _progress = GetIt.instance<ProgressCubit>();
   late final MealCubit _meal = GetIt.instance<MealCubit>();
   int _index = 0;
-  
-
+  int _dashboardRefreshToken = 0;
 
   @override
   void dispose() {
@@ -86,7 +85,10 @@ class _AppShellState extends State<AppShell> {
         destinations: destinations,
         selectedIndex: _index,
         onDestinationSelected: (i) {
-          setState(() => _index = i);
+          setState(() {
+            if (i == 0 && _index != 0) _dashboardRefreshToken++;
+            _index = i;
+          });
           if (i == 1) {
             final now = DateTime.now();
             _progress.loadProgress(
@@ -105,19 +107,24 @@ class _AppShellState extends State<AppShell> {
           }
         },
 
-
         appBar: AppBar(
           title: AppText("NutriVision", baseFontSize: 20, breakpoint: bp),
-          actions: [
-              AppBarActions(primary: primary, bp: bp),
-          ],
-          ),
+          actions: [AppBarActions(primary: primary, bp: bp)],
+        ),
         body: IndexedStack(
           index: _index,
           children: [
-            DashboardScreen(userId: uid),
+            DashboardScreen(
+              key: ValueKey('dashboard-$_dashboardRefreshToken'),
+              userId: uid,
+            ),
             ProgressScreen(),
-            AddMealScreen(onBack: () => setState(() => _index = 0)),
+            AddMealScreen(
+              onBack: () => setState(() {
+                _dashboardRefreshToken++;
+                _index = 0;
+              }),
+            ),
             MealDetailsScreen(),
             AiCoachPage(userId: uid),
           ],
@@ -126,4 +133,3 @@ class _AppShellState extends State<AppShell> {
     );
   }
 }
-
