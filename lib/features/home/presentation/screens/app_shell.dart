@@ -13,6 +13,8 @@ import '../../../dashboard/presentation/screens/dashboard_screen.dart';
 import '../../../meal_tracking/presentation/addmeal/screens/add_meal_screen.dart';
 import '../../../meal_tracking/presentation/cubit/meal_cubit.dart';
 import '../../../meal_tracking/presentation/meal_details/screens/meal_details_screen.dart';
+import '../../../profile/presentation/profile/screens/profile_screen.dart';
+import '../../../profile/presentation/settings/screens/settings_screen.dart';
 import '../../../progress/presentation/cubit/progress_cubit.dart';
 import '../../../progress/presentation/screens/progress_screen.dart';
 
@@ -74,6 +76,17 @@ class _AppShellState extends State<AppShell> {
         selectedIcon: Icons.smart_button_sharp,
         label: context.tr('navMaleAnalaysis'),
       ),
+
+      AdaptiveNavItem(
+        icon: Icons.person,
+        selectedIcon: Icons.person_pin_circle,
+        label: context.tr('profile'),
+      ),
+      AdaptiveNavItem(
+        icon: Icons.settings,
+        selectedIcon: Icons.settings,
+        label: context.tr('settings'),
+      ),
     ];
 
     return MultiBlocProvider(
@@ -127,6 +140,8 @@ class _AppShellState extends State<AppShell> {
             ),
             MealDetailsScreen(),
             AiCoachPage(userId: uid),
+            ProfileScreen(),
+            SettingsScreen(),
           ],
         ),
       ),

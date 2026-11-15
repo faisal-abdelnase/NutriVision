@@ -34,4 +34,29 @@ class UserProfile {
     required this.createdAt,
     this.updatedAt,
   });
+
+  UserProfile copyWith({
+    String? fullName,
+    String? phoneNumber,
+    String? bio,
+    bool? notificationsEnabled,
+    bool clearPhoneNumber = false,
+    bool clearBio = false,
+  }) {
+    return UserProfile(
+      userId: userId,
+      fullName: fullName ?? this.fullName,
+      email: email,
+      phoneNumber: clearPhoneNumber ? null : phoneNumber ?? this.phoneNumber,
+      profilePhotoUrl: profilePhotoUrl,
+      bio: clearBio ? null : bio ?? this.bio,
+      dateOfBirth: dateOfBirth,
+      gender: gender,
+      preferredLanguage: preferredLanguage,
+      preferredTheme: preferredTheme,
+      notificationsEnabled: notificationsEnabled ?? this.notificationsEnabled,
+      createdAt: createdAt,
+      updatedAt: DateTime.now(),
+    );
+  }
 }

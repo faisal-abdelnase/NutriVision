@@ -11,7 +11,7 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
   ProfileRemoteDataSourceImpl({required this.firestore, required this.auth});
 
   CollectionReference<Map<String, dynamic>> get _profiles =>
-      firestore.collection('users');
+      firestore.collection('nutrition_profiles');
 
   @override
   Future<UserProfileModel?> fetchUserProfile({required String userId}) async {

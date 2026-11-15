@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../domain/entities/daily_nutrition_summary.dart';
@@ -62,6 +64,7 @@ class DashboardCubit extends Cubit<DashboardState> {
         DashboardLoaded(dailySummary: dailySummary, recentMeals: recentMeals),
       );
     } catch (error) {
+      debugPrint('Dashboard load failed: $error');
       if (!isClosed) emit(DashboardError(_mapError(error)));
     }
   }
@@ -79,7 +82,19 @@ class DashboardCubit extends Cubit<DashboardState> {
   }
 
   String _mapError(Object error) {
-    // لو عندك استثناءات مخصصة، حطها هنا
+    if (error is FirebaseException) {
+      return 'Dashboard could not load (${error.code}): '
+          '${error.message ?? 'No additional details.'}';
+    }
+
+    if (error is FormatException) {
+      return 'Dashboard data is invalid: ${error.message}';
+    }
+
+    if (kDebugMode) {
+      return 'Dashboard load failed: $error';
+    }
+
     return 'Failed to load dashboard. Please try again.';
   }
 }

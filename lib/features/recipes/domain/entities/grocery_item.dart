@@ -27,4 +27,25 @@ class GroceryItem {
     required this.createdAt,
     this.updatedAt,
   });
+
+  GroceryItem copyWith({
+    String? name,
+    double? quantity,
+    String? unit,
+    bool? isChecked,
+  }) {
+    return GroceryItem(
+      id: id,
+      userId: userId,
+      name: name ?? this.name,
+      quantity: quantity ?? this.quantity,
+      unit: unit ?? this.unit,
+      isChecked: isChecked ?? this.isChecked,
+      recipeId: recipeId,
+      recipeTitle: recipeTitle,
+      category: category,
+      createdAt: createdAt,
+      updatedAt: DateTime.now(),
+    );
+  }
 }
