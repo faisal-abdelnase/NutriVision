@@ -12,13 +12,13 @@ import '../../../ai_coach/presentation/pages/ai_coach_page.dart';
 import '../../../dashboard/presentation/screens/dashboard_screen.dart';
 import '../../../meal_tracking/presentation/addmeal/screens/add_meal_screen.dart';
 import '../../../meal_tracking/presentation/cubit/meal_cubit.dart';
-import '../../../meal_tracking/presentation/meal_details/screens/meal_details_screen.dart';
+import '../../../meal_tracking/presentation/meal_history/screens/meal_history_screen.dart';
 import '../../../profile/presentation/profile/screens/profile_screen.dart';
 import '../../../profile/presentation/settings/screens/settings_screen.dart';
 import '../../../progress/presentation/cubit/progress_cubit.dart';
 import '../../../progress/presentation/screens/progress_screen.dart';
 
-/// Main navigation shell: Dashboard / Progress / Add Meal.
+
 class AppShell extends StatefulWidget {
   const AppShell({super.key});
 
@@ -67,9 +67,9 @@ class _AppShellState extends State<AppShell> {
       ),
 
       AdaptiveNavItem(
-        icon: Icons.details,
-        selectedIcon: Icons.details_outlined,
-        label: context.tr('navDetails'),
+        icon: Icons.history,
+        selectedIcon: Icons.history_rounded,
+        label: context.tr('meal History'),
       ),
       AdaptiveNavItem(
         icon: Icons.smart_toy_outlined,
@@ -138,7 +138,7 @@ class _AppShellState extends State<AppShell> {
                 _index = 0;
               }),
             ),
-            MealDetailsScreen(),
+            MealHistoryScreen(),
             AiCoachPage(userId: uid),
             ProfileScreen(),
             SettingsScreen(),
