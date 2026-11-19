@@ -7,6 +7,7 @@ import '../datasources/grocery_list_local_data_source.dart';
 import '../datasources/recipes_remote_data_source.dart';
 import '../models/grocery_item_model.dart';
 import '../models/grocery_list_model.dart';
+import '../models/recipe_model.dart';
 
 class RecipesRepositoryImpl implements RecipesRepository {
   RecipesRepositoryImpl({
@@ -47,6 +48,7 @@ class RecipesRepositoryImpl implements RecipesRepository {
     required List<String> allergies,
     required String? goal,
     required int servings,
+    String languageCode = 'en',
   }) {
     return remoteDataSource.generatePersonalizedRecipe(
       userId: userId,
@@ -55,12 +57,24 @@ class RecipesRepositoryImpl implements RecipesRepository {
       allergies: allergies,
       goal: goal,
       servings: servings,
+      languageCode: languageCode,
     );
   }
 
   @override
   Future<void> saveRecipe({required String userId, required String recipeId}) {
     return remoteDataSource.saveRecipe(userId: userId, recipeId: recipeId);
+  }
+
+  @override
+  Future<void> saveGeneratedRecipe({
+    required String userId,
+    required Recipe recipe,
+  }) {
+    return remoteDataSource.saveGeneratedRecipe(
+      userId: userId,
+      recipe: recipe is RecipeModel ? recipe : RecipeModel.fromEntity(recipe),
+    );
   }
 
   @override

@@ -145,7 +145,6 @@
   "authBackToLogin": "Back to sign in",
   "authResetSentTitle": "Check your email",
   "authResetSentBody": "We sent a password reset link to your email. It may take a minute to arrive.",
-
   "mealAnalysisTitle": "Meal analysis",
   "mealAnalysisSubtitle": "Review the foods and nutrition returned by your meal analysis.",
   "mealAnalysisLogBadge": "Analysis {id}",
@@ -197,9 +196,6 @@
   "mealAnalysisShareDietitian": "Share with dietitian",
   "unitG": "g",
   "unitKcal": "kcal",
-
-
-  
   "coachTitle": "NutriVision AI",
   "coachBadge": "Nutrition Assistant",
   "coachSubtitle": "Your personalized nutrition assistant, grounded in your daily meal logs and profile",
@@ -263,10 +259,15 @@
   "coachNextMeal": "Next meal: in consultation",
   "coachNextMealRemaining": "Target remaining: {value} kcal",
   "coachActive": "Active",
-  "coachAdviceConfidence": "Confidence {value}%"
-
+  "coachAdviceConfidence": "Confidence {value}%",
+  "recipeGenerate": "Generate recipe",
+  "recipeGenerating": "Generating recipe…",
+  "recipeFailed": "Could not generate a recipe. Please try again.",
+  "recipeInvalid": "The generated recipe could not be read. Please try again.",
+  "recipeDetails": "Recipe details",
+  "recipeInstructions": "Cooking instructions",
+  "recipeSubstitutions": "Ingredient substitutions",
+  "recipeTimeDetails": "Prep: {prep} min · Cook: {cook} min · Serves: {servings}",
+  "recipeDifficulty": "Difficulty: {value}",
+  "recipeNutritionEstimate": "Nutrition values are estimates per serving."
 }
-
-
-
-

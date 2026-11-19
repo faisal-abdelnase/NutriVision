@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:nutri_vision/features/recipes/presentation/grocery_list/screens/grocery_list_screen.dart';
 import '../../../../core/adaptive/adaptive_navigation.dart';
 import '../../../../core/adaptive/adaptive_scaffold.dart';
 import '../../../../core/extensions/context_extensions.dart';
@@ -17,6 +18,7 @@ import '../../../profile/presentation/profile/screens/profile_screen.dart';
 import '../../../profile/presentation/settings/screens/settings_screen.dart';
 import '../../../progress/presentation/cubit/progress_cubit.dart';
 import '../../../progress/presentation/screens/progress_screen.dart';
+import '../../../recipes/presentation/create_recipe/screens/create_recipe_screen.dart';
 
 
 class AppShell extends StatefulWidget {
@@ -75,6 +77,18 @@ class _AppShellState extends State<AppShell> {
         icon: Icons.smart_toy_outlined,
         selectedIcon: Icons.smart_button_sharp,
         label: context.tr('navMaleAnalaysis'),
+      ),
+
+      AdaptiveNavItem(
+        icon: Icons.add,
+        selectedIcon: Icons.add_box_rounded,
+        label: context.tr('Create Recipe'),
+      ),
+
+      AdaptiveNavItem(
+        icon: Icons.list_alt,
+        selectedIcon: Icons.list_alt,
+        label: context.tr('grocery List'),
       ),
 
       AdaptiveNavItem(
@@ -140,6 +154,8 @@ class _AppShellState extends State<AppShell> {
             ),
             MealHistoryScreen(),
             AiCoachPage(userId: uid),
+            CreateRecipeScreen(),
+            GroceryListScreen(),
             ProfileScreen(),
             SettingsScreen(),
           ],

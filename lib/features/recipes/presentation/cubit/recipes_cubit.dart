@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../domain/entities/recipe.dart';
 import '../../domain/repositories/recipes_repository.dart';
 import 'recipes_state.dart';
 
@@ -7,6 +8,7 @@ class RecipesCubit extends Cubit<RecipesState> {
   RecipesCubit(this._repository) : super(const RecipesInitial());
 
   final RecipesRepository _repository;
+  Recipe? _lastGeneratedRecipe;
 
   Future<void> fetchRecipes({
     int page = 1,
@@ -56,6 +58,7 @@ class RecipesCubit extends Cubit<RecipesState> {
     required List<String> allergies,
     required String? goal,
     required int servings,
+    String languageCode = 'en',
   }) async {
     if (servings < 1) {
       emit(const RecipesError('Servings must be at least 1.'));
@@ -72,8 +75,10 @@ class RecipesCubit extends Cubit<RecipesState> {
         allergies: allergies,
         goal: goal,
         servings: servings,
+        languageCode: languageCode,
       );
 
+      _lastGeneratedRecipe = recipe;
       emit(RecipeGenerated(recipe));
     } catch (error) {
       emit(RecipesError('Failed to generate recipe: $error'));
@@ -105,7 +110,14 @@ class RecipesCubit extends Cubit<RecipesState> {
     required String recipeId,
   }) async {
     try {
-      await _repository.saveRecipe(userId: userId, recipeId: recipeId);
+      if (_lastGeneratedRecipe?.id == recipeId) {
+        await _repository.saveGeneratedRecipe(
+          userId: userId,
+          recipe: _lastGeneratedRecipe!,
+        );
+      } else {
+        await _repository.saveRecipe(userId: userId, recipeId: recipeId);
+      }
 
       emit(const RecipesOperationSuccess('Recipe saved successfully.'));
     } catch (error) {

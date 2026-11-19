@@ -13,6 +13,7 @@ class GeneratePersonalizedRecipe {
     required List<String> allergies,
     required String? goal,
     required int servings,
+    String languageCode = 'en',
   }) {
     return repository.generatePersonalizedRecipe(
       userId: userId,
@@ -21,6 +22,7 @@ class GeneratePersonalizedRecipe {
       allergies: allergies,
       goal: goal,
       servings: servings,
+      languageCode: languageCode,
     );
   }
 }

@@ -96,6 +96,7 @@ class RecipesRemoteDataSourceImpl implements RecipesRemoteDataSource {
     required List<String> allergies,
     required String? goal,
     required int servings,
+    String languageCode = 'en',
   }) {
     return _recipeGenerator.generate(
       userId: userId,
@@ -104,6 +105,7 @@ class RecipesRemoteDataSourceImpl implements RecipesRemoteDataSource {
       allergies: allergies,
       goal: goal,
       servings: servings,
+      languageCode: languageCode,
     );
   }
 
@@ -120,6 +122,18 @@ class RecipesRemoteDataSourceImpl implements RecipesRemoteDataSource {
 
     await _savedRecipes(userId).doc(recipeId).set({
       'recipeId': recipeId,
+      'savedAt': FieldValue.serverTimestamp(),
+    });
+  }
+
+  @override
+  Future<void> saveGeneratedRecipe({
+    required String userId,
+    required RecipeModel recipe,
+  }) async {
+    await _recipes.doc(recipe.id).set(recipe.toJson(), SetOptions(merge: true));
+    await _savedRecipes(userId).doc(recipe.id).set({
+      'recipeId': recipe.id,
       'savedAt': FieldValue.serverTimestamp(),
     });
   }

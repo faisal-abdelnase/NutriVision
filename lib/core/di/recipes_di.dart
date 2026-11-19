@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dio/dio.dart';
+import 'package:firebase_ai/firebase_ai.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
@@ -27,20 +28,15 @@ Future<void> registerRecipesDependencies() async {
     throw StateError('Register SharedPreferences before Recipes dependencies.');
   }
 
-  if (!sl.isRegistered<Dio>()) {
-    throw StateError(
-      'Register a configured Dio instance with your backend baseUrl.',
-    );
-  }
-
   if (!sl.isRegistered<Uuid>()) {
     sl.registerLazySingleton<Uuid>(() => const Uuid());
   }
 
   sl.registerLazySingleton<RecipeGeneratorDataSource>(
     () => RecipeGeneratorDataSourceImpl(
-      dio: sl<Dio>(),
-      endpoint: '/recipes/generate',
+      model: sl<GenerativeModel>(),
+      firestore: sl<FirebaseFirestore>(),
+      auth: sl<FirebaseAuth>(),
     ),
   );
 

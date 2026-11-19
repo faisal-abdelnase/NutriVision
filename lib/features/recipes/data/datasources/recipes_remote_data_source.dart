@@ -18,9 +18,15 @@ abstract interface class RecipesRemoteDataSource {
     required List<String> allergies,
     required String? goal,
     required int servings,
+    String languageCode = 'en',
   });
 
   Future<void> saveRecipe({required String userId, required String recipeId});
+
+  Future<void> saveGeneratedRecipe({
+    required String userId,
+    required RecipeModel recipe,
+  });
 
   Future<void> removeSavedRecipe({
     required String userId,

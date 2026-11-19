@@ -20,6 +20,11 @@ class Recipe {
   final double proteinGramsPerServing;
   final double carbohydrateGramsPerServing;
   final double fatGramsPerServing;
+  final String? difficulty;
+  final double? fiberGramsPerServing;
+  final List<String> nutritionInsights;
+  final List<String> warnings;
+  final List<String> substitutions;
 
   final String? dietaryCategory;
   final bool isAiGenerated;
@@ -44,6 +49,11 @@ class Recipe {
     required this.proteinGramsPerServing,
     required this.carbohydrateGramsPerServing,
     required this.fatGramsPerServing,
+    this.difficulty,
+    this.fiberGramsPerServing,
+    this.nutritionInsights = const [],
+    this.warnings = const [],
+    this.substitutions = const [],
     this.dietaryCategory,
     this.isAiGenerated = false,
     this.isSaved = false,

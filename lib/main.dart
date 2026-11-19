@@ -27,7 +27,10 @@ Future<void> main() async {
 
   if (kIsWeb) {
     if (kDebugMode) {
-      await FirebaseAppCheck.instance.activate(providerWeb: WebDebugProvider());
+      await FirebaseAppCheck.instance.activate(
+        providerWeb: WebDebugProvider(
+          debugToken: 'b932de4f-c629-43e9-9e7d-f64d36b09085',
+        ));
 
       AiCoachDiagnostics.info('App Check activated using Web Debug Provider.');
     } else {

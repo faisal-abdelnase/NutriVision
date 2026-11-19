@@ -21,6 +21,11 @@ class RecipeModel extends Recipe {
     required super.proteinGramsPerServing,
     required super.carbohydrateGramsPerServing,
     required super.fatGramsPerServing,
+    super.difficulty,
+    super.fiberGramsPerServing,
+    super.nutritionInsights,
+    super.warnings,
+    super.substitutions,
     super.dietaryCategory,
     super.isAiGenerated,
     super.isSaved,
@@ -63,6 +68,13 @@ class RecipeModel extends Recipe {
       carbohydrateGramsPerServing: (json['carbohydrateGramsPerServing'] as num)
           .toDouble(),
       fatGramsPerServing: (json['fatGramsPerServing'] as num).toDouble(),
+      difficulty: json['difficulty'] as String?,
+      fiberGramsPerServing: (json['fiberGramsPerServing'] as num?)?.toDouble(),
+      nutritionInsights: List<String>.from(
+        json['nutritionInsights'] ?? const [],
+      ),
+      warnings: List<String>.from(json['warnings'] ?? const []),
+      substitutions: List<String>.from(json['substitutions'] ?? const []),
       dietaryCategory: json['dietaryCategory'] as String?,
       isAiGenerated: json['isAiGenerated'] as bool? ?? false,
       isSaved: json['isSaved'] as bool? ?? false,
@@ -70,6 +82,45 @@ class RecipeModel extends Recipe {
       updatedAt: json['updatedAt'] == null
           ? null
           : _dateFromJson(json['updatedAt']),
+    );
+  }
+
+  factory RecipeModel.fromEntity(Recipe recipe) {
+    return RecipeModel(
+      id: recipe.id,
+      createdByUserId: recipe.createdByUserId,
+      title: recipe.title,
+      description: recipe.description,
+      imageUrl: recipe.imageUrl,
+      ingredients: recipe.ingredients.map((ingredient) {
+        return RecipeIngredientModel(
+          id: ingredient.id,
+          name: ingredient.name,
+          quantity: ingredient.quantity,
+          unit: ingredient.unit,
+          isOptional: ingredient.isOptional,
+          foodDatabaseId: ingredient.foodDatabaseId,
+        );
+      }).toList(),
+      instructions: recipe.instructions,
+      tags: recipe.tags,
+      preparationMinutes: recipe.preparationMinutes,
+      cookingMinutes: recipe.cookingMinutes,
+      servings: recipe.servings,
+      caloriesPerServing: recipe.caloriesPerServing,
+      proteinGramsPerServing: recipe.proteinGramsPerServing,
+      carbohydrateGramsPerServing: recipe.carbohydrateGramsPerServing,
+      fatGramsPerServing: recipe.fatGramsPerServing,
+      difficulty: recipe.difficulty,
+      fiberGramsPerServing: recipe.fiberGramsPerServing,
+      nutritionInsights: recipe.nutritionInsights,
+      warnings: recipe.warnings,
+      substitutions: recipe.substitutions,
+      dietaryCategory: recipe.dietaryCategory,
+      isAiGenerated: recipe.isAiGenerated,
+      isSaved: recipe.isSaved,
+      createdAt: recipe.createdAt,
+      updatedAt: recipe.updatedAt,
     );
   }
 
@@ -92,6 +143,11 @@ class RecipeModel extends Recipe {
       'proteinGramsPerServing': proteinGramsPerServing,
       'carbohydrateGramsPerServing': carbohydrateGramsPerServing,
       'fatGramsPerServing': fatGramsPerServing,
+      'difficulty': difficulty,
+      'fiberGramsPerServing': fiberGramsPerServing,
+      'nutritionInsights': nutritionInsights,
+      'warnings': warnings,
+      'substitutions': substitutions,
       'dietaryCategory': dietaryCategory,
       'isAiGenerated': isAiGenerated,
       'isSaved': isSaved,

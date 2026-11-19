@@ -22,6 +22,14 @@ class MealAnalysisResult {
 
   final DateTime analyzedAt;
   final String? linkedMealId;
+  final String? recipeDifficulty;
+  final int? recipePreparationMinutes;
+  final int? recipeCookingMinutes;
+  final int? recipeServings;
+  final List<String> recipeInstructions;
+  final List<String> recipeSubstitutions;
+  final double? totalFiberGrams;
+  final bool isGeneratedRecipe;
 
   const MealAnalysisResult({
     required this.id,
@@ -39,6 +47,14 @@ class MealAnalysisResult {
     this.confidenceScore,
     required this.analyzedAt,
     this.linkedMealId,
+    this.recipeDifficulty,
+    this.recipePreparationMinutes,
+    this.recipeCookingMinutes,
+    this.recipeServings,
+    this.recipeInstructions = const [],
+    this.recipeSubstitutions = const [],
+    this.totalFiberGrams,
+    this.isGeneratedRecipe = false,
   });
   MealAnalysisResult copyWith({String? linkedMealId}) {
     return MealAnalysisResult(
@@ -57,6 +73,14 @@ class MealAnalysisResult {
       confidenceScore: confidenceScore,
       analyzedAt: analyzedAt,
       linkedMealId: linkedMealId ?? this.linkedMealId,
+      recipeDifficulty: recipeDifficulty,
+      recipePreparationMinutes: recipePreparationMinutes,
+      recipeCookingMinutes: recipeCookingMinutes,
+      recipeServings: recipeServings,
+      recipeInstructions: recipeInstructions,
+      recipeSubstitutions: recipeSubstitutions,
+      totalFiberGrams: totalFiberGrams,
+      isGeneratedRecipe: isGeneratedRecipe,
     );
   }
 }

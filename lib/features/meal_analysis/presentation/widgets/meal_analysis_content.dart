@@ -129,6 +129,10 @@ class MealAnalysisContent extends StatelessWidget {
                     _HeroAndFacts(result: result, summary: summary),
                     sectionGap,
                     MealAnalysisFoodItemsSection(result: result),
+                    if (result.isGeneratedRecipe) ...[
+                      sectionGap,
+                      _GeneratedRecipeDetails(result: result),
+                    ],
                     sectionGap,
                     MealAnalysisMacrosSection(result: result, summary: summary),
                     sectionGap,
@@ -149,6 +153,76 @@ class MealAnalysisContent extends StatelessWidget {
               ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class _GeneratedRecipeDetails extends StatelessWidget {
+  const _GeneratedRecipeDetails({required this.result});
+
+  final MealAnalysisResult result;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              context.tr('recipeDetails'),
+              style: theme.textTheme.titleMedium,
+            ),
+            if (result.recipePreparationMinutes != null ||
+                result.recipeCookingMinutes != null)
+              Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: Text(
+                  context.tr('recipeTimeDetails', {
+                    'prep': '${result.recipePreparationMinutes ?? 0}',
+                    'cook': '${result.recipeCookingMinutes ?? 0}',
+                    'servings': '${result.recipeServings ?? 1}',
+                  }),
+                ),
+              ),
+            if (result.recipeDifficulty != null)
+              Padding(
+                padding: const EdgeInsets.only(top: 4),
+                child: Text(
+                  context.tr('recipeDifficulty', {
+                    'value': result.recipeDifficulty!,
+                  }),
+                ),
+              ),
+            if (result.recipeInstructions.isNotEmpty) ...[
+              const SizedBox(height: 12),
+              Text(
+                context.tr('recipeInstructions'),
+                style: theme.textTheme.titleSmall,
+              ),
+              for (var i = 0; i < result.recipeInstructions.length; i++)
+                Padding(
+                  padding: const EdgeInsets.only(top: 6),
+                  child: Text('${i + 1}. ${result.recipeInstructions[i]}'),
+                ),
+            ],
+            if (result.recipeSubstitutions.isNotEmpty) ...[
+              const SizedBox(height: 12),
+              Text(
+                context.tr('recipeSubstitutions'),
+                style: theme.textTheme.titleSmall,
+              ),
+              for (final substitution in result.recipeSubstitutions)
+                Padding(
+                  padding: const EdgeInsets.only(top: 6),
+                  child: Text('• $substitution'),
+                ),
+            ],
+          ],
         ),
       ),
     );

@@ -196,9 +196,6 @@
   "mealAnalysisShareDietitian": "مشاركة مع أخصائي التغذية",
   "unitG": "جم",
   "unitKcal": "سعرة",
-
-
-
   "coachBadge": "مساعد التغذية",
   "coachSubtitle": "مساعدك الشخصي للتغذية، مبني على سجل وجباتك اليومي وملفك الغذائي",
   "coachNewSession": "إعادة ضبط الجلسة",
@@ -261,5 +258,15 @@
   "coachNextMeal": "الوجبة التالية: قيد الاستشارة",
   "coachNextMealRemaining": "المتبقي من الهدف: {value} سعرة",
   "coachActive": "نشط",
-  "coachAdviceConfidence": "الثقة {value}%"
+  "coachAdviceConfidence": "الثقة {value}%",
+  "recipeGenerate": "إنشاء وصفة",
+  "recipeGenerating": "جارٍ إنشاء الوصفة…",
+  "recipeFailed": "تعذر إنشاء الوصفة. حاول مرة أخرى.",
+  "recipeInvalid": "تعذر قراءة الوصفة المُنشأة. حاول مرة أخرى.",
+  "recipeDetails": "تفاصيل الوصفة",
+  "recipeInstructions": "تعليمات الطهي",
+  "recipeSubstitutions": "بدائل المكونات",
+  "recipeTimeDetails": "التحضير: {prep} دقيقة · الطهي: {cook} دقيقة · الحصص: {servings}",
+  "recipeDifficulty": "مستوى الصعوبة: {value}",
+  "recipeNutritionEstimate": "القيم الغذائية تقديرية لكل حصة."
 }

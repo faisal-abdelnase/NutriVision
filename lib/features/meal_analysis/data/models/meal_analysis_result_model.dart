@@ -19,6 +19,14 @@ class MealAnalysisResultModel extends MealAnalysisResult {
     super.confidenceScore,
     required super.analyzedAt,
     super.linkedMealId,
+    super.recipeDifficulty,
+    super.recipePreparationMinutes,
+    super.recipeCookingMinutes,
+    super.recipeServings,
+    super.recipeInstructions,
+    super.recipeSubstitutions,
+    super.totalFiberGrams,
+    super.isGeneratedRecipe,
   }) : super(foodItems: foodItems);
 
   factory MealAnalysisResultModel.fromJson(Map<String, dynamic> json) {
@@ -54,6 +62,19 @@ class MealAnalysisResultModel extends MealAnalysisResult {
       confidenceScore: (json['confidenceScore'] as num?)?.toDouble(),
       analyzedAt: analyzedAt,
       linkedMealId: json['linkedMealId'] as String?,
+      recipeDifficulty: json['recipeDifficulty'] as String?,
+      recipePreparationMinutes: (json['recipePreparationMinutes'] as num?)
+          ?.toInt(),
+      recipeCookingMinutes: (json['recipeCookingMinutes'] as num?)?.toInt(),
+      recipeServings: (json['recipeServings'] as num?)?.toInt(),
+      recipeInstructions: List<String>.from(
+        json['recipeInstructions'] ?? const [],
+      ),
+      recipeSubstitutions: List<String>.from(
+        json['recipeSubstitutions'] ?? const [],
+      ),
+      totalFiberGrams: (json['totalFiberGrams'] as num?)?.toDouble(),
+      isGeneratedRecipe: json['isGeneratedRecipe'] as bool? ?? false,
     );
   }
 
@@ -71,18 +92,12 @@ class MealAnalysisResultModel extends MealAnalysisResult {
       );
     }
 
-    return items
-        .map((item) {
-          if (item is! Map) {
-            throw const FormatException(
-              'Expected each food item to be an object.',
-            );
-          }
-          return AnalyzedFoodItemModel.fromJson(
-            Map<String, dynamic>.from(item),
-          );
-        })
-        .toList();
+    return items.map((item) {
+      if (item is! Map) {
+        throw const FormatException('Expected each food item to be an object.');
+      }
+      return AnalyzedFoodItemModel.fromJson(Map<String, dynamic>.from(item));
+    }).toList();
   }
 
   Map<String, dynamic> toJson() {
@@ -116,6 +131,14 @@ class MealAnalysisResultModel extends MealAnalysisResult {
       'confidenceScore': confidenceScore,
       'analyzedAt': Timestamp.fromDate(analyzedAt),
       'linkedMealId': linkedMealId,
+      'recipeDifficulty': recipeDifficulty,
+      'recipePreparationMinutes': recipePreparationMinutes,
+      'recipeCookingMinutes': recipeCookingMinutes,
+      'recipeServings': recipeServings,
+      'recipeInstructions': recipeInstructions,
+      'recipeSubstitutions': recipeSubstitutions,
+      'totalFiberGrams': totalFiberGrams,
+      'isGeneratedRecipe': isGeneratedRecipe,
     };
   }
 
@@ -150,6 +173,14 @@ class MealAnalysisResultModel extends MealAnalysisResult {
       confidenceScore: result.confidenceScore,
       analyzedAt: result.analyzedAt,
       linkedMealId: result.linkedMealId,
+      recipeDifficulty: result.recipeDifficulty,
+      recipePreparationMinutes: result.recipePreparationMinutes,
+      recipeCookingMinutes: result.recipeCookingMinutes,
+      recipeServings: result.recipeServings,
+      recipeInstructions: result.recipeInstructions,
+      recipeSubstitutions: result.recipeSubstitutions,
+      totalFiberGrams: result.totalFiberGrams,
+      isGeneratedRecipe: result.isGeneratedRecipe,
     );
   }
 }
